@@ -1,0 +1,3 @@
+next.config.js
+lib/generated/operations.tsx
+_api/generated/resolver-types.ts
