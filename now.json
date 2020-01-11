@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "songaday.world",
+  "build": {
+    "env": {
+      "POSTGRES_URL": "@songadayworld-postgres-url"
+    }
+  },
+  "env": {
+    "POSTGRES_URL": "@songadayworld-postgres-url"
+  }
+}
