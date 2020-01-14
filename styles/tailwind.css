@@ -4,7 +4,8 @@
 
 @import 'tailwindcss/components';
 
+@import './layout.css';
+@import './aspect_ratio.css';
 @import './minimann.css';
-
 
 @import 'tailwindcss/utilities';

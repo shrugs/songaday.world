@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
-import MiniMann from '../components/minimann';
+import Avatar from '../components/minimann/Avatar';
+import Header from '../components/minimann/Header';
 
 const Home = () => (
   <>
@@ -9,29 +10,16 @@ const Home = () => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <main>
-      <MiniMann />
+    <main className="w-full h-full">
+      <div className="border border-black">
+        <Header />
+      </div>
+      <div className="border border-black w-1/4 mt-1">
+        <Avatar />
+      </div>
     </main>
 
-    <style jsx>{`
-      main {
-        width: 100%;
-        height: 100%;
-      }
-    `}</style>
-
     <style jsx global>{`
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      html {
-        height: 100vh;
-        width: 100vw;
-      }
-
       body {
         display: flex;
         width: 100%;

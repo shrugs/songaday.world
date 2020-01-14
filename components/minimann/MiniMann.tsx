@@ -12,7 +12,7 @@ export default function MiniMann() {
 
   return (
     <>
-      <div className="minimann aspect">
+      <div className="minimann w-full aspect">
         <div className="location"></div>
         <div className="topic"></div>
         <div className="mood"></div>
