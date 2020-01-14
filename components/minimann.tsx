@@ -12,32 +12,17 @@ export default function MiniMann() {
 
   return (
     <>
-      <div className="container">
-        <div className="image location"></div>
-        <div className="image topic"></div>
-        <div className="image mood"></div>
-        <div className="image beard"></div>
-        <div className="image instrument"></div>
+      <div className="minimann aspect">
+        <div className="location"></div>
+        <div className="topic"></div>
+        <div className="mood"></div>
+        <div className="beard"></div>
+        <div className="instrument"></div>
       </div>
 
       <style jsx>{`
-        .container {
-          position: relative;
-          // height: 100%;
-          width: 100%;
+        .aspect {
           padding-bottom: 56%;
-        }
-
-        .image {
-          position: absolute;
-          left: 0;
-          top: 0;
-          right: 0;
-          bottom: 0;
-
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: contain;
         }
 
         .location {

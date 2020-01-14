@@ -1,0 +1,7 @@
+.minimann {
+  @apply relative w-full;
+}
+
+.minimann > * {
+  @apply absolute top-0 right-0 bottom-0 left-0 bg-no-repeat bg-center bg-contain;
+}
