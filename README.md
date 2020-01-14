@@ -39,3 +39,24 @@ a dream minimannband, selecting their favorite songs from the catalog and displa
 their namesake minimann within the social space.
 
 Optional email/web notifications can notify fans when a new song is released.
+
+## Tasks
+
+- [x] general project setup
+- [x] magic code signup/login api
+- [x] minimann header component
+- [ ] minimann avatar component
+- [ ] frontend data/fetch/login
+- [ ] profile page
+  - [ ] auth gateways
+  - [ ] edit display name
+- [ ] create a minimann / onboarding
+  - [ ] search api
+  - [ ] claiming api
+  - [ ] creation UI
+- [ ] social layer
+  - [ ] data model & demo seed
+  - [ ] youtube embed
+  - [ ] social layer api
+  - [ ] social layer UI
+
