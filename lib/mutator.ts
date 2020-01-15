@@ -1,4 +1,4 @@
-import fetch from 'unfetch';
+import fetch from 'isomorphic-unfetch';
 
 export default (token: string) => async (url: string, body: Record<string, any> = {}) => {
   const res = await fetch(url, {
@@ -10,6 +10,14 @@ export default (token: string) => async (url: string, body: Record<string, any> 
     },
   });
 
+  // TODO: check status & throw
+
+  // TODO: check json parse error & rethrow
   const data = await res.json();
+
+  if (data.status && data.status === 'ERROR') {
+    throw new Error(`Mutator Error: ${data.code}`);
+  }
+
   return data;
 };

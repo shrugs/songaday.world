@@ -1,8 +1,11 @@
 import React, { useCallback } from 'react';
 import useSWR from 'swr';
 import useUpdateProfileMutation from '../lib/mutators/useUpdateProfileMutation';
+import useRequireToken from '../lib/useRequireToken';
 
 export default function Profile() {
+  useRequireToken();
+
   const { data, error } = useSWR('/api/profile');
   const updateProfile = useUpdateProfileMutation();
 

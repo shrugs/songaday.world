@@ -48,7 +48,7 @@ Optional email/web notifications can notify fans when a new song is released.
 - [x] minimann avatar component
 - [x] frontend data/fetch/login
 - [ ] profile page
-  - [ ] auth gateways
+  - [ ] auth gateways with redirect
   - [ ] edit display name
 - [ ] create a minimann / onboarding
   - [ ] search api
@@ -61,3 +61,7 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] social layer UI
 - [ ] yup input validations
 - [ ] rate limiting api endpoints like login/auth
+- [ ] purgecss that actually works
+  - [next-purgecss](https://github.com/lucleray/next-purgecss) seems to remove width classes despite
+    them being used
+  - purgecss postcss plugin seems to just delete everything lol ¯\\\_(ツ)_/¯

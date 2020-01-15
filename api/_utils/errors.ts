@@ -1,5 +1,6 @@
 enum Errors {
   InvalidCode,
+  InvalidEmail,
   Unauthenticated,
 }
 

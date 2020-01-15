@@ -1,4 +1,4 @@
-import fetch from 'unfetch';
+import fetch from 'isomorphic-unfetch';
 
 // TODO: url, arguments
 export default (token: string | null) => async (url: string) => {

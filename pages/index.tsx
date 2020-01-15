@@ -1,22 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import Head from 'next/head';
 import Avatar from '../components/minimann/Avatar';
 import Header from '../components/minimann/Header';
-import useLoginMutation from '../lib/mutators/useLoginMutation';
-import useAuthMutation from '../lib/mutators/useAuthMutation';
 
 export default function Home() {
-  const doLogin = useLoginMutation();
-  const doAuth = useAuthMutation();
-  const [email, setEmail] = useState('');
-  const [code, setCode] = useState('');
-
-  const handleEmail = useCallback(e => setEmail(e.target.value), []);
-  const handleLogin = useCallback(() => doLogin(email), [doLogin, email]);
-
-  const handleCode = useCallback(e => setCode(e.target.value), []);
-  const handleAuth = useCallback(() => doAuth(code), [code, doAuth]);
-
   return (
     <>
       <Head>
@@ -25,16 +12,6 @@ export default function Home() {
       </Head>
 
       <main className="w-full h-full">
-        <div className="flex flex-col">
-          <input type="email" value={email} onChange={handleEmail}></input>
-          <p>{email}</p>
-          <button onClick={handleLogin}>Login</button>
-
-          <input type="text" value={code} onChange={handleCode}></input>
-          <p>{code}</p>
-          <button onClick={handleAuth}>Auth</button>
-        </div>
-
         <div className="border border-black">
           <Header />
         </div>

@@ -3,10 +3,11 @@ import App from 'next/app';
 import { SWRConfig } from 'swr';
 import makeFetcher from '../lib/fetcher';
 
-import '../styles/tailwind.css';
 import nest from '../lib/nest';
 import APIToken from '../lib/containers/APIToken';
 import Mutator from '../lib/containers/Mutator';
+
+import '../styles/_main.css';
 
 function SWRConfigWithToken({ children }: PropsWithChildren<{}>) {
   const [token] = APIToken.useContainer();
