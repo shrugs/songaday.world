@@ -59,4 +59,5 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] youtube embed
   - [ ] social layer api
   - [ ] social layer UI
-
+- [ ] yup input validations
+- [ ] rate limiting api endpoints like login/auth

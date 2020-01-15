@@ -8,10 +8,10 @@ export default async (req: NowRequest, res: NowResponse) => {
   // get email from query
   const { email } = req.body;
   // pull user
-  const user = await photon.users.findOne({ where: { email } });
+  let user = await photon.users.findOne({ where: { email } });
   if (!user) {
     // does not exist, create the user
-    await photon.users.create({ data: { email } });
+    user = await photon.users.create({ data: { email } });
   }
 
   // generate code

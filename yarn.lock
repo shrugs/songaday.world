@@ -2734,7 +2734,7 @@ extracted-loader@1.0.4:
   resolved "https://registry.yarnpkg.com/extracted-loader/-/extracted-loader-1.0.4.tgz#e1a3f1791813c14091a1959e261e23e95dd90115"
   integrity sha512-G8A0hT/WCWIjesZm7BwbWdST5dQ08GNnCpTrJT/k/FYzuiJwlV1gyWjnuoizOzAR4jpEYXG2J++JyEKN/EB26Q==
 
-fast-deep-equal@^2.0.1:
+fast-deep-equal@2.0.1, fast-deep-equal@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-2.0.1.tgz#7b05218ddf9667bf7f370bf7fdb2cb15fdd0aa49"
   integrity sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
@@ -5432,6 +5432,11 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
 
+react-storage-hooks@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-storage-hooks/-/react-storage-hooks-3.0.3.tgz#c1cbb79398434af0694e9c6f0c687cb87bbe85b4"
+  integrity sha512-kRUk+ZnRx4dIAkNwmwRhTHxMZlVpXAW5a3qmbqr17CH+/ZfhJ9ksxyYjCUufB/BCkKOXIOEka7sp3HvtB1A1Gw==
+
 react@16.12.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
@@ -6168,6 +6173,13 @@ supports-color@^6.1.0:
   dependencies:
     has-flag "^3.0.0"
 
+swr@^0.1.16:
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/swr/-/swr-0.1.16.tgz#e1667f2260ac091fb4c2cc6255ca1b8ff83b0acd"
+  integrity sha512-E+i0pJOCCPRxnwQMFKf3RYr4os+B4swNuwnHo+pBCNxwfuJiN0ZalwP9u4OqjoeMl9eZFgcQYUPHD8KVyTqM1g==
+  dependencies:
+    fast-deep-equal "2.0.1"
+
 table@^5.2.3:
   version "5.4.6"
   resolved "https://registry.yarnpkg.com/table/-/table-5.4.6.tgz#1292d19500ce3f86053b05f0e8e7e4a3bb21079e"
@@ -6385,7 +6397,7 @@ typescript@^3.7.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.4.tgz#1743a5ec5fef6a1fa9f3e4708e33c81c73876c19"
   integrity sha512-A25xv5XCtarLwXpcDNZzCGvW2D1S3/bACratYBx2sax8PefsFhlYmkQicKHvpYflFS8if4zne5zT5kpJ7pzuvw==
 
-unfetch@4.1.0:
+unfetch@4.1.0, unfetch@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/unfetch/-/unfetch-4.1.0.tgz#6ec2dd0de887e58a4dee83a050ded80ffc4137db"
   integrity sha512-crP/n3eAPUJxZXM9T80/yv0YhkTEx2K1D3h7D1AJM6fzsWZrxdyRuLN0JH/dkZh1LNH8LxCnBzoPFCPbb2iGpg==
@@ -6459,6 +6471,11 @@ unset-value@^1.0.0:
   dependencies:
     has-value "^0.3.1"
     isobject "^3.0.0"
+
+unstated-next@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/unstated-next/-/unstated-next-1.1.0.tgz#7bb4911a12fdf3cc8ad3eb11a0b315e4a8685ea8"
+  integrity sha512-AAn47ZncPvgBGOvMcn8tSRxsrqwf2VdAPxLASTuLJvZt4rhKfDvUkmYZLGfclImSfTVMv7tF4ynaVxin0JjDCA==
 
 upath@^1.1.1:
   version "1.2.0"
