@@ -46,7 +46,7 @@ Optional email/web notifications can notify fans when a new song is released.
 - [x] magic code signup/login api
 - [x] minimann header component
 - [x] minimann avatar component
-- [ ] frontend data/fetch/login
+- [x] frontend data/fetch/login
 - [ ] profile page
   - [ ] auth gateways
   - [ ] edit display name
