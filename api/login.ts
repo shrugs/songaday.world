@@ -1,5 +1,3 @@
-import { NowRequest, NowResponse } from '@now/node';
-import { success } from './_utils/respond';
 import { generateCode } from './_utils/code';
 import photon from './_utils/photon';
 import { sendEmail } from './_utils/email';
@@ -7,7 +5,7 @@ import validateEmail from './_utils/validateEmail';
 import handler from './_utils/handler';
 import { InvalidEmailError } from './_utils/KnownErrors';
 
-export default handler(async (req: NowRequest, res: NowResponse) => {
+export default handler(async (req, res) => {
   // get email from query
   const { email } = req.body;
 
@@ -31,5 +29,6 @@ export default handler(async (req: NowRequest, res: NowResponse) => {
   await sendEmail(email, code);
 
   // return code
-  return success(res, { code });
+  // TODO: don't return code
+  return { code };
 });

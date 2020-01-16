@@ -8,7 +8,18 @@ export default (token: string | null) => async (url: string) => {
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
   });
-  const data = await res.json();
+
+  let data;
+  try {
+    data = await res.json();
+  } catch (error) {
+    // unknown server error, probably from zeit platform
+  }
+
+  if (res.status !== 200) {
+    // TODO: use well-formed errors
+    throw new Error(JSON.stringify(data));
+  }
 
   return data;
 };

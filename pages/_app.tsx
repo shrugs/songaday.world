@@ -8,6 +8,7 @@ import APIToken from '../lib/containers/APIToken';
 import Mutator from '../lib/containers/Mutator';
 
 import '../styles/_main.css';
+import Navbar from '../components/Navbar';
 
 function SWRConfigWithToken({ children }: PropsWithChildren<{}>) {
   const [token] = APIToken.useContainer();
@@ -21,9 +22,27 @@ class MyApp extends App {
     const { Component, pageProps } = this.props;
 
     return (
-      <Providers>
-        <Component {...pageProps} />
-      </Providers>
+      <>
+        <Providers>
+          <div className="antialiased text-gray-900">
+            <Navbar />
+            <Component {...pageProps} />
+          </div>
+        </Providers>
+
+        <style jsx global>{`
+          body {
+            display: flex;
+            width: 100%;
+            height: 100%;
+          }
+
+          #__next {
+            width: 100%;
+            height: 100%;
+          }
+        `}</style>
+      </>
     );
   }
 }

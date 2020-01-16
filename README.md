@@ -65,3 +65,4 @@ Optional email/web notifications can notify fans when a new song is released.
   - [next-purgecss](https://github.com/lucleray/next-purgecss) seems to remove width classes despite
     them being used
   - purgecss postcss plugin seems to just delete everything lol ¯\\\_(ツ)_/¯
+- [ ] early-exit on fetcher and mutator if token is required

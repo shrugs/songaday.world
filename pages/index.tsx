@@ -19,19 +19,6 @@ export default function Home() {
           <Avatar />
         </div>
       </main>
-
-      <style jsx global>{`
-        body {
-          display: flex;
-          width: 100%;
-          height: 100%;
-        }
-
-        #__next {
-          width: 100%;
-          height: 100%;
-        }
-      `}</style>
     </>
   );
 }

@@ -1,11 +1,9 @@
-import { NowRequest, NowResponse } from '@now/node';
-import { success } from './_utils/respond';
 import { getValidUserIdForCode } from './_utils/code';
 import { createToken } from './_utils/jwt';
 import handler from './_utils/handler';
 import { InvalidCodeError } from './_utils/KnownErrors';
 
-export default handler(async (req: NowRequest, res: NowResponse) => {
+export default handler(async (req, res) => {
   // get code from body
   const { code } = req.body;
 
@@ -19,5 +17,5 @@ export default handler(async (req: NowRequest, res: NowResponse) => {
   const token = createToken({ id: userId });
 
   // return token
-  return success(res, { token });
+  return { token };
 });

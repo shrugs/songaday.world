@@ -1,12 +1,11 @@
-import { NowRequest, NowResponse } from '@now/node';
 import requireAdmin from '../_utils/requireAdmin';
 import photon from '../_utils/photon';
-import { success } from '../_utils/respond';
 import handler from '../_utils/handler';
 
-export default handler(async (req: NowRequest, res: NowResponse) => {
+export default handler(async (req, res) => {
   const admin = await requireAdmin(req);
-  const song = await photon.songs.create({
+
+  return await photon.songs.create({
     data: {
       number: 1,
       location: 'Vermont',
@@ -17,6 +16,4 @@ export default handler(async (req: NowRequest, res: NowResponse) => {
       owner: { connect: { id: admin.id } },
     },
   });
-
-  return success(res, song);
 });
