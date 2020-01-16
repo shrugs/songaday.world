@@ -1,19 +1,21 @@
 import React from 'react';
 
+const uriFromKey = (prefix: string, key: string) => `/images/${prefix}_${key.toLowerCase()}.png`;
+
+export interface MiniMannConfig {
+  location: string;
+  topic: string;
+  mood: string;
+  beard: string;
+  instrument: string;
+}
 // expects parent to provide sizing
 // renders a minimann, given their configuration
 // TODO: arguments—id or full config?
-export default function MiniMann() {
-  const locationUri = '/images/location_vermont.png';
-  const topicUri = '/images/topic_kids.png';
-  const moodUri = '/images/mood_angry.png';
-  const beardUri = '/images/beard_beard.png';
-  const instrumentUri = '/images/instrument_organ.png';
-
+export default function MiniMann({ location, topic, mood, beard, instrument }: MiniMannConfig) {
   return (
     <>
       <div className="minimann w-full aspect">
-        <div className="location"></div>
         <div className="topic"></div>
         <div className="mood"></div>
         <div className="beard"></div>
@@ -25,20 +27,20 @@ export default function MiniMann() {
           padding-bottom: 56%;
         }
 
-        .location {
-          background-image: url(${locationUri});
+        .minimann {
+          background-image: url(${uriFromKey('location', location)});
         }
         .topic {
-          background-image: url(${topicUri});
+          background-image: url(${uriFromKey('topic', topic)});
         }
         .mood {
-          background-image: url(${moodUri});
+          background-image: url(${uriFromKey('mood', mood)});
         }
         .beard {
-          background-image: url(${beardUri});
+          background-image: url(${uriFromKey('beard', beard)});
         }
         .instrument {
-          background-image: url(${instrumentUri});
+          background-image: url(${uriFromKey('instrument', instrument)});
         }
       `}</style>
     </>

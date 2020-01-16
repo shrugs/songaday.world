@@ -899,6 +899,11 @@
   resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.539.tgz#2dc30ecb1e13ac2abe4baaba7307e97c6483b58e"
   integrity sha512-AYbMMz1eSde0rJ4JQi+bozNpEyCXJqwaA+/JFjvGRj+YlP3mmyyZ9HR0XIXQV8AI2tAtQDXjFx1gCUvMdZ9JVQ==
 
+"@prisma/photon@^2.0.0-preview019":
+  version "2.0.0-preview019"
+  resolved "https://registry.yarnpkg.com/@prisma/photon/-/photon-2.0.0-preview019.tgz#cd083628f668fbdc4ab8f7d15cd8a33b83a997a3"
+  integrity sha512-fAqVbg2nxzk2B5h6Z6BgsApD3iRbWGMDKTsa8WDtH3fsrZc07HbGGc9HM5kNYUAPAKYSWJCr7no2W+c8Q87sRQ==
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"

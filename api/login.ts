@@ -5,7 +5,7 @@ import validateEmail from './_utils/validateEmail';
 import handler from './_utils/handler';
 import { InvalidEmailError } from './_utils/KnownErrors';
 
-export default handler(async (req, res) => {
+export default handler(async req => {
   // get email from query
   const { email } = req.body;
 

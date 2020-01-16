@@ -3,7 +3,7 @@ import { createToken } from './_utils/jwt';
 import handler from './_utils/handler';
 import { InvalidCodeError } from './_utils/KnownErrors';
 
-export default handler(async (req, res) => {
+export default handler(async req => {
   // get code from body
   const { code } = req.body;
 

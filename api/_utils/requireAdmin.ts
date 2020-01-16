@@ -6,7 +6,7 @@ const ADMIN_EMAIL = 'admin@example.com';
 
 export default async function requireAdmin(req: NowRequest) {
   const user = await requireUser(req);
-  if (user.email !== ADMIN_EMAIL) {
+  if (!user || user.email !== ADMIN_EMAIL) {
     throw new NotAdminError();
   }
 

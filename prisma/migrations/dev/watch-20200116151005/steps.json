@@ -1,0 +1,101 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateEnum",
+      "enum": "Topic",
+      "createdValues": [
+        "Poetic",
+        "Anxiety",
+        "Airport",
+        "Life",
+        "VideoGames",
+        "Commission",
+        "Internet",
+        "SongADay",
+        "Science",
+        "SocialJustice",
+        "Sex",
+        "Politics",
+        "Apple",
+        "Friend",
+        "Sick",
+        "Love",
+        "Animals",
+        "Nerd",
+        "Book",
+        "PSA",
+        "Object",
+        "Instrumental",
+        "Birthday",
+        "Ringtone",
+        "Contest",
+        "TV",
+        "ThemeSong",
+        "Motivational",
+        "Family",
+        "WanderingFall",
+        "Traditional",
+        "Improv"
+      ]
+    },
+    {
+      "tag": "UpdateEnum",
+      "enum": "Mood",
+      "createdValues": [
+        "Pensive",
+        "Sad",
+        "Anxious",
+        "Chill",
+        "Happy",
+        "Silly",
+        "Drunk",
+        "Intense",
+        "Tired",
+        "Excited",
+        "Confused",
+        "Bored",
+        "Disgusted"
+      ]
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "title",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "releasedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "releasedAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "releasedAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    }
+  ]
+}

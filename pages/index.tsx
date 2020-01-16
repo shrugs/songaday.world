@@ -1,24 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Avatar from '../components/minimann/Avatar';
 import Header from '../components/minimann/Header';
+import { MiniMannConfig } from '../components/minimann/MiniMann';
 
 export default function Home() {
+  const [config] = useState<MiniMannConfig>({
+    location: 'Vermont',
+    topic: 'Kids',
+    mood: 'Angry',
+    beard: 'Beard',
+    instrument: 'Organ',
+  });
+
+  // TODO: some sort of cycling animation for various manns
+
   return (
     <>
       <Head>
-        <title>Home</title>
+        <title>Song a Day World</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="w-full h-full">
-        <div className="border border-black">
-          <Header />
-        </div>
-        <div className="border border-black w-1/4 mt-1">
-          <Avatar />
+        <div className="">
+          <Header {...config} />
         </div>
       </main>
+
+      <style jsx>{``}</style>
     </>
   );
 }

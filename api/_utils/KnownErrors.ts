@@ -51,3 +51,9 @@ export class UnsupportedMethodError extends KnownError {
     super('UnsupportedMethod');
   }
 }
+
+export class SongAlreadyOwnedError extends KnownError {
+  constructor() {
+    super('SongAlreadyOwnedError');
+  }
+}

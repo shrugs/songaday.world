@@ -1,5 +1,5 @@
 .minimann {
-  @apply relative;
+  @apply relative bg-bottom bg-contain bg-no-repeat;
 }
 
 .minimann > * {

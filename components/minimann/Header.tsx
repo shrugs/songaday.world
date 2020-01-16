@@ -1,6 +1,6 @@
 import React from 'react';
-import MiniMann from './MiniMann';
+import MiniMann, { MiniMannConfig } from './MiniMann';
 
-export default function Header(props) {
+export default function Header(props: MiniMannConfig) {
   return <MiniMann {...props} />;
 }

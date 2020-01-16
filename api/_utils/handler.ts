@@ -1,13 +1,12 @@
 import { NowRequest, NowResponse } from '@now/node';
 import { handleError, success } from './respond';
 
+type HandlerFn = (req: NowRequest) => Promise<any>;
+
 // wrapper function for handlers that catches errors and responds with expected format
-export default (handler: (req: NowRequest, res: NowResponse) => Promise<any>) => async (
-  req: NowRequest,
-  res: NowResponse,
-): Promise<any> => {
+export default (handler: HandlerFn) => async (req: NowRequest, res: NowResponse): Promise<any> => {
   try {
-    const data = await handler(req, res);
+    const data = await handler(req);
     return success(res, data);
   } catch (error) {
     return handleError(res, error);

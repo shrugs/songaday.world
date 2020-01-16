@@ -52,7 +52,8 @@ Optional email/web notifications can notify fans when a new song is released.
   - [x] edit display name
 - [ ] create a minimann / onboarding
   - [ ] search api
-  - [ ] claiming api
+    - [ ] seed database with songs to search through
+  - [x] claiming api
   - [ ] creation UI
 - [ ] social layer
   - [ ] data model & demo seed
@@ -61,8 +62,11 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] social layer UI
 - [ ] yup input validations
 - [ ] rate limiting api endpoints like login/auth
-- [ ] purgecss that actually works
-  - [next-purgecss](https://github.com/lucleray/next-purgecss) seems to remove width classes despite
-    them being used
-  - purgecss postcss plugin seems to just delete everything lol ¯\\\_(ツ)_/¯
-- [ ] early-exit on fetcher and mutator if token is required
+- [x] purgecss that actually works
+- [ ] early-exit on fetcher and mutator if token is required, to avoid fetching every render lol
+- [ ] generate enum types for frontend
+  - attempting to import @photon/client is broken af
+- [ ] update minimann layouts
+  - [ ] make the background images much wider or provide wider variants for larger screens
+  - [ ] export the non-background content as 1:1 squares
+

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^2.0.0-alpha.539",
+    "@prisma/photon": "^2.0.0-preview019",
     "isomorphic-unfetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "next": "^9.2.0",

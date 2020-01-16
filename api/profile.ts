@@ -3,12 +3,12 @@ import requireUser from './_utils/requireUser';
 import handler from './_utils/handler';
 import { NotImplementedError } from './_utils/KnownErrors';
 
-export default handler(async (req, res) => {
+export default handler(async req => {
   const user = await requireUser(req);
 
   switch (req.method) {
     case 'GET': {
-      return user;
+      return await photon.users.findOne({ where: { id: user.id }, include: { song: true } });
     }
     case 'POST': {
       const { displayName } = req.body;

@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  url = "***"
 }
 
 generator photon {
@@ -10,8 +10,6 @@ generator photon {
 // via https://docs.google.com/spreadsheets/d/18jj0J-IiKvwdnhligRVQR_7dpxLKIIvDh9B4bCwtEM0/edit#gid=0
 enum Location {
   Vermont
-  LosAngeles
-  Oakland
 }
 
 enum Topic {
