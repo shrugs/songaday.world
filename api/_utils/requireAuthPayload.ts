@@ -1,17 +1,18 @@
 import { NowRequest } from '@now/node';
 import { verifyToken } from './jwt';
+import { NoAuthorizationHeaderError, MalformedAuthorizationHeaderError } from './KnownErrors';
 
-export default (req: NowRequest) => {
+export default function requireAuthPayload(req: NowRequest) {
   const header = req.headers.authorization;
   if (!header) {
-    throw new Error('No Authorization header provided.');
+    throw new NoAuthorizationHeaderError();
   }
 
   const parts = header.split('Bearer ');
   if (parts.length !== 2) {
-    throw new Error('Malformed Authorization header');
+    throw new MalformedAuthorizationHeaderError();
   }
 
   const token = parts[1];
   return verifyToken(token);
-};
+}

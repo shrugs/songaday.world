@@ -1,0 +1,53 @@
+export class KnownError extends Error {
+  constructor(public code: string, public status: number = 500) {
+    super(code);
+  }
+}
+
+export class NotAdminError extends KnownError {
+  constructor() {
+    super('NotAdmin');
+  }
+}
+
+export class InvalidCodeError extends KnownError {
+  constructor() {
+    super('InvalidCode');
+  }
+}
+
+export class InvalidEmailError extends KnownError {
+  constructor() {
+    super('InvalidEmail');
+  }
+}
+
+export class NoAuthorizationHeaderError extends KnownError {
+  constructor() {
+    super('NoAuthorizationHeader');
+  }
+}
+
+export class MalformedAuthorizationHeaderError extends KnownError {
+  constructor() {
+    super('MalformedAuthorizationHeader');
+  }
+}
+
+export class NotImplementedError extends KnownError {
+  constructor() {
+    super('NotImplementedError', 501);
+  }
+}
+
+export class UnauthenticatedError extends KnownError {
+  constructor() {
+    super('Unauthenticated');
+  }
+}
+
+export class UnsupportedMethodError extends KnownError {
+  constructor() {
+    super('UnsupportedMethod');
+  }
+}

@@ -1,19 +1,20 @@
 import { NowRequest, NowResponse } from '@now/node';
-import { success, error } from './_utils/respond';
+import { success } from './_utils/respond';
 import { generateCode } from './_utils/code';
 import photon from './_utils/photon';
 import { sendEmail } from './_utils/email';
 import validateEmail from './_utils/validateEmail';
-import Errors from './_utils/errors';
+import handler from './_utils/handler';
+import { InvalidEmailError } from './_utils/KnownErrors';
 
-export default async (req: NowRequest, res: NowResponse) => {
+export default handler(async (req: NowRequest, res: NowResponse) => {
   // get email from query
   const { email } = req.body;
 
   // validate email
   const isValid = validateEmail(email);
   if (!isValid) {
-    return error(res, Errors.InvalidEmail);
+    throw new InvalidEmailError();
   }
 
   // pull user
@@ -31,4 +32,4 @@ export default async (req: NowRequest, res: NowResponse) => {
 
   // return code
   return success(res, { code });
-};
+});

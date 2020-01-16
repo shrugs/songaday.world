@@ -1,23 +1,24 @@
 import { NowRequest, NowResponse } from '@now/node';
-import requireAuthPayload from './_utils/requireAuthPayload';
 import photon from './_utils/photon';
 import { success } from './_utils/respond';
+import requireUser from './_utils/requireUser';
+import handler from './_utils/handler';
+import { NotImplementedError } from './_utils/KnownErrors';
 
-export default async (req: NowRequest, res: NowResponse) => {
-  const auth = requireAuthPayload(req);
+export default handler(async (req: NowRequest, res: NowResponse) => {
+  const user = await requireUser(req);
 
   switch (req.method) {
     case 'GET': {
-      const user = await photon.users.findOne({ where: { id: auth.id } });
-
       return success(res, user);
     }
     case 'POST': {
       const { displayName } = req.body;
-      const user = await photon.users.update({ where: { id: auth.id }, data: { displayName } });
-      return success(res, user);
+      const newUser = await photon.users.update({ where: { id: user.id }, data: { displayName } });
+      return success(res, newUser);
     }
-    default:
-      throw new Error('Unsupported method.');
+    default: {
+      throw new NotImplementedError();
+    }
   }
-};
+});

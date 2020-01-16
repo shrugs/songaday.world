@@ -1,10 +1,21 @@
 import { NowResponse } from '@now/node';
-import Errors from './errors';
+import { KnownError } from './KnownErrors';
 
-export const error = (res: NowResponse, code: Errors) => {
-  return res.status(200).json({
+export const handleError = (res: NowResponse, error: Error) => {
+  if (error instanceof KnownError) {
+    res.status(error.status);
+  } else {
+    res.status(500);
+  }
+
+  const code = error instanceof KnownError ? error.code : 'InternalServerError';
+
+  res.json({
     status: 'ERROR',
-    code: Errors[code],
+    code,
+    ...(process.env.NODE_ENV === 'development'
+      ? { message: error.message, stack: error.stack }
+      : {}),
   });
 };
 

@@ -47,9 +47,9 @@ Optional email/web notifications can notify fans when a new song is released.
 - [x] minimann header component
 - [x] minimann avatar component
 - [x] frontend data/fetch/login
-- [ ] profile page
-  - [ ] auth gateways with redirect
-  - [ ] edit display name
+- [x] profile page
+  - [x] auth gateways with redirect
+  - [x] edit display name
 - [ ] create a minimann / onboarding
   - [ ] search api
   - [ ] claiming api

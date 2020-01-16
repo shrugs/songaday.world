@@ -1,0 +1,155 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateEnum",
+      "enum": "Location",
+      "values": [
+        "Vermont"
+      ]
+    },
+    {
+      "tag": "CreateEnum",
+      "enum": "Topic",
+      "values": [
+        "Kids"
+      ]
+    },
+    {
+      "tag": "CreateEnum",
+      "enum": "Mood",
+      "values": [
+        "Angry"
+      ]
+    },
+    {
+      "tag": "CreateEnum",
+      "enum": "Beard",
+      "values": [
+        "Beard",
+        "None"
+      ]
+    },
+    {
+      "tag": "CreateEnum",
+      "enum": "Instrument",
+      "values": [
+        "Organ"
+      ]
+    },
+    {
+      "tag": "CreateModel",
+      "model": "Song"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "id"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "id"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "cuid()"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "id"
+        },
+        "directive": "id"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "number",
+      "type": "Int",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "number"
+        },
+        "directive": "unique"
+      }
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "owner",
+      "type": "User",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "location",
+      "type": "Location",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "topic",
+      "type": "Topic",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "mood",
+      "type": "Mood",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "beard",
+      "type": "Beard",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "instrument",
+      "type": "Instrument",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "song",
+      "type": "Song",
+      "arity": "Optional"
+    }
+  ]
+}
