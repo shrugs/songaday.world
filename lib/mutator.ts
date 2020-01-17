@@ -16,7 +16,7 @@ export default (token: string) => async (url: string, body: Record<string, any> 
   const data = await res.json();
 
   if (data.status && data.status === 'ERROR') {
-    throw new Error(`Mutator Error: ${data.code}`);
+    throw new Error(`Mutator Error: ${JSON.stringify(data)}`);
   }
 
   return data;

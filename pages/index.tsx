@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import Avatar from '../components/minimann/Avatar';
 import Header from '../components/minimann/Header';
 import { MiniMannConfig } from '../components/minimann/MiniMann';
 
@@ -24,7 +23,7 @@ export default function Home() {
 
       <main className="w-full h-full">
         <div className="">
-          <Header {...config} />
+          <Header config={config} number={1} />
         </div>
       </main>
 

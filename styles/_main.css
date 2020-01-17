@@ -9,3 +9,9 @@
 @import './minimann.css';
 
 @import 'tailwindcss/utilities';
+
+@responsive {
+  .left-1\/2 {
+    left: 50%;
+  }
+}

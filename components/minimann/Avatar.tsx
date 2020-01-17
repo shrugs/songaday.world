@@ -2,16 +2,16 @@ import React from 'react';
 import MiniMann, { MiniMannConfig } from './MiniMann';
 import { BackgroundThemes } from '../../lib/utils/constants';
 
-export default function Avatar(props: MiniMannConfig) {
+export default function Avatar({ config }: { config: MiniMannConfig }) {
   return (
     <>
-      <div className="aspect-container rounded-full square shadow-xl">
+      <div className="aspect-container rounded-full square">
         {/* here, we assume that background images will cover up to 50%
           of their height which may or may not be true
           */}
         <div className="absolute-frame background-fill"></div>
         <div className="absolute-frame flex items-center justify-center magnify">
-          <MiniMann {...props} />
+          <MiniMann {...config} />
         </div>
       </div>
 
@@ -26,7 +26,7 @@ export default function Avatar(props: MiniMannConfig) {
 
         .background-fill {
           top: 50%;
-          background-color: ${BackgroundThemes[props.location]};
+          background-color: ${BackgroundThemes[config.location]};
         }
       `}</style>
     </>

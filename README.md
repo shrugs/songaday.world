@@ -69,4 +69,4 @@ Optional email/web notifications can notify fans when a new song is released.
 - [ ] update minimann layouts
   - [ ] make the background images much wider or provide wider variants for larger screens
   - [ ] export the non-background content as 1:1 squares
-
+- [ ] make sure function invocations don't exhause postgres `max_connection`s

@@ -1,3 +1,7 @@
 .aspect-container {
   @apply h-0 relative overflow-hidden;
 }
+
+.aspect-16\/9 {
+  padding-bottom: 56%;
+}
