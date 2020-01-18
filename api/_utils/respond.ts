@@ -17,6 +17,10 @@ export const handleError = (res: NowResponse, error: Error) => {
       ? { message: error.message, stack: error.stack }
       : {}),
   });
+
+  if (process.env.NODE_ENV === 'development') {
+    throw error;
+  }
 };
 
 export const success = (res: NowResponse, body: any) => {

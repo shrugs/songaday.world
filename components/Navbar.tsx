@@ -28,7 +28,7 @@ function Navbar() {
               {profile.displayName && (
                 <span className="font-semibold text-md mr-1">{profile.displayName}</span>
               )}
-              <span className="font-small text-sm">{profile.email}</span>
+              <span className="font-small text-xs sm:text-sm">{profile.email}</span>
             </a>
           </Link>
         )}

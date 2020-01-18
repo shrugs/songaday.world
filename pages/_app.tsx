@@ -1,21 +1,23 @@
 import React, { PropsWithChildren } from 'react';
 import App from 'next/app';
 import { SWRConfig } from 'swr';
-import makeFetcher from '../lib/fetcher';
+import makeFetcher from '../lib/makeFetcher';
 
 import nest from '../lib/nest';
 import APIToken from '../lib/containers/APIToken';
 import Mutator from '../lib/containers/Mutator';
+import Fetcher from '../lib/containers/Fetcher';
 
 import '../styles/_main.css';
 import Navbar from '../components/Navbar';
+import Head from 'next/head';
 
 function SWRConfigWithToken({ children }: PropsWithChildren<{}>) {
-  const [token] = APIToken.useContainer();
-  return <SWRConfig value={{ fetcher: makeFetcher(token) }}>{children}</SWRConfig>;
+  const fetcher = Fetcher.useContainer();
+  return <SWRConfig value={{ fetcher }}>{children}</SWRConfig>;
 }
 
-const Providers = nest([APIToken.Provider, SWRConfigWithToken, Mutator.Provider]);
+const Providers = nest([APIToken.Provider, Fetcher.Provider, Mutator.Provider, SWRConfigWithToken]);
 
 class MyApp extends App {
   render() {
@@ -23,6 +25,9 @@ class MyApp extends App {
 
     return (
       <>
+        <Head>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
         <Providers>
           <div className="antialiased text-gray-900">
             <Navbar />

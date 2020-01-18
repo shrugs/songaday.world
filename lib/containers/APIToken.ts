@@ -1,8 +1,8 @@
-import { useLocalStorageState } from 'react-storage-hooks';
 import { createContainer } from 'unstated-next';
+import useCookieStorageState from '../useCookieStorageState';
 
 function useAPIToken() {
-  return useLocalStorageState('token', null);
+  return useCookieStorageState('token');
 }
 
 export default createContainer(useAPIToken);

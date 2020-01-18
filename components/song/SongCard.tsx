@@ -1,19 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
-import useSong from '../../lib/queries/useSong';
 import TagThumbnail from './TagThumbnail';
 import TextTag from './TextTag';
 import WithClassName from '../../lib/utils/WithClassName';
 
-function SongCard({ className, number }: { number: number } & WithClassName) {
-  const { data: song, error } = useSong(number);
-
-  // TODO: skeleton loading & getInitialProps
-  if (!song || error) {
-    console.log(song, error);
-    return null;
-  }
-
+function SongCard({ className, song }: { song: any } & WithClassName) {
   return (
     <>
       <div

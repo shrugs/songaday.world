@@ -2007,7 +2007,7 @@ convert-source-map@1.7.0, convert-source-map@^1.7.0:
   dependencies:
     safe-buffer "~5.1.1"
 
-cookie@0.4.0:
+cookie@0.4.0, cookie@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.0.tgz#beb437e7022b3b6d49019d088665303ebe9c14ba"
   integrity sha512-+Hp8fLp57wnUSt0tY0tHEXh4voZRDnoIrZPqlo3DPiI4y9lwg/jqx+1Om94/W6ZaPDOUbnjOt/99w66zk+l1Xg==
@@ -3565,6 +3565,11 @@ jsesc@~0.5.0:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
   integrity sha1-597mbjXW/Bb3EP6R1c9p9w8IkR0=
 
+jsmin@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/jsmin/-/jsmin-1.0.1.tgz#e7bd0dcd6496c3bf4863235bf461a3d98aa3b98c"
+  integrity sha1-570NzWSWw79IYyNb9GGj2YqjuYw=
+
 json-parse-better-errors@^1.0.1, json-parse-better-errors@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/json-parse-better-errors/-/json-parse-better-errors-1.0.2.tgz#bb867cfb3450e69107c131d1c514bab3dc8bcaa9"
@@ -4259,6 +4264,15 @@ node-releases@^1.1.44:
   integrity sha512-cXvGSfhITKI8qsV116u2FTzH5EWZJfgG7d4cpqwF8I8+1tWpD6AsvvGRKq2onR0DNj1jfqsjkXZsm14JMS7Cyg==
   dependencies:
     semver "^6.3.0"
+
+nookies@^2.0.8:
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/nookies/-/nookies-2.0.8.tgz#e1e72349d7b5ea24ef7e96900346e8764a6851d1"
+  integrity sha512-aSJqgRxcEf4BjLjsKP/Ypc9bo0VO1mHrJp+2+1tnQUVHszcM27Ysfh0Go8thUf5eArW4lA5wfnXaEDRg+zc2wA==
+  dependencies:
+    cookie "^0.4.0"
+    jsmin "^1.0.1"
+    set-cookie-parser "^2.2.1"
 
 normalize-package-data@^2.3.2:
   version "2.5.0"
@@ -5345,11 +5359,6 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
   integrity sha512-rPCkf/mWBtKc97aLL9/txD8DZdemK0vkA3JMLShjlJB3Pj3s+lpf1KaBzMfQrAmhMQB0n1cU/SUGgKKBCe837Q==
 
-react-storage-hooks@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/react-storage-hooks/-/react-storage-hooks-3.0.3.tgz#c1cbb79398434af0694e9c6f0c687cb87bbe85b4"
-  integrity sha512-kRUk+ZnRx4dIAkNwmwRhTHxMZlVpXAW5a3qmbqr17CH+/ZfhJ9ksxyYjCUufB/BCkKOXIOEka7sp3HvtB1A1Gw==
-
 react@16.12.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
@@ -5694,6 +5703,11 @@ set-blocking@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
   integrity sha1-BF+XgtARrppoA93TgrJDkrPYkPc=
+
+set-cookie-parser@^2.2.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.4.1.tgz#b77d0020241628b8ce12b16ec8af492e773af31a"
+  integrity sha512-bUcyZhIOLvjvdO7UT5MyNd6AAci4ssZy/8Da1etJVI/2n3vgpxfJ/ntYA0bN+8qg9HZB7xR9/g+fcDbGkk/gQg==
 
 set-value@^2.0.0, set-value@^2.0.1:
   version "2.0.1"
