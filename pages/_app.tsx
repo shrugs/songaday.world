@@ -28,8 +28,9 @@ class MyApp extends App {
         <Head>
           <link rel="icon" href="/favicon.ico" />
         </Head>
+
         <Providers>
-          <div className="antialiased text-gray-900">
+          <div className="antialiased text-gray-900 max-w-6xl mx-auto">
             <Navbar />
             <Component {...pageProps} />
           </div>

@@ -16,10 +16,7 @@ export default function TagThumbnail({
   return (
     <>
       <div
-        className={cx(
-          'rounded-lg bg-center bg-cover bg-no-repeat w-10 h-10 xl:w-16 xl:h-16 thumb',
-          className,
-        )}
+        className={cx('rounded-lg bg-center bg-cover bg-no-repeat w-10 h-10 thumb', className)}
       ></div>
 
       <style jsx>{`

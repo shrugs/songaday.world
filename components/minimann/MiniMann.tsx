@@ -27,7 +27,7 @@ export default function MiniMann({
 }: MiniMannProps) {
   return (
     <>
-      <div className="minimann w-full aspect-16/9">
+      <div className="minimann w-full aspect-location">
         <div className={`topic ${cx({ offset })}`}></div>
         <div className={`mood ${cx({ offset })}`}></div>
         <div className={`beard ${cx({ offset })}`}></div>

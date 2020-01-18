@@ -4,14 +4,9 @@
 
 @import 'tailwindcss/components';
 
+@import './typography.css';
 @import './layout.css';
 @import './aspect_ratio.css';
 @import './minimann.css';
 
 @import 'tailwindcss/utilities';
-
-@responsive {
-  .left-1\/2 {
-    left: 50%;
-  }
-}
