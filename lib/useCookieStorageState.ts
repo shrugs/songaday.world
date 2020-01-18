@@ -6,7 +6,7 @@ export default function useCookieStorageState(
 ): [string | null, (value: string) => void] {
   const setState = useCallback(
     (value: string | null) =>
-      value === null ? destroyCookie({}, key, {}) : setCookie(null, key, value, {}),
+      value === null ? destroyCookie({}, key, {}) : setCookie(null, key, value, { path: '/' }),
     [key],
   );
   const cookies = useMemo(() => parseCookies({}, {}), []);
