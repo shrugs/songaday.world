@@ -11,21 +11,21 @@ function SongPage({ number, initialSong }: { number: string; initialSong?: any }
   const bgColor = song ? BackgroundThemes[song.location] : 'transparent';
 
   return (
-    <>
+    <div className="flex-grow flex flex-col">
       <Head>
         <title>Song a Day World</title>
       </Head>
 
       <Header song={song} />
 
-      <div className="song-color w-full"></div>
+      <div className="flex-grow w-full song-color"></div>
 
       <style jsx>{`
         .song-color {
           background-color: ${bgColor};
         }
       `}</style>
-    </>
+    </div>
   );
 }
 

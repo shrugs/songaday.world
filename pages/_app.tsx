@@ -30,22 +30,23 @@ class MyApp extends App {
         </Head>
 
         <Providers>
-          <div className="antialiased text-gray-900 max-w-6xl mx-auto">
+          <div className="antialiased text-gray-900 max-w-6xl mx-auto min-h-screen flex flex-col">
             <Navbar />
-            <Component {...pageProps} />
+            <div className="flex-grow flex flex-col">
+              <Component {...pageProps} />
+            </div>
           </div>
         </Providers>
 
         <style jsx global>{`
           body {
-            display: flex;
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
           }
 
           #__next {
             width: 100%;
-            height: 100%;
+            min-height: 100vh;
           }
         `}</style>
       </>
