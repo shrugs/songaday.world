@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import cx from 'classnames';
 import TagThumbnail from './TagThumbnail';
 import TextTag from './TextTag';
 import WithClassName from '../../lib/utils/WithClassName';
+import YoutubeEmbed from '../YoutubeEmbed';
+import { DateTime } from 'luxon';
 
 function SongCard({ className, song }: { song: any } & WithClassName) {
+  const date = useMemo(() => DateTime.fromISO(song.releasedAt), [song.releasedAt]);
+  const subtitleDateString = useMemo(() => date.toLocaleString(DateTime.DATE_FULL), [date]);
+  const calendarDateString = useMemo(() => date.toFormat('LLL dd'), [date]);
+
   return (
     <>
       <div
@@ -13,29 +19,29 @@ function SongCard({ className, song }: { song: any } & WithClassName) {
           className,
         )}
       >
-        <div className="flex flex-row justify-between items-stretch mb-2">
+        <div className="mb-1 flex flex-row justify-between items-stretch">
           <div className="flex flex-col justify-center items-start">
-            <p className="text-xl leading-tight font-semibold truncate">In the Time of the Gods</p>
+            <p className="text-xl leading-tight font-semibold truncate">{song.title}</p>
             <p className="text-xs italic leading-tight text-gray-600 truncate">
-              Song 1 | January 1st, 2009
+              Song {song.number} &#124; {subtitleDateString}
             </p>
           </div>
           <div className="my-1 p-2 rounded text-white flex flex-col date">
             <div className="flex-grow flex items-center justify-center text-2xl font-extrabold">
-              17
+              {song.number}
             </div>
             <div className="flex-grow flex items-center justify-center text-xxs font-semibold leading-tight uppercase truncate">
-              Jul &#39;19
+              {calendarDateString}
             </div>
           </div>
         </div>
-        <div className="mb-3 aspect-16/9 embed">embed</div>
-        <div className="mb-3 leading-tight text-base md:text-sm">
-          one year ago 3000 miles away i picked up my ukelele and i started to play and every single
-          day no matter what came my way i picked up my ukelele and i started to play some folks
-          they try...
+        <div className="mb-1">
+          <YoutubeEmbed id={song.youtubeId} />
         </div>
-        <div className="mb-2 flex flex-row flex-wrap">
+        <div className="mb-1 py-1 whitespace-pre-wrap leading-tight text-base md:text-sm h-20 overflow-y-scroll">
+          {song.description}
+        </div>
+        <div className="mb-1 flex flex-row flex-wrap">
           <TagThumbnail className="mr-2 mb-2" prefix="location" thumbKey={song.location} />
           <TagThumbnail className="mr-2 mb-2" prefix="topic" thumbKey={song.topic} />
           <TagThumbnail className="mr-2 mb-2" prefix="mood" thumbKey={song.mood} />
@@ -53,9 +59,6 @@ function SongCard({ className, song }: { song: any } & WithClassName) {
         .date {
           background-color: #d6cf90;
           line-height: 0.95;
-        }
-        .embed {
-          background-color: red;
         }
       `}</style>
     </>

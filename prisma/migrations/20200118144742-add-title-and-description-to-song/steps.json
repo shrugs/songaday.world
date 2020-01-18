@@ -7,6 +7,13 @@
       "field": "title",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "description",
+      "type": "String",
+      "arity": "Required"
     }
   ]
 }

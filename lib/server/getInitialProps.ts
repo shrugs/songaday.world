@@ -7,10 +7,11 @@ export default (handler: (ctx: NextPageContext) => Promise<any>) => async (
   try {
     return await handler(ctx);
   } catch (error) {
-    // if (ctx.res) {
-    //   ctx.res.writeHead(302, { Location: '/login' }).end();
-    // } else {
-    //   Router.push('/login');
-    // }
+    if (ctx.res) {
+      ctx.res.statusCode = 500;
+      ctx.res.end();
+    } else {
+      Router.push('/error');
+    }
   }
 };

@@ -3,6 +3,7 @@ import { NotImplementedError, SongAlreadyOwnedError } from './_utils/KnownErrors
 import requireUser from './_utils/requireUser';
 import photon from './_utils/photon';
 
+// TODO: make sure user doesn't already own a song
 export default handler(async req => {
   switch (req.method) {
     case 'POST': {

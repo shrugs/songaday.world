@@ -50,7 +50,7 @@ Optional email/web notifications can notify fans when a new song is released.
 - [x] profile page
   - [x] auth gateways with redirect
   - [x] edit display name
-- [ ] create a minimann / onboarding
+- [ ] create-a-minimann / onboarding
   - [ ] search api
     - [ ] seed database with songs to search through
   - [ ] clicking song tags should start a search with that constraint /songs?tags=[]
@@ -58,18 +58,18 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] creation UI
 - [ ] social layer
   - [ ] data model & demo seed
-  - [ ] youtube embed
+  - [x] youtube embed
   - [ ] social layer api
   - [ ] social layer UI
 - [ ] yup input validations
 - [ ] rate limiting api endpoints like login/auth
 - [x] purgecss that actually works
 - [ ] early-exit on fetcher and mutator if token is required, to avoid fetching every render lol
-- [ ] generate enum types for frontend
+- [ ] generate enum/model types for frontend
   - attempting to import @photon/client is broken af
 - [ ] update minimann layouts
-  - [ ] make the background images much wider or provide wider variants for larger screens
-  - [ ] export the non-background content as 1:1 squares
+  - [x] make the background images much wider or provide wider variants for larger screens
+  - [ ] export the non-background content as 1:1 squares & reposition
 - [ ] make sure function invocations don't exhause postgres `max_connection`s
   - [ ] use https://aws.amazon.com/blogs/compute/using-amazon-rds-proxy-with-aws-lambda/ with aurora
 - [ ] implement getInitialProps & transition to cookie auth so it works on the server
@@ -80,3 +80,8 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] accept that initial data in the useSWR hook
   - [ ] make sure useSWR is using our cached results for child components that request the same data
   - [ ] maybe pages with getInitialProps should be the only components with data fetching? seems limiting.
+- [ ] youtube data sync
+  - [ ] sign up for youtube api & setup api key
+  - [ ] subscribe to video publish events by jonathan & filter for songaday videos
+  - [ ] on publish, create video
+  - [ ] on update, update title and description

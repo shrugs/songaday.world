@@ -894,15 +894,10 @@
   dependencies:
     "@types/node" "*"
 
-"@prisma/client@^2.0.0-alpha.539":
-  version "2.0.0-alpha.539"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.539.tgz#2dc30ecb1e13ac2abe4baaba7307e97c6483b58e"
-  integrity sha512-AYbMMz1eSde0rJ4JQi+bozNpEyCXJqwaA+/JFjvGRj+YlP3mmyyZ9HR0XIXQV8AI2tAtQDXjFx1gCUvMdZ9JVQ==
-
-"@prisma/photon@^2.0.0-preview019":
-  version "2.0.0-preview019"
-  resolved "https://registry.yarnpkg.com/@prisma/photon/-/photon-2.0.0-preview019.tgz#cd083628f668fbdc4ab8f7d15cd8a33b83a997a3"
-  integrity sha512-fAqVbg2nxzk2B5h6Z6BgsApD3iRbWGMDKTsa8WDtH3fsrZc07HbGGc9HM5kNYUAPAKYSWJCr7no2W+c8Q87sRQ==
+"@prisma/client@2.0.0-alpha.577":
+  version "2.0.0-alpha.577"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.577.tgz#455cb6af95793b43f4a9fda073f541bb05baa868"
+  integrity sha512-tfAKFxZs06gatvKSNBq14yDoG0GHlmJPFfXXF676GfYwjdROVUDTS3ZWoL4+M7opXy0naN9EwjHWUL7ScRMLkA==
 
 "@types/classnames@^2.2.9":
   version "2.2.9"
@@ -925,6 +920,11 @@
   integrity sha512-VGM1gb+LwsQ5EPevvbvdnKncajBdYqNcrvixBif1BsiDQiSF1q+j4bBTvKC6Bt9n2kqNSx+yNTY2TVJ360E7EQ==
   dependencies:
     "@types/node" "*"
+
+"@types/luxon@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@types/luxon/-/luxon-1.21.0.tgz#db792d29f535d49522cb6d94dd9da053efc950a1"
+  integrity sha512-Zhrf65tpjOlVIYrUhX9eu1VzRo8iixQDLFPbfqFxPpG4pBTNNPZ2BFhYE0IAsDfW9GWg+RcrUqiLwrGJH4rq4w==
 
 "@types/ms@^0.7.31":
   version "0.7.31"
@@ -3845,6 +3845,11 @@ lru-cache@5.1.1, lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
+luxon@^1.21.3:
+  version "1.21.3"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.21.3.tgz#f1d5c2a7e855d039836cf4954f883ecac8fc4727"
+  integrity sha512-lLRwNcNnkZLuv13A1FUuZRZmTWF7ro2ricYvb0L9cvBYHPvZhQdKwrYnZzi103D2XKmlVmxWpdn2wfIiOt2YEw==
+
 make-dir@^1.0.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-1.3.0.tgz#79c1033b80515bd6d24ec9933e860ca75ee27f0c"
@@ -5164,10 +5169,10 @@ pretty-hrtime@^1.0.3:
   resolved "https://registry.yarnpkg.com/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
   integrity sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=
 
-prisma2@^2.0.0-alpha.539:
-  version "2.0.0-alpha.539"
-  resolved "https://registry.yarnpkg.com/prisma2/-/prisma2-2.0.0-alpha.539.tgz#e0d5a631643f1bee59706a5de096d16106783da4"
-  integrity sha512-6S8ODqwuyNJ2mpp1M6VGHyHIVRljgyTHBoiXbwUQOo19RDZNX+IiJc5z5KbS7NJ39Wf1g4mduYzQRDO5zyr4XA==
+prisma2@^2.0.0-alpha.577:
+  version "2.0.0-alpha.577"
+  resolved "https://registry.yarnpkg.com/prisma2/-/prisma2-2.0.0-alpha.577.tgz#fda88c280ce847326a2d8b358bd9c717232e6f2b"
+  integrity sha512-OQZ1jUJwK7/rm3+zOc0nSMvhRpqw2g4pYKC9i4QDSHFwtH743UwjO6P8Ldu9dLOUHUlzp0NrOBQ1JeO9Y2uXoQ==
 
 private@^0.1.6:
   version "0.1.8"

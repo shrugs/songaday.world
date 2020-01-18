@@ -3,6 +3,14 @@
   "steps": [
     {
       "tag": "UpdateEnum",
+      "enum": "Location",
+      "createdValues": [
+        "LosAngeles",
+        "Oakland"
+      ]
+    },
+    {
+      "tag": "UpdateEnum",
       "enum": "Topic",
       "createdValues": [
         "Poetic",
@@ -61,9 +69,20 @@
     {
       "tag": "CreateField",
       "model": "Song",
-      "field": "title",
+      "field": "youtubeId",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "youtubeId"
+        },
+        "directive": "unique"
+      }
     },
     {
       "tag": "CreateField",
@@ -96,6 +115,56 @@
       },
       "argument": "",
       "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "createdAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "createdAt"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Song",
+      "field": "updatedAt",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Song",
+          "field": "updatedAt"
+        },
+        "directive": "updatedAt"
+      }
     }
   ]
 }
