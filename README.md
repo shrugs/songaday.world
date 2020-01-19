@@ -71,15 +71,16 @@ Optional email/web notifications can notify fans when a new song is released.
   - [x] make the background images much wider or provide wider variants for larger screens
   - [ ] export the non-background content as 1:1 squares & reposition
 - [ ] make sure function invocations don't exhause postgres `max_connection`s
-  - [ ] use https://aws.amazon.com/blogs/compute/using-amazon-rds-proxy-with-aws-lambda/ with aurora
+  - [ ] use https://aws.amazon.com/blogs/compute/using-amazon-rds-proxy-with-aws-lambda/ with aurora?
 - [ ] implement getInitialProps & transition to cookie auth so it works on the server
   - [x] on the client, after recieving token, put the token into cookies instead of localstorage
   - [x] pull token from cookie in getInitialProps
   - [x] include credentials in fetch requests (this seems to be the default)
-  - [ ] create a getInitialProps wrapper that handles throws ala api route handler
-  - [ ] accept that initial data in the useSWR hook
+  - [x] create a getInitialProps wrapper that handles throws ala api route handler
+  - [x] accept that initial data in the useSWR hook
   - [ ] make sure useSWR is using our cached results for child components that request the same data
-  - [ ] maybe pages with getInitialProps should be the only components with data fetching? seems limiting.
+    - this doesn't seem to be automatic?
+    - maybe pages with getInitialProps should be the only components with data fetching? seems limiting.
 - [ ] youtube data sync
   - [ ] sign up for youtube api & setup api key
   - [ ] subscribe to video publish events by jonathan & filter for songaday videos
