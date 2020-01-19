@@ -5,8 +5,10 @@ import TextTag from './TextTag';
 import WithClassName from '../../lib/utils/WithClassName';
 import YoutubeEmbed from '../YoutubeEmbed';
 import { DateTime } from 'luxon';
+import useSong from '../../lib/queries/useSong';
 
-function SongCard({ className, song }: { song: any } & WithClassName) {
+function SongCard({ className, number }: { number: string } & WithClassName) {
+  const { data: song } = useSong({ number });
   const date = useMemo(() => DateTime.fromISO(song.releasedAt), [song.releasedAt]);
   const subtitleDateString = useMemo(() => date.toLocaleString(DateTime.DATE_FULL), [date]);
   const calendarDateString = useMemo(() => date.toFormat('LLL dd'), [date]);

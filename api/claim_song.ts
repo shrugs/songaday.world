@@ -1,5 +1,5 @@
 import handler from './_utils/handler';
-import { NotImplementedError, SongAlreadyOwnedError } from './_utils/KnownErrors';
+import { NotImplementedError, SongAlreadyOwnedError, NotFoundError } from './_utils/KnownErrors';
 import requireUser from './_utils/requireUser';
 import photon from './_utils/photon';
 
@@ -12,6 +12,10 @@ export default handler(async req => {
 
       // check ownership
       const song = await photon.songs.findOne({ where: { number }, include: { owner: true } });
+      if (!song) {
+        throw new NotFoundError();
+      }
+
       const isOwned = !!song.owner;
       if (isOwned) {
         throw new SongAlreadyOwnedError();

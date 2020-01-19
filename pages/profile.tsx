@@ -3,13 +3,12 @@ import useUpdateProfileMutation from '../lib/mutators/useUpdateProfileMutation';
 import useRequireToken from '../lib/useRequireToken';
 import useProfile from '../lib/queries/useProfile';
 import useLogoutMutation from '../lib/mutators/useLogoutMutation';
-import getInitialProps from '../lib/server/getInitialProps';
 
-function Profile({ initialProfile }: { initialProfile?: any }) {
+function Profile() {
   useRequireToken();
   const logoutMutation = useLogoutMutation();
 
-  const { data, error, isValidating } = useProfile(initialProfile);
+  const { data, error, isValidating } = useProfile();
   const updateProfile = useUpdateProfileMutation();
 
   const handleClick = useCallback(() => updateProfile('matt'), [updateProfile]);
@@ -27,10 +26,5 @@ function Profile({ initialProfile }: { initialProfile?: any }) {
     </div>
   );
 }
-
-Profile.getInitialProps = getInitialProps(async ctx => {
-  const initialProfile = await useProfile.getInitialData(ctx);
-  return { initialProfile };
-});
 
 export default Profile;

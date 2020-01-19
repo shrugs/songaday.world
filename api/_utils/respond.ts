@@ -1,26 +1,25 @@
 import { NowResponse } from '@now/node';
-import { KnownError } from './KnownErrors';
+import { isKnownError } from './KnownErrors';
 
 export const handleError = (res: NowResponse, error: Error) => {
-  if (error instanceof KnownError) {
+  if (process.env.NODE_ENV === 'development') {
+    console.error('[api/error]', error);
+  }
+
+  if (isKnownError(error)) {
     res.status(error.status);
   } else {
     res.status(500);
   }
 
-  const code = error instanceof KnownError ? error.code : 'InternalServerError';
+  const status = isKnownError(error) ? error.status : 500;
+  const code = isKnownError(error) ? error.code : 'InternalServerError';
 
   res.json({
-    status: 'ERROR',
+    type: 'ERROR',
+    status,
     code,
-    ...(process.env.NODE_ENV === 'development'
-      ? { message: error.message, stack: error.stack }
-      : {}),
   });
-
-  if (process.env.NODE_ENV === 'development') {
-    throw error;
-  }
 };
 
 export const success = (res: NowResponse, body: any) => {

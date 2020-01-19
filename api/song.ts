@@ -1,5 +1,5 @@
 import handler from './_utils/handler';
-import { NotImplementedError } from './_utils/KnownErrors';
+import { NotImplementedError, NotFoundError } from './_utils/KnownErrors';
 import photon from './_utils/photon';
 
 export default handler(async req => {
@@ -7,7 +7,12 @@ export default handler(async req => {
 
   switch (req.method) {
     case 'GET': {
-      return await photon.songs.findOne({ where: { number } });
+      const song = await photon.songs.findOne({ where: { number } });
+      if (!song) {
+        throw new NotFoundError();
+      }
+
+      return song;
     }
     default:
       throw new NotImplementedError();

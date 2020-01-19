@@ -1,4 +1,5 @@
 import fetch from 'isomorphic-unfetch';
+import { KnownError } from '../api/_utils/KnownErrors';
 
 // TODO: url, arguments
 export default (token: string | null) => async (url: string) => {
@@ -18,7 +19,7 @@ export default (token: string | null) => async (url: string) => {
 
   if (res.status !== 200) {
     // TODO: use well-formed errors
-    throw new Error(JSON.stringify(data));
+    throw new KnownError(data.code, data.status);
   }
 
   return data;

@@ -3,8 +3,5 @@
 # lift lockfile v1
 # Read more about conflict resolution here: TODO
 
-20200111111334-init
-20200115122102-add-display-name
-20200115182949
-20200118142808-add-youtube-id-to-song
-20200118144742-add-title-and-description-to-song
+20200119105604-initial
+20200119114726-attach-comments-directly-to-songs

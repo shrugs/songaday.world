@@ -1,8 +1,15 @@
 import { NowRequest } from '@now/node';
 import requireAuthPayload from './requireAuthPayload';
 import photon from './photon';
+import { UnauthenticatedError } from './KnownErrors';
 
 export default async function requireUser(req: NowRequest) {
   const payload = requireAuthPayload(req);
-  return await photon.users.findOne({ where: { id: payload.id } });
+  const user = await photon.users.findOne({ where: { id: payload.id } });
+
+  if (!user) {
+    throw new UnauthenticatedError();
+  }
+
+  return user;
 }

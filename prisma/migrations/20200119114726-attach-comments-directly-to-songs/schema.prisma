@@ -88,6 +88,7 @@ model Song {
   mood        Mood
   beard       Beard
   instrument  Instrument
+  comments    Comment[]
   releasedAt  DateTime   @default(now())
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -105,4 +106,14 @@ model User {
   displayName String?
   magicCode   MagicCode?
   song        Song?
+}
+
+model Comment {
+  id        String   @default(cuid()) @id
+  song      Song
+  replyTo   Comment?
+  author    User
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

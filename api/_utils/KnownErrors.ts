@@ -1,3 +1,7 @@
+export function isKnownError(error: any): error is KnownError {
+  return !!error.code && !!error.status;
+}
+
 export class KnownError extends Error {
   constructor(public code: string, public status: number = 500) {
     super(code);
@@ -42,7 +46,7 @@ export class NotImplementedError extends KnownError {
 
 export class UnauthenticatedError extends KnownError {
   constructor() {
-    super('Unauthenticated');
+    super('Unauthenticated', 401);
   }
 }
 
@@ -55,5 +59,11 @@ export class UnsupportedMethodError extends KnownError {
 export class SongAlreadyOwnedError extends KnownError {
   constructor() {
     super('SongAlreadyOwnedError');
+  }
+}
+
+export class NotFoundError extends KnownError {
+  constructor() {
+    super('NotFoundError', 404);
   }
 }
