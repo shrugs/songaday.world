@@ -7,3 +7,9 @@
     left: 50%;
   }
 }
+
+@responsive {
+  .card-offset {
+    margin-left: 12%;
+  }
+}

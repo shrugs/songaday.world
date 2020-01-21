@@ -17,7 +17,7 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
     <>
       <div
         className={cx(
-          'w-full bg-white md:rounded-lg md:shadow-lg overflow-hidden px-6 py-4 flex flex-col',
+          'w-full bg-white md:rounded-lg md:shadow-lg overflow-hidden p-4 flex flex-col',
           className,
         )}
       >
@@ -40,7 +40,7 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
         <div className="mb-1">
           <YoutubeEmbed id={song.youtubeId} />
         </div>
-        <div className="mb-1 py-1 whitespace-pre-wrap leading-tight text-base md:text-sm h-20 overflow-y-scroll">
+        <div className="mb-1 py-1 whitespace-pre-wrap break-words leading-tight text-base md:text-sm h-20 overflow-y-scroll">
           {song.description}
         </div>
         <div className="mb-1 flex flex-row flex-wrap">

@@ -5,6 +5,7 @@ import { BackgroundThemes } from '../../lib/utils/constants';
 import useSong from '../../lib/queries/useSong';
 import { NextPageContext } from 'next';
 import getInitialProps from '../../lib/server/getInitialProps';
+import CommentThread from '../../components/CommentThread';
 
 function SongPage({ number, initialSong }: { number: string; initialSong?: any }) {
   const { data: song } = useSong({ number }, initialSong);
@@ -20,7 +21,9 @@ function SongPage({ number, initialSong }: { number: string; initialSong?: any }
 
         <Header number={number} />
 
-        <div className="flex-grow w-full song-color"></div>
+        <div className="flex-grow w-full song-color">
+          <CommentThread number={number} />
+        </div>
 
         <style jsx>{`
           .song-color {
