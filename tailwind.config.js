@@ -2,6 +2,6 @@ module.exports = {
   theme: {
     extend: {},
   },
-  variants: {},
+  variants: { opacity: ['disabled'], pointerEvents: ['disabled'] },
   plugins: [],
 };

@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { trigger, mutate } from 'swr';
 import { useContext, createContext } from 'react';
 import { NextPageContext } from 'next';
 import makeServerFetcher from '../server/makeServerFetcher';
@@ -24,6 +24,10 @@ export default function makeQuery<A>(pathBuilder: PathBuilder<A>) {
   };
 
   useQuery.InitialDataContext = createContext<any>(null);
+
+  useQuery.trigger = (args?: A) => trigger(pathBuilder(args));
+
+  useQuery.clear = (args?: A) => mutate(pathBuilder(args), null);
 
   return useQuery;
 }

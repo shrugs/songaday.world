@@ -1,14 +1,14 @@
 import { useCallback } from 'react';
 import Router from 'next/router';
 import APIToken from '../containers/APIToken';
-import { clearAuthState } from '../cache/authState';
+import useProfile from '../queries/useProfile';
 
 export default function useLogoutMutation() {
   const [, setToken] = APIToken.useContainer();
 
   return useCallback(() => {
     setToken(null);
-    clearAuthState();
+    useProfile.clear();
     Router.push('/');
   }, [setToken]);
 }

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import Mutator from '../containers/Mutator';
-import { triggerAuthState } from '../cache/authState';
+import useProfile from '../queries/useProfile';
 
 export default function useLoginMutation() {
   const mutator = Mutator.useContainer();
@@ -8,7 +8,7 @@ export default function useLoginMutation() {
   return useCallback(
     async (email: string) => {
       await mutator('/api/login', { email });
-      triggerAuthState();
+      useProfile.trigger();
     },
     [mutator],
   );

@@ -7,7 +7,11 @@ export default handler(async req => {
 
   switch (req.method) {
     case 'GET': {
-      const song = await photon.songs.findOne({ where: { number }, include: { comments: true } });
+      const song = await photon.songs.findOne({
+        where: { number },
+        include: { comments: { include: { author: true } } },
+      });
+
       if (!song) {
         throw new NotFoundError();
       }
