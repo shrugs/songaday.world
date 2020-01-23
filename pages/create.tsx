@@ -1,4 +1,5 @@
-import React, { useState, useCallback, PropsWithChildren, useMemo, isValidElement } from 'react';
+import React, { useState, useCallback, PropsWithChildren, useMemo, useEffect } from 'react';
+import FlipMove from 'react-flip-move';
 import cx from 'classnames';
 import getInitialProps from '../lib/server/getInitialProps';
 import MiniMann, { MiniMannConfig } from '../components/minimann/MiniMann';
@@ -9,13 +10,14 @@ import {
   Mood,
   Beard,
   Instrument,
-  MinimannProperty,
   MinimannPropertyValue,
 } from '../lib/utils/constants';
 import FilterTag from '../components/FilterTag';
 import NoticeBox from '../components/NoticeBox';
 import useAvailableSongs from '../lib/queries/useAvailableSongs';
-import usePreviousTruthy from '../lib/usePreviousTruthy';
+import { useAsync } from 'react-async';
+import cleanObject from '../lib/utils/cleanObject';
+import fetch from 'isomorphic-unfetch';
 
 const PanelHeader = ({ children }: PropsWithChildren<{}>) => (
   <h2 className="mb-8 text-3xl font-bold">{children}</h2>
@@ -33,6 +35,17 @@ const DEFAULT_CONFIG: MiniMannConfig = {
   instrument: Instrument.Organ,
 };
 
+const loadAvailableSongs = async ({ filters }) => {
+  const res = await fetch(`/api/available_songs?${new URLSearchParams(cleanObject(filters))}`);
+  const data = await res.json();
+  return data;
+};
+
+// const watchFn = (props, prevProps) => {
+//   console.log('watch?', props.filters !== prevProps.filters);
+//   return props.filters !== prevProps.filters;
+// };
+
 function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   const [open, setOpen] = useState(true);
   const onRequestClose = useCallback(() => setOpen(false), []);
@@ -43,8 +56,18 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 
   const hasFiltered = useMemo(() => Object.values(filters).length > 0, [filters]);
 
-  const { data: _data, error, isValidating: loadingSongs } = useAvailableSongs(filters);
-  const data = usePreviousTruthy(_data, _data);
+  const { data: _data, error, isPending: loadingSongs, cancel } = useAsync<any>({
+    promiseFn: loadAvailableSongs,
+    initialValue: initialAvailableSongs,
+    filters,
+    watch: filters,
+  });
+
+  useEffect(() => {
+    cancel();
+  }, [cancel]);
+  // TODO: figure out why the fucking initialValue keeps being used for subsequent fetches
+  const data = _data || initialAvailableSongs;
 
   const config: MiniMannConfig = useMemo(
     () => (data && data.songs && data.songs.length ? data.songs[0] : DEFAULT_CONFIG),
@@ -67,11 +90,11 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   const buildSection = (key: string, header: string) => (
     <>
       <SectionHeader>{header}</SectionHeader>
-      <div className="flex flex-row flex-wrap">
+      <FlipMove className="flex flex-row flex-wrap">
         {data &&
           data.filters &&
           data.filters[key].map(prop => (
-            <div className={cx({ 'opacity-50 pointer-events-none': loadingSongs })} key={prop}>
+            <div className={cx({ 'pointer-events-none': loadingSongs })} key={prop}>
               <FilterTag
                 onClick={() => handleFilterTagSelect(key, prop)}
                 className="mr-4 mb-2"
@@ -84,7 +107,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
               </FilterTag>
             </div>
           ))}
-      </div>
+      </FlipMove>
     </>
   );
 

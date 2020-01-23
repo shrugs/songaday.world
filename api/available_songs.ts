@@ -10,7 +10,7 @@ import take from 'lodash/take';
 const MAX_SONGS = 20;
 
 export default handler(async req => {
-  const user = await requireUser(req);
+  // const user = await requireUser(req);
 
   const location = req.query.location as Location;
   const topic = req.query.topic as Topic;
@@ -29,6 +29,9 @@ export default handler(async req => {
           mood,
           beard,
           instrument,
+          NOT: {
+            owner: {},
+          },
         },
       });
 
