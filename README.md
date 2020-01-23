@@ -51,8 +51,9 @@ Optional email/web notifications can notify fans when a new song is released.
   - [x] auth gateways with redirect
   - [x] edit display name
 - [ ] create-a-minimann / onboarding
-  - [ ] search api
+  - [x] search api
     - [ ] seed database with songs to search through
+  - [x] sync filters to query parameters
   - [ ] clicking song tags should start a search with that constraint /songs?tags=[]
   - [x] claiming api
   - [ ] creation UI

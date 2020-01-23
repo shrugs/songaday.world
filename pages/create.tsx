@@ -17,7 +17,8 @@ import NoticeBox from '../components/NoticeBox';
 import useAvailableSongs from '../lib/queries/useAvailableSongs';
 import { useAsync } from 'react-async';
 import cleanObject from '../lib/utils/cleanObject';
-import fetch from 'isomorphic-unfetch';
+import useQueryParams from '../lib/useQueryParams';
+import Fetcher from '../lib/containers/Fetcher';
 
 const PanelHeader = ({ children }: PropsWithChildren<{}>) => (
   <h2 className="mb-8 text-3xl font-bold">{children}</h2>
@@ -35,39 +36,34 @@ const DEFAULT_CONFIG: MiniMannConfig = {
   instrument: Instrument.Organ,
 };
 
-const loadAvailableSongs = async ({ filters }) => {
-  const res = await fetch(`/api/available_songs?${new URLSearchParams(cleanObject(filters))}`);
-  const data = await res.json();
-  return data;
-};
-
-// const watchFn = (props, prevProps) => {
-//   console.log('watch?', props.filters !== prevProps.filters);
-//   return props.filters !== prevProps.filters;
-// };
-
 function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   const [open, setOpen] = useState(true);
   const onRequestClose = useCallback(() => setOpen(false), []);
   const onRequestOpen = useCallback(() => setOpen(true), []);
 
-  const [filters, setFilters] = useState({});
-  const resetFilters = useCallback(() => setFilters({}), []);
+  const [filters, setFilters] = useQueryParams();
+  const resetFilters = useCallback(() => setFilters({}), [setFilters]);
 
   const hasFiltered = useMemo(() => Object.values(filters).length > 0, [filters]);
 
-  const { data: _data, error, isPending: loadingSongs, cancel } = useAsync<any>({
-    promiseFn: loadAvailableSongs,
+  const fetcher = Fetcher.useContainer();
+  const promiseFn = useMemo(
+    () => ({ filters }) =>
+      fetcher(`/api/available_songs?${new URLSearchParams(cleanObject(filters))}`),
+    [fetcher],
+  );
+  const { data, error, isPending: loadingSongs, cancel } = useAsync<any>({
+    promiseFn,
     initialValue: initialAvailableSongs,
     filters,
     watch: filters,
   });
 
+  // TODO: remove this line when this issue is closed
+  // https://github.com/async-library/react-async/issues/249
   useEffect(() => {
     cancel();
   }, [cancel]);
-  // TODO: figure out why the fucking initialValue keeps being used for subsequent fetches
-  const data = _data || initialAvailableSongs;
 
   const config: MiniMannConfig = useMemo(
     () => (data && data.songs && data.songs.length ? data.songs[0] : DEFAULT_CONFIG),
@@ -83,7 +79,6 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   }, [resetFilters]);
 
   const handleFilterTagSelect = async (key: string, value: MinimannPropertyValue) => {
-    console.log(key, value);
     setFilters({ ...filters, [key]: value });
   };
 
@@ -155,7 +150,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 Create.getInitialProps = getInitialProps(async ctx => {
   let initialAvailableSongs = undefined;
   try {
-    initialAvailableSongs = await useAvailableSongs.getInitialData(ctx, {});
+    initialAvailableSongs = await useAvailableSongs.getInitialData(ctx, ctx.query);
   } catch {}
   return { initialAvailableSongs };
 });
