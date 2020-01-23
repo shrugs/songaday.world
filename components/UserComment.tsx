@@ -7,6 +7,7 @@ export default function UserComment({ comment }: { comment: any }) {
     () => DateTime.fromISO(comment.createdAt).toLocaleString(DateTime.DATETIME_MED),
     [comment.createdAt],
   );
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center">

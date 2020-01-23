@@ -1,0 +1,81 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateEnum",
+      "enum": "Location",
+      "createdValues": [
+        "Baltimore",
+        "Berkeley",
+        "JupiterFL",
+        "NewYork",
+        "SouthingtonCT",
+        "Vienna"
+      ]
+    },
+    {
+      "tag": "UpdateEnum",
+      "enum": "Topic",
+      "createdValues": [
+        "Bike",
+        "Childhood",
+        "Chistmas",
+        "Food",
+        "Grandma",
+        "InstrumentalAcousticGuitar",
+        "InstrumentalBaritoneUkelele",
+        "InstrumentalBass",
+        "InstrumentalCongas",
+        "InstrumentalDrumMachine",
+        "InstrumentalDrums",
+        "InstrumentalElectricGuitar",
+        "InstrumentalKeyboard",
+        "InstrumentalOrgan",
+        "InstrumentalPiano",
+        "InstrumentalSamples",
+        "InstrumentalSynths",
+        "InstrumentalUkelele",
+        "InstrumentalVocals",
+        "Objects",
+        "Penguin",
+        "Popculture"
+      ],
+      "deletedValues": [
+        "Object",
+        "Family",
+        "WanderingFall",
+        "Traditional",
+        "Improv"
+      ]
+    },
+    {
+      "tag": "UpdateEnum",
+      "enum": "Mood",
+      "deletedValues": [
+        "Bored",
+        "Disgusted"
+      ]
+    },
+    {
+      "tag": "UpdateEnum",
+      "enum": "Instrument",
+      "createdValues": [
+        "AcousticGuitar",
+        "Banjo",
+        "BaritoneUke",
+        "Bass",
+        "Congas",
+        "DrumMachine",
+        "Drums",
+        "ElectricGuitar",
+        "Harpsichord",
+        "Keyboard",
+        "Piano",
+        "Samples",
+        "Synths",
+        "Uke",
+        "Vocals"
+      ]
+    }
+  ]
+}

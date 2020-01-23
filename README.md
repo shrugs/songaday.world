@@ -59,13 +59,15 @@ Optional email/web notifications can notify fans when a new song is released.
 - [ ] social layer
   - [ ] data model & demo seed
   - [x] youtube embed
-  - [ ] social layer api
-  - [ ] social layer UI
+  - [x] basic social layer api
+  - [x] social layer UI
+  - [ ] admin delete comment functionality
 - [ ] yup input validations
 - [ ] rate limiting api endpoints like login/auth
 - [x] purgecss that actually works
 - [ ] early-exit on fetcher and mutator if token is required, to avoid fetching every render lol
 - [ ] generate enum/model types for frontend
+  - see if we can remove the need for them at all, since they'll be loaded SSR with availableSongs
   - attempting to import @photon/client is broken af
 - [ ] update minimann layouts
   - [x] make the background images much wider or provide wider variants for larger screens
@@ -86,3 +88,4 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] subscribe to video publish events by jonathan & filter for songaday videos
   - [ ] on publish, create video
   - [ ] on update, update title and description
+- [ ] beard clean cutdown

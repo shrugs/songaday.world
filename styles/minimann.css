@@ -4,4 +4,11 @@
 
 .minimann > * {
   @apply absolute-frame bg-no-repeat bg-center bg-contain;
+  transition: transform 350ms ease-in-out;
+}
+
+@responsive {
+  .offset-layer-in-frame {
+    transform: translateX(-20%);
+  }
 }

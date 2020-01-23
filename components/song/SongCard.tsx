@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
-import TagThumbnail from './TagThumbnail';
+import FilterTag from '../FilterTag';
 import TextTag from './TextTag';
 import WithClassName from '../../lib/utils/WithClassName';
 import YoutubeEmbed from '../YoutubeEmbed';
@@ -44,11 +44,11 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
           {song.description}
         </div>
         <div className="mb-1 flex flex-row flex-wrap">
-          <TagThumbnail className="mr-2 mb-2" prefix="location" thumbKey={song.location} />
-          <TagThumbnail className="mr-2 mb-2" prefix="topic" thumbKey={song.topic} />
-          <TagThumbnail className="mr-2 mb-2" prefix="mood" thumbKey={song.mood} />
-          <TagThumbnail className="mr-2 mb-2" prefix="beard" thumbKey={song.beard} />
-          <TagThumbnail className="mr-2 mb-2" prefix="instrument" thumbKey={song.instrument} />
+          <FilterTag className="mr-2 mb-2" prefix="location" thumbKey={song.location} />
+          <FilterTag className="mr-2 mb-2" prefix="topic" thumbKey={song.topic} />
+          <FilterTag className="mr-2 mb-2" prefix="mood" thumbKey={song.mood} />
+          <FilterTag className="mr-2 mb-2" prefix="beard" thumbKey={song.beard} />
+          <FilterTag className="mr-2 mb-2" prefix="instrument" thumbKey={song.instrument} />
         </div>
         <div className="flex flex-row flex-wrap">
           <TextTag className="mr-2 mb-2" text="New York" />

@@ -33,11 +33,12 @@ class MyApp extends App<{ initialProfile: any }> {
 
         <Providers>
           <useProfile.InitialDataContext.Provider value={initialProfile}>
-            <div className="antialiased text-gray-900 max-w-6xl mx-auto min-h-screen flex flex-col">
+            <div className="relative antialiased text-gray-900 max-w-6xl mx-auto min-h-screen flex flex-col">
               <Navbar />
               <div className="flex-grow flex flex-col">
                 <Component {...pageProps} />
               </div>
+              <div id="modal-root" className="absolute w-full"></div>
             </div>
           </useProfile.InitialDataContext.Provider>
         </Providers>

@@ -34,7 +34,7 @@ export default handler(async req => {
       location: Location.Vermont,
       topic: Topic.Kids,
       mood: Mood.Angry,
-      beard: Beard.Beard,
+      beard: Beard.Shadow,
       instrument: Instrument.Organ,
     },
   });

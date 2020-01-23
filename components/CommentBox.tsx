@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
+import NoticeBox from './NoticeBox';
 
 function CommentBox({
   isReply,
@@ -29,16 +30,19 @@ function CommentBox({
     }
   }, [onSubmit, text]);
 
+  const handleCommentIntent = useCallback(() => setIsCommenting(true), []);
+
   return (
     <div className="my-1">
       {!isCommenting && (
-        <button className="text-md text-gray-700 underline" onClick={() => setIsCommenting(true)}>
-          {isReply ? 'Reply' : 'Comment'}
+        <button className="text-md text-gray-700 underline" onClick={handleCommentIntent}>
+          {isReply ? 'Reply' : 'Add a Comment'}
         </button>
       )}
       {isCommenting && (
         <div className="flex flex-col">
           <textarea
+            autoFocus={isReply}
             className="mb-1 p-1 bg-gray-100 border-gray-200 placeholder-gray-700 rounded focus:border-gray-400 border-2 disabled:opacity-50"
             placeholder="Add a comment..."
             value={text}
@@ -54,11 +58,7 @@ function CommentBox({
             {isReply ? 'Reply' : 'Comment'}
           </button>
 
-          {error && (
-            <div className="mt-1 bg-red-100 rounded border-2 border-red-200 px-4 py-2 text-center text-gray-600">
-              Error submitting comment. Try again?
-            </div>
-          )}
+          {error && <NoticeBox color="gray">Error submitting comment. Try again?</NoticeBox>}
 
           <style jsx>{`
             textarea {

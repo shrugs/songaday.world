@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-const uriFromKey = (prefix: string, key: string) => `/images/${prefix}_${key.toLowerCase()}.png`;
+const uriFromKey = (prefix: string, key: string) => `/images/${prefix}_${key.toLowerCase()}.svg`;
 
 export interface MiniMannConfig {
   location: string;
@@ -25,20 +25,17 @@ export default function MiniMann({
   instrument,
   offset = false,
 }: MiniMannProps) {
+  const conditionalOffset = cx({ 'lg:offset-layer-in-frame': offset });
   return (
     <>
       <div className="minimann w-full aspect-location">
-        <div className={`topic ${cx({ offset })}`}></div>
-        <div className={`mood ${cx({ offset })}`}></div>
-        <div className={`beard ${cx({ offset })}`}></div>
-        <div className={`instrument ${cx({ offset })}`}></div>
+        <div className={`topic ${conditionalOffset}`}></div>
+        <div className={`mood ${conditionalOffset}`}></div>
+        <div className={`beard ${conditionalOffset}`}></div>
+        <div className={`instrument ${conditionalOffset}`}></div>
       </div>
 
       <style jsx>{`
-        .offset {
-          transform: translateX(-12%);
-        }
-
         .minimann {
           background-image: url(${uriFromKey('location', location)});
         }

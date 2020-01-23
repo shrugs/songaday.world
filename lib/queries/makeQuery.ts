@@ -13,7 +13,6 @@ export default function makeQuery<A>(pathBuilder: PathBuilder<A>) {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       initialData = useContext(useQuery.InitialDataContext);
     }
-
     return useSWR(pathBuilder(args), { initialData });
   };
 

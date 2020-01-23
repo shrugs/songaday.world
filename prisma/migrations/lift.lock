@@ -6,3 +6,6 @@
 20200119105604-initial
 20200119114726-attach-comments-directly-to-songs
 20200121102932-next-comments-instead-of-referencing
+20200122114937-refactor-nested-comments-into-replies
+20200122131143-update-beard-enum
+20200122132432-update-enum-options
