@@ -26,11 +26,14 @@ export default function FilterTag({
   return (
     <div onClick={onClick} className={cx(`flex flex-col w-${size} cursor-pointer`, className)}>
       <div
-        className={cx(`relative rounded-lg overflow-hidden bg-white w-${size} h-${size}`, {
-          'border-4 border-selectpurple': selected,
-          'mb-1': hasChildren,
-          'p-2': !shouldCover,
-        })}
+        className={cx(
+          `relative rounded-lg hover:shadow overflow-hidden bg-white w-${size} h-${size}`,
+          {
+            'border-4 border-selectpurple': selected,
+            'mb-1': hasChildren,
+            'p-2': !shouldCover,
+          },
+        )}
       >
         <div
           className={cx(`w-full h-full bg-no-repeat bg-center thumb`, {
