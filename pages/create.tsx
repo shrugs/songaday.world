@@ -44,7 +44,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   const hasFiltered = useMemo(() => Object.values(filters).length > 0, [filters]);
 
   const { data: _data, error, isValidating: loadingSongs } = useAvailableSongs(filters);
-  const data = usePreviousTruthy(_data, initialAvailableSongs);
+  const data = usePreviousTruthy(_data, _data);
 
   const config: MiniMannConfig = useMemo(
     () => (data && data.songs && data.songs.length ? data.songs[0] : DEFAULT_CONFIG),

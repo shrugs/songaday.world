@@ -1,7 +1,8 @@
 import makeQuery from './makeQuery';
 import { MinimannPropertyFilter } from '../utils/constants';
+import cleanObject from '../utils/cleanObject';
 
-const pathFor = ({ location, topic, mood, beard, instrument }: MinimannPropertyFilter) =>
-  `/api/available_songs?${new URLSearchParams({ location, topic, mood, beard, instrument })}`;
+const pathFor = (args: MinimannPropertyFilter) =>
+  `/api/available_songs?${new URLSearchParams(cleanObject(args))}`;
 
 export default makeQuery(pathFor);
