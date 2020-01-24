@@ -10,7 +10,7 @@ export default function useAuthMutation() {
     async (code: string) => {
       const { token } = await mutator(null, '/api/auth', { code });
       setToken(token);
-      setTimeout(() => useProfile.trigger(), 0);
+      useProfile.trigger(token);
     },
     [setToken],
   );

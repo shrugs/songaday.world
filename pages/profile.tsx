@@ -4,6 +4,8 @@ import useRequireToken from '../lib/useRequireToken';
 import useProfile from '../lib/queries/useProfile';
 import useLogoutMutation from '../lib/mutators/useLogoutMutation';
 import useCollectSongMutation from '../lib/mutators/useCollectSongMutation';
+import getInitialProps from '../lib/server/getInitialProps';
+import requireUser from '../lib/server/requireUser';
 
 function Profile() {
   useRequireToken();
@@ -30,5 +32,11 @@ function Profile() {
     </div>
   );
 }
+
+Profile.getInitialProps = getInitialProps(async ctx => {
+  await requireUser(ctx);
+
+  return {};
+});
 
 export default Profile;

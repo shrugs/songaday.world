@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-unfetch';
 import { KnownError } from '../api/_utils/KnownErrors';
 
-export default async (token: string | null, url: string) => {
+export default async (token: string, url: string) => {
   const res = await fetch(url, {
     method: 'GET',
     headers: {

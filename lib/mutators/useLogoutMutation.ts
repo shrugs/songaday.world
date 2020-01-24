@@ -4,11 +4,14 @@ import APIToken from '../containers/APIToken';
 import useProfile from '../queries/useProfile';
 
 export default function useLogoutMutation() {
-  const [, setToken] = APIToken.useContainer();
+  const [token, setToken] = APIToken.useContainer();
 
   return useCallback(() => {
-    setToken(null);
-    useProfile.clear();
+    // clear cache for current token
+    useProfile.clear(token);
+    // clear token
+    setToken(undefined);
+    // navigate to home
     Router.push('/');
-  }, [setToken]);
+  }, [setToken, token]);
 }

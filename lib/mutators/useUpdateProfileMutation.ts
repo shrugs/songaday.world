@@ -9,7 +9,7 @@ export default function useUpdateProfileMutation() {
   return useCallback(
     async (displayName: string) => {
       const data = await mutator(token, '/api/profile', { displayName });
-      useProfile.mutate(data);
+      useProfile.mutate(token, data);
       return data;
     },
     [token],

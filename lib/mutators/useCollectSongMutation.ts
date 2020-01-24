@@ -9,7 +9,7 @@ export default function useCollectSongMutation() {
   return useCallback(
     async (number: string) => {
       const data = await mutator(token, '/api/collection', { number });
-      useProfile.mutate(data);
+      useProfile.mutate(token, data);
       return data;
     },
     [token],

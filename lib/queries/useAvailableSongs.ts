@@ -5,4 +5,4 @@ import cleanObject from '../utils/cleanObject';
 const pathBuilder = (args: MinimannPropertyFilter) =>
   `/api/available_songs?${new URLSearchParams(cleanObject(args))}`;
 
-export default makeQuery(pathBuilder);
+export default makeQuery(pathBuilder, 'useAvailableSongs');
