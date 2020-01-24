@@ -1,4 +1,5 @@
 import React, { useState, useCallback, PropsWithChildren, useMemo, useEffect } from 'react';
+import pluralize from 'pluralize';
 import FlipMove from 'react-flip-move';
 import cx from 'classnames';
 import getInitialProps from '../lib/server/getInitialProps';
@@ -19,6 +20,11 @@ import { useAsync } from 'react-async';
 import cleanObject from '../lib/utils/cleanObject';
 import useQueryParams from '../lib/useQueryParams';
 import Fetcher from '../lib/containers/Fetcher';
+import Header from '../components/minimann/Header';
+import SongColorBackground from '../components/SongColorBackground';
+import buildSongListDescription from '../lib/buildSongListDescription';
+import SongCard from '../components/song/SongCard';
+import requireUser from '../lib/server/requireUser';
 
 const PanelHeader = ({ children }: PropsWithChildren<{}>) => (
   <h2 className="mb-8 text-3xl font-bold">{children}</h2>
@@ -28,7 +34,7 @@ const SectionHeader = ({ children }: PropsWithChildren<{}>) => (
   <h3 className="mb-4 text-xl font-semibold">{children}</h3>
 );
 
-const DEFAULT_CONFIG: MiniMannConfig = {
+const EMPTY_HEADER_CONFIG: MiniMannConfig = {
   location: Location.Vermont,
   topic: Topic.Kids,
   mood: Mood.Angry,
@@ -37,7 +43,7 @@ const DEFAULT_CONFIG: MiniMannConfig = {
 };
 
 function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const onRequestClose = useCallback(() => setOpen(false), []);
   const onRequestOpen = useCallback(() => setOpen(true), []);
 
@@ -59,20 +65,26 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
     watch: filters,
   });
 
+  const hasMore = useMemo(() => (data ? data.hasMore : false), [data]);
+
   // TODO: remove this line when this issue is closed
   // https://github.com/async-library/react-async/issues/249
   useEffect(() => {
     cancel();
   }, [cancel]);
 
-  const config: MiniMannConfig = useMemo(
-    () => (data && data.songs && data.songs.length ? data.songs[0] : DEFAULT_CONFIG),
-    [data],
-  );
+  const [selectedSong, setSelectedSong] = useState<number>();
 
-  const applyFilters = useCallback(() => {
-    onRequestClose();
-  }, [onRequestClose]);
+  const songs: any[] = useMemo(() => (data ? data.songs || [] : []), [data]);
+  const song: any = useMemo(() => {
+    if (selectedSong) {
+      return songs.find(song => song.number == selectedSong);
+    } else {
+      return songs.length ? songs[0] : undefined;
+    }
+  }, [selectedSong, songs]);
+  const songNumber = useMemo(() => (song ? song.number : undefined), [song]);
+  const songLocation = useMemo(() => (song ? song.location : undefined), [song]);
 
   const discardChanges = useCallback(() => {
     resetFilters();
@@ -108,38 +120,64 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 
   return (
     <>
-      <MiniMann {...config} />
-      <button onClick={onRequestOpen}>open</button>
-      <SidePanel open={open} onRequestClose={onRequestClose}>
-        <div className="w-full flex-grow flex flex-col items-end">
-          <div className="w-full lg:w-auto lg:min-w-1/2 lg:max-w-full flex-grow bg-main">
-            <div className="flex-grow flex flex-col text-white">
-              <div className="flex flex-grow flex-row-reverse justify-between">
-                <button
-                  className="p-4 hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
-                  onClick={discardChanges}
-                  disabled={!hasFiltered}
-                >
-                  Clear Filters
-                </button>
-                <button className="p-4 hover:underline" onClick={applyFilters}>
-                  Search & Close
-                </button>
-              </div>
-              <div className="mx-4 md:mx-10 mb-4">
-                <PanelHeader>Find Your MiniMann</PanelHeader>
-                {error && !loadingSongs && (
-                  <NoticeBox className="mb-2" color="red">
-                    {JSON.stringify(error)}
-                  </NoticeBox>
-                )}
-                {buildSection('location', 'Location')}
-                {buildSection('topic', 'Topic')}
-                {buildSection('mood', 'Mood')}
-                {buildSection('beard', 'Beard')}
-                {buildSection('instrument', 'Instrument')}
-              </div>
+      {songNumber ? (
+        <Header number={songNumber} />
+      ) : (
+        <MiniMann {...(song || EMPTY_HEADER_CONFIG)} />
+      )}
+
+      <SongColorBackground className="flex-grow p-4" location={songLocation}>
+        <button className="w-full p-2" onClick={onRequestOpen}>
+          open
+        </button>
+        <div className="flex flex-col">
+          {songs.length > 1 ? (
+            <div className="flex flex-col justify-center items-start mb-4">
+              <p className="text-3xl leading-tight font-bold truncate">Other Songs Like This</p>
+              <p className="leading-tight text-gray-600 truncate">
+                {hasMore ? `${songs.length - 1}+` : `${songs.length - 1}`} other{' '}
+                {pluralize('song', songs.length - 1)} {buildSongListDescription(filters)}
+              </p>
             </div>
+          ) : (
+            <NoticeBox color="gray">You've found the only song with this combination!</NoticeBox>
+          )}
+          <div className="flex flex-row flex-wrap song-card-list">
+            {songs.slice(1).map(song => (
+              <div key={song.id} className="w-full md:song-card mb-4">
+                <SongCard number={song.number} className="rounded-lg" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </SongColorBackground>
+
+      <SidePanel open={open} onRequestClose={onRequestClose}>
+        <div className="flex-grow flex flex-col text-white">
+          <div className="flex flex-grow flex-row-reverse justify-between z-10">
+            <button
+              className="p-4 hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
+              onClick={discardChanges}
+              disabled={!hasFiltered}
+            >
+              Clear Filters
+            </button>
+            <button className="p-4 hover:underline" onClick={onRequestClose}>
+              Explore Songs
+            </button>
+          </div>
+          <div className="mx-4 md:mx-10 mb-4">
+            <PanelHeader>Find Your MiniMann</PanelHeader>
+            {error && !loadingSongs && (
+              <NoticeBox className="mb-2" color="red">
+                {JSON.stringify(error)}
+              </NoticeBox>
+            )}
+            {buildSection('location', 'Location')}
+            {buildSection('topic', 'Topic')}
+            {buildSection('mood', 'Mood')}
+            {buildSection('beard', 'Beard')}
+            {buildSection('instrument', 'Instrument')}
           </div>
         </div>
       </SidePanel>
@@ -148,6 +186,8 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 }
 
 Create.getInitialProps = getInitialProps(async ctx => {
+  requireUser(ctx);
+
   let initialAvailableSongs = undefined;
   try {
     initialAvailableSongs = await useAvailableSongs.getInitialData(ctx, ctx.query);

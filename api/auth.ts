@@ -1,5 +1,5 @@
 import { getValidUserIdForCode } from './_utils/code';
-import { createToken } from './_utils/jwt';
+import { createToken } from '../common/jwt';
 import handler from './_utils/handler';
 import { InvalidCodeError } from './_utils/KnownErrors';
 

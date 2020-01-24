@@ -19,3 +19,14 @@
     min-width: 50%;
   }
 }
+
+.max-h-20 {
+  max-height: 5rem;
+}
+
+@responsive {
+  .song-card-list .song-card {
+    flex: 1 0 calc(50% - 1rem);
+    margin-right: 0.5rem;
+  }
+}

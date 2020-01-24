@@ -7,10 +7,11 @@ import YoutubeEmbed from '../YoutubeEmbed';
 import { DateTime } from 'luxon';
 import useSong from '../../lib/queries/useSong';
 import { useRouter } from 'next/router';
+import MiniMann from '../minimann/MiniMann';
 
 function SongCard({ className, number }: { number: string } & WithClassName) {
   const { data: song } = useSong({ number });
-  const date = useMemo(() => DateTime.fromISO(song.releasedAt), [song.releasedAt]);
+  const date = useMemo(() => (song ? DateTime.fromISO(song.releasedAt) : DateTime.local()), [song]);
   const subtitleDateString = useMemo(() => date.toLocaleString(DateTime.DATE_FULL), [date]);
   const calendarDateString = useMemo(() => date.toFormat('LLL dd'), [date]);
 
@@ -22,11 +23,15 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
     [router],
   );
 
+  if (!song) {
+    return null;
+  }
+
   return (
     <>
       <div
         className={cx(
-          'w-full bg-white md:rounded-lg md:shadow-lg overflow-hidden p-4 flex flex-col',
+          'w-full bg-white md:rounded-lg md:shadow-lg overflow-hidden py-2 px-4 flex flex-col',
           className,
         )}
       >
@@ -49,7 +54,7 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
         <div className="mb-1">
           <YoutubeEmbed id={song.youtubeId} />
         </div>
-        <div className="mb-1 py-1 whitespace-pre-wrap break-words leading-tight text-base md:text-sm h-20 overflow-y-scroll">
+        <div className="mb-1 py-1 whitespace-pre-wrap break-words leading-tight text-base md:text-sm max-h-20 overflow-y-scroll">
           {song.description}
         </div>
         <div className="mb-1 flex flex-row flex-wrap">

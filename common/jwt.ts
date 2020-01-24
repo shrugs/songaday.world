@@ -1,4 +1,4 @@
-import { sign, verify } from 'jsonwebtoken';
+import { sign, verify, decode } from 'jsonwebtoken';
 
 const AUTH_TOKEN_EXPIRES_IN = '7d';
 
@@ -11,3 +11,5 @@ export const createToken = (payload: AuthPayload): string =>
 
 export const verifyToken = (token: string): AuthPayload =>
   verify(token, process.env.JWT_SIGNING_SECRET) as AuthPayload;
+
+export const decodeToken = (token: string): AuthPayload => decode(token) as AuthPayload;

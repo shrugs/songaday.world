@@ -4,10 +4,11 @@ An experiment for the Song a Day project.
 
 ## Goals
 
-1. provide a temporal, cozy space for super fans to interact with the song a day project
-2. provide a creator-owned channel for interacting with super fans and releasing songs
-3. leverage the catalog of old songs to bring in new fans and re-engage existing fans
-4. leverage shared (digital) ownership of the catalog of songs
+1. provide a temporal, cozy space for fans to interact with the song a day project
+2. provide benfits for superfans to own parts of the song catalog
+3. provide a creator-owned channel for interacting with fans and releasing songs
+4. leverage discovery of the catalog to bring in new fans and re-engage existing fans
+5. leverage shared (digital) ownership of the catalog of songs
 
 ## Product
 
@@ -17,26 +18,15 @@ The 4000+ songs in the Song a Day catalog have been categorized by:
 
 - location,
 - topic,
-- instrument,
-- and mood
+- mood,
+- beard,
+- and instrument,
 
-and personified by generated minimann avatars. Within the Song a Day World, super fans will be able
-to claim and 'own' a song from the catalog, granting them membership to the Song a Day World. Within
-the World, their song and associated minimann identify them (with, optionally, a display name).
-Due to the inherent scarcity of songs (currently ~4000), only so many fans will be able to
-participate in the World. Membership could be given away first-come-first-serve, gated by an
-automated market (i.e. bonding curve), or sold for a flat fee. Selection of a song is done via a
-'create a character'-style interface, randomly, or by selecting a specific song by date or name.
+and personified by generated minimann avatars. Within the Song a Day World, fans will be able explore the catalog of songs and collect their favorites. Superfans can claim and 'own' a song from the catalog, granting them some sort of benefit in the Song a Day World. Within the World, their song and associated minimannband identify them (with a display name). Due to the inherent scarcity of songs (currently ~4000), only so many fans will be able to become superfans in the World. Song ownership could be given away first-come-first-serve, gated by an automated market (i.e. bonding curve), sold for a flat fee, or given to users for secrets achievements like being the first to comment 5 days in a row. Selection of a song is done via a 'create a character'-style interface, randomly, or by selecting a specific song by date or name. Exploration is done the same way, searching by the various tags available in the database.
 
-Within the Song a Day World, fans can interact with the Song a Day Mann and each other in a daily
-ephemeral social environment structured around the current song, embedded via YouTube.
-When a new song is released, old spaces are archived into a read-only mode (or deleted entirely) and
-a new space is created within the context of the latest song. The social space is a simple 2-layer
-comment thread, though more interesting modes could be explored.
+Within the Song a Day World, fans can interact with the Song a Day Mann and each other in a daily ephemeral social environment structured around the current song, embedded via YouTube. When a new song is released, old spaces are archived into a read-only mode (or deleted entirely) and a new space is created within the context of the latest song. The social space is a simple 2-layer comment thread, though more interesting modes could be explored.
 
-Another activity for fans, beyond owning a piece of the world record catalog of songs, is building
-a dream minimannband, selecting their favorite songs from the catalog and displaying them along
-their namesake minimann within the social space.
+Another activity for fans, beyond owning a piece of the world record catalog of songs, is building a dream minimannband, selecting their favorite songs from the catalog and displaying them along their namesake minimann within the social space.
 
 Optional email/web notifications can notify fans when a new song is released.
 
@@ -66,14 +56,14 @@ Optional email/web notifications can notify fans when a new song is released.
 - [ ] yup input validations
 - [ ] rate limiting api endpoints like login/auth
 - [x] purgecss that actually works
-- [ ] early-exit on fetcher and mutator if token is required, to avoid fetching every render lol
+- [ ] early-exit on fetcher and mutator if token/auth is required, to avoid fetching every render lol
 - [ ] generate enum/model types for frontend
   - see if we can remove the need for them at all, since they'll be loaded SSR with availableSongs
   - attempting to import @photon/client is broken af
 - [ ] update minimann layouts
   - [x] make the background images much wider or provide wider variants for larger screens
   - [ ] export the non-background content as 1:1 squares & reposition
-- [ ] make sure function invocations don't exhause postgres `max_connection`s
+- [x] make sure function invocations don't exhause postgres `max_connection`s
   - [ ] use https://aws.amazon.com/blogs/compute/using-amazon-rds-proxy-with-aws-lambda/ with aurora?
 - [x] implement getInitialProps & transition to cookie auth so it works on the server
   - [x] on the client, after recieving token, put the token into cookies instead of localstorage
@@ -90,3 +80,5 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] on publish, create video
   - [ ] on update, update title and description
 - [ ] beard clean cutdown
+- [x] login/auth pages should respect to param
+- [ ] make sure links sent to email include to param

@@ -59,6 +59,7 @@ export default handler(async req => {
       return {
         songs: take(songs, MAX_SONGS),
         filters,
+        hasMore: songs.length > MAX_SONGS,
       };
     }
     default: {

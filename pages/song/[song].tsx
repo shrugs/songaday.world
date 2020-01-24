@@ -1,16 +1,14 @@
 import React from 'react';
 import Head from 'next/head';
 import Header from '../../components/minimann/Header';
-import { BackgroundThemes } from '../../lib/utils/constants';
 import useSong from '../../lib/queries/useSong';
 import { NextPageContext } from 'next';
 import getInitialProps from '../../lib/server/getInitialProps';
 import CommentThread from '../../components/CommentThread';
+import SongColorBackground from '../../components/SongColorBackground';
 
 function SongPage({ number, initialSong }: { number: string; initialSong?: any }) {
   const { data: song } = useSong({ number }, initialSong);
-
-  const bgColor = song ? BackgroundThemes[song.location] : 'transparent';
 
   return (
     <useSong.InitialDataContext.Provider value={song}>
@@ -21,15 +19,12 @@ function SongPage({ number, initialSong }: { number: string; initialSong?: any }
 
         <Header number={number} />
 
-        <div className="flex-grow w-full song-color">
+        <SongColorBackground
+          className="flex-grow w-full"
+          location={song ? song.location : undefined}
+        >
           <CommentThread number={number} />
-        </div>
-
-        <style jsx>{`
-          .song-color {
-            background-color: ${bgColor};
-          }
-        `}</style>
+        </SongColorBackground>
       </div>
     </useSong.InitialDataContext.Provider>
   );

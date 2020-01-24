@@ -29,6 +29,7 @@ class MyApp extends App<{ initialProfile: any }> {
       <>
         <Head>
           <link rel="icon" href="/favicon.ico" />
+          <meta name="viewport" content="width=device-width" />
         </Head>
 
         <Providers>
@@ -38,7 +39,7 @@ class MyApp extends App<{ initialProfile: any }> {
               <div className="flex-grow flex flex-col">
                 <Component {...pageProps} />
               </div>
-              <div id="modal-root" className="absolute w-full"></div>
+              <div id="modal-root" className="fixed"></div>
             </div>
           </useProfile.InitialDataContext.Provider>
         </Providers>
@@ -62,7 +63,10 @@ class MyApp extends App<{ initialProfile: any }> {
 MyApp.getInitialProps = async (ctx: AppContextType<Router>) => {
   const appProps = await App.getInitialProps(ctx);
 
-  const initialProfile = await useProfile.getInitialData(ctx.ctx);
+  let initialProfile = undefined;
+  try {
+    initialProfile = await useProfile.getInitialData(ctx.ctx);
+  } catch {}
 
   return { ...appProps, initialProfile };
 };
