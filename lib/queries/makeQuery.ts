@@ -9,14 +9,18 @@ import fetcher from '../fetcher';
 type PathBuilder<A> = (args?: A) => string;
 
 export default function makeQuery<A>(pathBuilder: PathBuilder<A>) {
+  const keyBuilder = (args?: A) => {
+    const { token } = parseCookies();
+    return [token, pathBuilder(args)];
+  };
+
   const useQuery = function(args?: A, initialData?: any) {
-    const [token] = APIToken.useContainer();
     if (!initialData) {
       // initialData will never change during the lifecycle of an app
       // eslint-disable-next-line react-hooks/rules-of-hooks
       initialData = useContext(useQuery.InitialDataContext);
     }
-    return useSWR([token || '', pathBuilder(args)], fetcher, { initialData });
+    return useSWR(keyBuilder(args), fetcher, { initialData });
   };
 
   useQuery.getInitialData = async (
@@ -40,9 +44,11 @@ export default function makeQuery<A>(pathBuilder: PathBuilder<A>) {
 
   useQuery.InitialDataContext = createContext<any>(null);
 
-  useQuery.trigger = (args?: A) => trigger(pathBuilder(args));
+  useQuery.trigger = (args?: A) => trigger(keyBuilder(args));
 
-  useQuery.clear = (args?: A) => mutate(pathBuilder(args), null);
+  useQuery.clear = (args?: A) => mutate(keyBuilder(args), null);
+
+  useQuery.mutate = (value: any, args?: A) => mutate(keyBuilder(args), value);
 
   return useQuery;
 }

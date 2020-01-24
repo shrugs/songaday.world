@@ -1,13 +1,16 @@
 import { useCallback } from 'react';
-import { mutate } from 'swr';
 import mutator from '../mutator';
 import APIToken from '../containers/APIToken';
+import useSong from '../queries/useSong';
 
 export default function useAddCommentMutation() {
-  return useCallback(async (args: { number: string; replyTo?: string; text: string }) => {
-    const [token] = APIToken.useContainer();
-    const data = await mutator(token, '/api/add_comment', args);
-    mutate(`/api/song?${new URLSearchParams({ number: args.number })}`, data);
-    return data;
-  }, []);
+  const [token] = APIToken.useContainer();
+  return useCallback(
+    async (args: { number: string; replyTo?: string; text: string }) => {
+      const data = await mutator(token, '/api/add_comment', args);
+      useSong.mutate(data, { number: args.number });
+      return data;
+    },
+    [token],
+  );
 }

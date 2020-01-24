@@ -1,5 +1,5 @@
 import makeQuery from './makeQuery';
 
-const pathFor = () => `/api/profile`;
+const pathBuilder = () => `/api/profile`;
 
-export default makeQuery(pathFor);
+export default makeQuery(pathBuilder);

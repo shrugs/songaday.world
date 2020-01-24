@@ -22,7 +22,7 @@ function Navbar() {
         {profile && (
           <Link href="/profile">
             <a className="flex flex-row items-center">
-              {profile.song && (
+              {avatarSong && (
                 <div className="h-8 w-8 lg:w-12 lg:h-12 mr-2">
                   <Avatar config={avatarSong} />
                 </div>

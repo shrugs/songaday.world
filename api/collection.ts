@@ -28,6 +28,7 @@ export default handler(async req => {
         data: { collectedSongs: { create: { song: { connect: { number } } } } },
       });
 
+      // TODO: dedup with profile/get
       return await photon.users.findOne({
         where: { id: user.id },
         include: { collectedSongs: { include: { song: true } } },

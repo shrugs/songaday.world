@@ -1,5 +1,5 @@
 import makeQuery from './makeQuery';
 
-const pathFor = (args: { id: string }) => `/api/user?${new URLSearchParams(args)}`;
+const pathBuilder = (args: { id: string }) => `/api/user?${new URLSearchParams(args)}`;
 
-export default makeQuery(pathFor);
+export default makeQuery(pathBuilder);

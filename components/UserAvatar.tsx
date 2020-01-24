@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import useUser from '../lib/queries/useUser';
 import Avatar from './minimann/Avatar';
 import cx from 'classnames';
+import get from 'lodash/get';
 
 export default function UserAvatar({ id }: { id: string }) {
   const { data: user, error } = useUser({ id });
+  const avatarSong = useMemo(() => get(user, ['collectedSongs', 0, 'song']), [user]);
 
   return (
     <div className="w-10 h-10">
-      {user && user.song ? (
-        <Avatar config={user.song} />
+      {avatarSong ? (
+        <Avatar config={avatarSong} />
       ) : (
         <div
           className={cx('h-full w-full rounded-full', {

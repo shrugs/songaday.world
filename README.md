@@ -82,3 +82,4 @@ Optional email/web notifications can notify fans when a new song is released.
 - [ ] beard clean cutdown
 - [x] login/auth pages should respect to param
 - [ ] make sure links sent to email include to param
+- [ ] return only .song from user/get instead of all of their collected songs if we're only showing a single song per user as avatar
