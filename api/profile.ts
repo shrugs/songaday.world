@@ -8,7 +8,10 @@ export default handler(async req => {
 
   switch (req.method) {
     case 'GET': {
-      return await photon.users.findOne({ where: { id: user.id }, include: { song: true } });
+      return await photon.users.findOne({
+        where: { id: user.id },
+        include: { collectedSongs: { include: { song: true } } },
+      });
     }
     case 'POST': {
       const { displayName } = req.body;

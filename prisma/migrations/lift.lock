@@ -9,3 +9,6 @@
 20200122114937-refactor-nested-comments-into-replies
 20200122131143-update-beard-enum
 20200122132432-update-enum-options
+20200124102309-make-songs-collectible-and-ownable
+20200124102600-make-song-user-optional
+20200124102926-make-explicit-many-to-many-join-table

@@ -1,11 +1,8 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import App from 'next/app';
-import { SWRConfig } from 'swr';
 
 import nest from '../lib/nest';
 import APIToken from '../lib/containers/APIToken';
-import Mutator from '../lib/containers/Mutator';
-import Fetcher from '../lib/containers/Fetcher';
 
 import '../styles/_main.css';
 import Navbar from '../components/Navbar';
@@ -14,12 +11,7 @@ import { AppContextType } from 'next/dist/next-server/lib/utils';
 import { Router } from 'next/router';
 import useProfile from '../lib/queries/useProfile';
 
-function SWRConfigWithToken({ children }: PropsWithChildren<{}>) {
-  const fetcher = Fetcher.useContainer();
-  return <SWRConfig value={{ fetcher }}>{children}</SWRConfig>;
-}
-
-const Providers = nest([APIToken.Provider, Fetcher.Provider, Mutator.Provider, SWRConfigWithToken]);
+const Providers = nest([APIToken.Provider]);
 
 class MyApp extends App<{ initialProfile: any }> {
   render() {

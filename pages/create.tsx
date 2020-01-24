@@ -1,4 +1,5 @@
 import React, { useState, useCallback, PropsWithChildren, useMemo, useEffect } from 'react';
+import get from 'lodash/get';
 import pluralize from 'pluralize';
 import FlipMove from 'react-flip-move';
 import cx from 'classnames';
@@ -19,12 +20,13 @@ import useAvailableSongs from '../lib/queries/useAvailableSongs';
 import { useAsync } from 'react-async';
 import cleanObject from '../lib/utils/cleanObject';
 import useQueryParams from '../lib/useQueryParams';
-import Fetcher from '../lib/containers/Fetcher';
 import Header from '../components/minimann/Header';
 import SongColorBackground from '../components/SongColorBackground';
 import buildSongListDescription from '../lib/buildSongListDescription';
 import SongCard from '../components/song/SongCard';
 import requireUser from '../lib/server/requireUser';
+import fetcher from '../lib/fetcher';
+import APIToken from '../lib/containers/APIToken';
 
 const PanelHeader = ({ children }: PropsWithChildren<{}>) => (
   <h2 className="mb-8 text-3xl font-bold">{children}</h2>
@@ -52,11 +54,11 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 
   const hasFiltered = useMemo(() => Object.values(filters).length > 0, [filters]);
 
-  const fetcher = Fetcher.useContainer();
+  const [token] = APIToken.useContainer();
   const promiseFn = useMemo(
-    () => ({ filters }) =>
-      fetcher(`/api/available_songs?${new URLSearchParams(cleanObject(filters))}`),
-    [fetcher],
+    () => async ({ filters }) =>
+      fetcher(token, `/api/available_songs?${new URLSearchParams(cleanObject(filters))}`),
+    [token],
   );
   const { data, error, isPending: loadingSongs, cancel } = useAsync<any>({
     promiseFn,
@@ -65,7 +67,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
     watch: filters,
   });
 
-  const hasMore = useMemo(() => (data ? data.hasMore : false), [data]);
+  const hasMore = useMemo(() => get(data, ['hasMore'], false), [data]);
 
   // TODO: remove this line when this issue is closed
   // https://github.com/async-library/react-async/issues/249
@@ -75,7 +77,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 
   const [selectedSong, setSelectedSong] = useState<number>();
 
-  const songs: any[] = useMemo(() => (data ? data.songs || [] : []), [data]);
+  const songs: any[] = useMemo(() => get(data, ['songs'], []), [data]);
   const song: any = useMemo(() => {
     if (selectedSong) {
       return songs.find(song => song.number == selectedSong);
@@ -83,8 +85,8 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
       return songs.length ? songs[0] : undefined;
     }
   }, [selectedSong, songs]);
-  const songNumber = useMemo(() => (song ? song.number : undefined), [song]);
-  const songLocation = useMemo(() => (song ? song.location : undefined), [song]);
+  const songNumber = useMemo(() => get(song, ['number']), [song]);
+  const songLocation = useMemo(() => get(song, ['location']), [song]);
 
   const discardChanges = useCallback(() => {
     resetFilters();
@@ -188,10 +190,10 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 Create.getInitialProps = getInitialProps(async ctx => {
   requireUser(ctx);
 
-  let initialAvailableSongs = undefined;
-  try {
-    initialAvailableSongs = await useAvailableSongs.getInitialData(ctx, ctx.query);
-  } catch {}
+  const initialAvailableSongs = await useAvailableSongs.getInitialData(ctx, ctx.query, {
+    required: true,
+  });
+
   return { initialAvailableSongs };
 });
 

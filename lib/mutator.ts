@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-unfetch';
+import { KnownError } from '../api/_utils/KnownErrors';
 
-export default (token: string) => async (url: string, body: Record<string, any> = {}) => {
+export default async (token: string, url: string, body: Record<string, any> = {}) => {
   const res = await fetch(url, {
     method: 'POST',
     body: JSON.stringify(body),
@@ -10,13 +11,15 @@ export default (token: string) => async (url: string, body: Record<string, any> 
     },
   });
 
-  // TODO: check status & throw
+  let data;
+  try {
+    data = await res.json();
+  } catch (error) {
+    // unknown server error, probably from zeit platform
+  }
 
-  // TODO: check json parse error & rethrow
-  const data = await res.json();
-
-  if (data.status && data.status === 'ERROR') {
-    throw new Error(`Mutator Error: ${JSON.stringify(data)}`);
+  if (data.type && data.type === 'ERROR') {
+    throw new KnownError(data.code, data.status);
   }
 
   return data;

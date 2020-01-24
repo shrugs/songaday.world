@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("POSTGRES_URL")
+  url = "***"
 }
 
 generator photon {
@@ -113,22 +113,22 @@ enum Instrument {
 }
 
 model Song {
-  id             String          @default(cuid()) @id
-  number         Int             @unique
-  youtubeId      String          @unique
-  title          String
-  description    String
-  collectedSongs CollectedSong[]
-  owner          User?
-  location       Location
-  topic          Topic
-  mood           Mood
-  beard          Beard
-  instrument     Instrument
-  comments       Comment[]
-  releasedAt     DateTime        @default(now())
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
+  id          String     @default(cuid()) @id
+  number      Int        @unique
+  youtubeId   String     @unique
+  title       String
+  description String
+  collectors  User[]     @relation(name: "collectors")
+  owner       User       @relation(name: "owner")
+  location    Location
+  topic       Topic
+  mood        Mood
+  beard       Beard
+  instrument  Instrument
+  comments    Comment[]
+  releasedAt  DateTime   @default(now())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model MagicCode {
@@ -138,12 +138,12 @@ model MagicCode {
 }
 
 model User {
-  id             String          @default(cuid()) @id
-  email          String          @unique
+  id             String     @default(cuid()) @id
+  email          String     @unique
   displayName    String?
   magicCode      MagicCode?
-  collectedSongs CollectedSong[]
-  ownedSongs     Song[]
+  collectedSongs Song[]     @relation(name: "collectors")
+  ownedSongs     Song[]     @relation(name: "owner")
 }
 
 model Comment {
@@ -163,10 +163,4 @@ model Reply {
   text      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model CollectedSong {
-  id        String @default(cuid()) @id
-  song      Song
-  collector User
 }
