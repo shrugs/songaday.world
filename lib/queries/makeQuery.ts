@@ -1,5 +1,5 @@
 import useSWR, { trigger, mutate } from 'swr';
-import { useContext, createContext, useEffect } from 'react';
+import { useContext, createContext, useEffect, useRef } from 'react';
 import { NextPageContext } from 'next';
 import getApiHostUrl from '../server/getApiHostUrl';
 import APIToken from '../containers/APIToken';
@@ -16,6 +16,7 @@ export default function makeQuery<A>(pathBuilder: PathBuilder<A>, debugLabel = '
   };
 
   const useQuery = function(args?: A, initialData?: any) {
+    const count = useRef(0);
     const [token] = APIToken.useContainer();
     if (!initialData) {
       // initialData will never change during the lifecycle of an app
@@ -23,13 +24,17 @@ export default function makeQuery<A>(pathBuilder: PathBuilder<A>, debugLabel = '
       initialData = useContext(useQuery.InitialDataContext);
     }
 
-    useEffect(() => {
-      console.log(`[${debugLabel}] initialData: ${initialData ? 'yes' : 'no'}`);
-    }, [initialData]);
-
-    console.log(`[${debugLabel}] useSwr([token: ${token ? 'yes' : 'no'}, ${pathBuilder(args)}])`);
-
-    return useSWR(keyBuilder(token, args), fetcher, { initialData });
+    return useSWR(keyBuilder(token, args), fetcher, {
+      // NOTE: here, we only pass initialData on the _first_ invokation
+      // this avoids an issue where, on token changes, initialData isn't cleared, meaning that
+      // for example, when logging out and setting token to undefined, the old initialData from
+      // a valid token is used as the cache value and immediately returned
+      // this has the effect of logging the user out (and failing all subsequent requests)
+      // but showing-until revalitated—a logged-in component
+      // so we avoid that by only using initialData when this is the first render, so any subsequent
+      // changes in token or args can never have initialData provided by our getInitialProps
+      initialData: count.current++ === 0 ? initialData : undefined,
+    });
   };
 
   useQuery.getInitialData = async (
