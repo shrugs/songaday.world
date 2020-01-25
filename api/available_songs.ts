@@ -7,7 +7,7 @@ import uniq from 'lodash/uniq';
 import mapValues from 'lodash/mapValues';
 import take from 'lodash/take';
 
-const MAX_SONGS = 20;
+const MAX_SONGS = 5;
 
 export default handler(async req => {
   const user = await requireUser(req);

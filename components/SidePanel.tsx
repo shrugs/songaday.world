@@ -59,10 +59,7 @@ export default function SidePanel({
           item && (
             <animated.div key={key} style={props} className="h-screen flex flex-col">
               <div className="max-h-screen w-screen overflow-y-scroll flex-grow flex flex-col w-full items-end">
-                <div
-                  ref={ref}
-                  className="w-full lg:w-auto lg:min-w-1/2 lg:max-w-full flex-grow bg-main"
-                >
+                <div ref={ref} className="w-full flex-grow bg-main">
                   {children}
                 </div>
               </div>

@@ -12,3 +12,5 @@
 20200124102309-make-songs-collectible-and-ownable
 20200124102600-make-song-user-optional
 20200124102926-make-explicit-many-to-many-join-table
+20200124163023-add-tags-to-song
+20200124171515-fix-popculture-enum

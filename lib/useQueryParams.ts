@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import { useState, useCallback } from 'react';
+import Router from 'next/router';
+import { useState, useCallback, useEffect } from 'react';
 
 export default function useQueryParams(): [
   Record<string, string>,
@@ -17,6 +18,17 @@ export default function useQueryParams(): [
     },
     [router],
   );
+
+  useEffect(() => {
+    const routeChangeComplete = (url: string) => {
+      _setQuery(Router.query as Record<string, string>);
+    };
+
+    Router.events.on('routeChangeComplete', routeChangeComplete);
+    return () => {
+      Router.events.off('routeChangeComplete', routeChangeComplete);
+    };
+  }, []);
 
   return [query, setQuery];
 }

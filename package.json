@@ -6,11 +6,13 @@
     "dev": "next dev --port $PORT",
     "build": "next build",
     "start": "next start",
+    "script": "ts-node -P tsconfig.bin.json",
     "postinstall": "yarn prisma2 generate"
   },
   "dependencies": {
     "@prisma/client": "2.0.0-alpha.577",
     "classnames": "^2.2.6",
+    "dotenv": "^8.2.0",
     "isomorphic-unfetch": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
@@ -41,6 +43,7 @@
     "@types/react": "^16.9.17",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
+    "csv-parse": "^4.8.5",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.9.0",
     "eslint-plugin-prettier": "^3.1.2",
@@ -50,6 +53,7 @@
     "postcss-preset-env": "^6.7.0",
     "prettier": "^1.19.1",
     "prisma2": "^2.0.0-alpha.577",
+    "ts-node": "^8.6.2",
     "typescript": "^3.7.4"
   },
   "browserslist": [

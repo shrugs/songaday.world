@@ -122,8 +122,13 @@ export interface MinimannPropertyFilter {
 
 // primary background colors, for use in the ui
 export const BackgroundThemes: Record<string, string> = {
-  [Location.Vermont]: '#c9eeff',
+  [Location.Baltimore]: '#94809E',
+  [Location.Berkeley]: '#D6CF90',
+  [Location.JupiterFL]: '#D6CF90',
   [Location.LosAngeles]: '#7fc779',
-  [Location.Oakland]: '#a8a887',
   [Location.NewYork]: '#6183b0',
+  [Location.Oakland]: '#a8a887',
+  [Location.SouthingtonCT]: '#A9CF8A',
+  [Location.Vermont]: '#c9eeff',
+  [Location.Vienna]: '#93ACB8',
 };

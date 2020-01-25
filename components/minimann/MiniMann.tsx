@@ -29,9 +29,9 @@ export default function MiniMann({
   return (
     <>
       <div className="minimann w-full aspect-location">
-        <div className={`topic ${conditionalOffset}`}></div>
         <div className={`mood ${conditionalOffset}`}></div>
         <div className={`beard ${conditionalOffset}`}></div>
+        <div className={`topic ${conditionalOffset}`}></div>
         <div className={`instrument ${conditionalOffset}`}></div>
       </div>
 

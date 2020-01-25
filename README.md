@@ -86,3 +86,4 @@ Optional email/web notifications can notify fans when a new song is released.
 - [x] figure out why setToken(undefined) doesn't let the cache reset
   - what's happening is that initialData is still known for a pageload that occurs while logged in so when we nuke the token, we end up calling useSWR with the old initial data
   - a solution is to only provide initialData on the first invocation at all
+- [ ] include spotify, bandcamp, etc links in model/ui

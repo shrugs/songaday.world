@@ -8,6 +8,7 @@ import { DateTime } from 'luxon';
 import useSong from '../../lib/queries/useSong';
 import { useRouter } from 'next/router';
 import MiniMann from '../minimann/MiniMann';
+import Link from 'next/link';
 
 function SongCard({ className, number }: { number: string } & WithClassName) {
   const { data: song } = useSong({ number });
