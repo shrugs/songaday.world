@@ -2,9 +2,7 @@ import { NowResponse } from '@now/node';
 import { isKnownError } from './KnownErrors';
 
 export const handleError = (res: NowResponse, error: Error) => {
-  if (process.env.NODE_ENV === 'development') {
-    console.error('[api/error]', error);
-  }
+  console.error('[api/error]', error);
 
   if (isKnownError(error)) {
     res.status(error.status);
