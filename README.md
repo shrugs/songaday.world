@@ -81,10 +81,12 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] on update, update title and description
 - [ ] beard clean cutdown
 - [x] login/auth pages should respect to param
-- [ ] implement email sending for auth flow
+- [x] implement email sending for auth flow
   - [ ] make sure links include ?to= param for redirects
+  - [ ] auth page should accept code, perform login, and then redirect, just like login page
 - [ ] return only .song from user/get instead of all of their collected songs if we're only showing a single song per user as avatar
 - [x] figure out why setToken(undefined) doesn't let the cache reset
   - what's happening is that initialData is still known for a pageload that occurs while logged in so when we nuke the token, we end up calling useSWR with the old initial data
   - a solution is to only provide initialData on the first invocation at all
 - [ ] include spotify, bandcamp, etc links in model/ui
+- [ ] on instrumental tracks, don't show mood, beard, or instrument
