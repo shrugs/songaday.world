@@ -1,5 +1,5 @@
 import { NowRequest } from '@now/node';
-import { verifyToken } from '../../common/jwt';
+import { verifyToken } from '../../../common/jwt';
 import { NoAuthorizationHeaderError, MalformedAuthorizationHeaderError } from './KnownErrors';
 
 export default function requireAuthPayload(req: NowRequest) {

@@ -4,7 +4,7 @@ import {
   isKnownError,
   isKnownErrorOfType,
   UnauthenticatedError,
-} from '../../api/_utils/KnownErrors';
+} from '../../pages/api/_utils/KnownErrors';
 
 export default (handler: (ctx: NextPageContext) => Promise<any>) => async (
   ctx: NextPageContext,
