@@ -8,6 +8,7 @@
   },
   "env": {
     "POSTGRES_URL": "@songadayworld-postgres-url",
-    "JWT_SIGNING_SECRET": "@songadayworld-jwt-signing-secret"
+    "JWT_SIGNING_SECRET": "@songadayworld-jwt-signing-secret",
+    "SENDGRID_API_KEY": "@songadayworld-sendgrid-api-key"
   }
 }
