@@ -9,7 +9,7 @@ export default handler(async req => {
   switch (req.method) {
     case 'GET': {
       const id = req.query.id as string;
-      const user = await photon.users.findOne({
+      const user = await photon.user.findOne({
         where: { id },
         include: { collectedSongs: { include: { song: true } } },
       });

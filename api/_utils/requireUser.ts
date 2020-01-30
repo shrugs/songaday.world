@@ -5,7 +5,7 @@ import { UnauthenticatedError } from './KnownErrors';
 
 export default async function requireUser(req: NowRequest) {
   const payload = requireAuthPayload(req);
-  const user = await photon.users.findOne({ where: { id: payload.id } });
+  const user = await photon.user.findOne({ where: { id: payload.id } });
 
   if (!user) {
     throw new UnauthenticatedError();

@@ -14,14 +14,14 @@ export default handler(async req => {
       const replyTo: string = req.body.replyTo;
 
       if (replyTo) {
-        await photon.comments.update({
+        await photon.comment.update({
           where: { id: replyTo },
           data: { replies: { create: { author: { connect: { id: user.id } }, text } } },
         });
 
         return await getFullSong(number);
       } else {
-        return await photon.songs.update({
+        return await photon.song.update({
           where: { number },
           data: {
             comments: { create: { author: { connect: { id: user.id } }, text } },

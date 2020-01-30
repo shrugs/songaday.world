@@ -8,7 +8,7 @@ export default handler(async req => {
 
   switch (req.method) {
     case 'GET': {
-      return await photon.users.findOne({
+      return await photon.user.findOne({
         where: { id: user.id },
         include: { collectedSongs: { include: { song: true } } },
       });
@@ -16,7 +16,7 @@ export default handler(async req => {
     case 'POST': {
       const { displayName } = req.body;
 
-      return await photon.users.update({ where: { id: user.id }, data: { displayName } });
+      return await photon.user.update({ where: { id: user.id }, data: { displayName } });
     }
     default: {
       throw new NotImplementedError();

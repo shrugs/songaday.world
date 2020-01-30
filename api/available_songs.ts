@@ -22,7 +22,7 @@ export default handler(async req => {
     case 'GET': {
       // first, find available songs by filter criteria in req.query.
       // then take the valid songs and find all of their available filters
-      const songs = await photon.songs.findMany({
+      const songs = await photon.song.findMany({
         where: {
           location,
           topic,

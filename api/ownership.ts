@@ -10,7 +10,7 @@ export default handler(async req => {
       const number = parseInt(req.body.number);
 
       // check ownership
-      const song = await photon.songs.findOne({ where: { number }, include: { owner: true } });
+      const song = await photon.song.findOne({ where: { number }, include: { owner: true } });
       if (!song) {
         throw new NotFoundError();
       }
@@ -21,7 +21,7 @@ export default handler(async req => {
       }
 
       // assign ownership
-      return await photon.songs.update({
+      return await photon.song.update({
         where: { number },
         data: { owner: { connect: { id: user.id } } },
       });

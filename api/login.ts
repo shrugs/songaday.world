@@ -16,10 +16,10 @@ export default handler(async req => {
   }
 
   // pull user
-  let user = await photon.users.findOne({ where: { email } });
+  let user = await photon.user.findOne({ where: { email } });
   if (!user) {
     // does not exist, create the user
-    user = await photon.users.create({ data: { email } });
+    user = await photon.user.create({ data: { email } });
   }
 
   // generate code

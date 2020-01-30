@@ -132,7 +132,7 @@ const main = async () => {
   });
 
   for (const input of inputs) {
-    await photon.songs.upsert({
+    await photon.song.upsert({
       where: { number: input.number },
       create: input,
       update: input,

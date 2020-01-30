@@ -901,10 +901,10 @@
   dependencies:
     "@types/node" "*"
 
-"@prisma/client@2.0.0-alpha.577":
-  version "2.0.0-alpha.577"
-  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.577.tgz#455cb6af95793b43f4a9fda073f541bb05baa868"
-  integrity sha512-tfAKFxZs06gatvKSNBq14yDoG0GHlmJPFfXXF676GfYwjdROVUDTS3ZWoL4+M7opXy0naN9EwjHWUL7ScRMLkA==
+"@prisma/client@2.0.0-alpha.689":
+  version "2.0.0-alpha.689"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-2.0.0-alpha.689.tgz#7b03902a44a3d2b0403496c4000112970f070e6e"
+  integrity sha512-pvPxyhUFvQNpJMRFsBRzDHWiVHKWg+bL8UOR0D/kYPmhXVOtLKgWW/pw6KP6TZSDFp6MD3maahVKiINAeVLfXA==
 
 "@sendgrid/client@^6.5.1":
   version "6.5.1"
@@ -5424,10 +5424,10 @@ pretty-hrtime@^1.0.3:
   resolved "https://registry.yarnpkg.com/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
   integrity sha1-t+PqQkNaTJsnWdmeDyAesZWALuE=
 
-prisma2@^2.0.0-alpha.577:
-  version "2.0.0-alpha.577"
-  resolved "https://registry.yarnpkg.com/prisma2/-/prisma2-2.0.0-alpha.577.tgz#fda88c280ce847326a2d8b358bd9c717232e6f2b"
-  integrity sha512-OQZ1jUJwK7/rm3+zOc0nSMvhRpqw2g4pYKC9i4QDSHFwtH743UwjO6P8Ldu9dLOUHUlzp0NrOBQ1JeO9Y2uXoQ==
+prisma2@^2.0.0-alpha.689:
+  version "2.0.0-alpha.689"
+  resolved "https://registry.yarnpkg.com/prisma2/-/prisma2-2.0.0-alpha.689.tgz#2161781cb7c3fbaa3e4419412e53d6ab0dad6475"
+  integrity sha512-AcM8mOpdi9+idw388P5r9uhYhxKP/n0RwYkJB6NXB39CO0MCl70ntxdSSi+tWVJaWDvcvt0SUfzA2EvGaZWs0w==
 
 private@^0.1.6:
   version "0.1.8"

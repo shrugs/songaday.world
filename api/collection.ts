@@ -9,12 +9,12 @@ export default handler(async req => {
       const user = await requireUser(req);
       const number = parseInt(req.body.number);
 
-      const song = await photon.songs.findOne({ where: { number }, include: { owner: true } });
+      const song = await photon.song.findOne({ where: { number }, include: { owner: true } });
       if (!song) {
         throw new NotFoundError();
       }
 
-      const alreadyCollectedSongs = await photon.users
+      const alreadyCollectedSongs = await photon.user
         .findOne({ where: { id: user.id } })
         .collectedSongs({ where: { song: { number } } });
 
@@ -23,13 +23,13 @@ export default handler(async req => {
       }
 
       // add a collected song record
-      await photon.users.update({
+      await photon.user.update({
         where: { id: user.id },
         data: { collectedSongs: { create: { song: { connect: { number } } } } },
       });
 
       // TODO: dedup with profile/get
-      return await photon.users.findOne({
+      return await photon.user.findOne({
         where: { id: user.id },
         include: { collectedSongs: { include: { song: true } } },
       });
