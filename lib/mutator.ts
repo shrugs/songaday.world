@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch';
-import { KnownError } from '../pages/api/_utils/KnownErrors';
+import { KnownError } from '../common/KnownErrors';
 
 export default async (token: string, url: string, body: Record<string, any> = {}) => {
   const res = await fetch(url, {

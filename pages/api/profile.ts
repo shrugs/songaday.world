@@ -1,7 +1,7 @@
-import photon from './_utils/photon';
-import requireUser from './_utils/requireUser';
-import handler from './_utils/handler';
-import { NotImplementedError } from './_utils/KnownErrors';
+import photon from '../../lib/server/photon';
+import requireUser from '../../lib/server/requireUser';
+import handler from '../../lib/server/handler';
+import { NotImplementedError } from '../../common/KnownErrors';
 
 export default handler(async req => {
   const user = await requireUser(req);

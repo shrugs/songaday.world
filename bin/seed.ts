@@ -3,7 +3,7 @@
 import { config } from 'dotenv';
 config();
 
-import photon from '../pages/api/_utils/photon';
+import photon from '../lib/server/photon';
 import parse from 'csv-parse/lib/sync';
 import { readFileSync } from 'fs';
 import path from 'path';

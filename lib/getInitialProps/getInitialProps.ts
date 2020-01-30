@@ -1,10 +1,6 @@
 import { NextPageContext } from 'next';
 import Router from 'next/router';
-import {
-  isKnownError,
-  isKnownErrorOfType,
-  UnauthenticatedError,
-} from '../../pages/api/_utils/KnownErrors';
+import { isKnownError, isKnownErrorOfType, UnauthenticatedError } from '../../common/KnownErrors';
 
 export default (handler: (ctx: NextPageContext) => Promise<any>) => async (
   ctx: NextPageContext,

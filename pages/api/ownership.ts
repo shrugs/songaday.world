@@ -1,7 +1,11 @@
-import handler from './_utils/handler';
-import { NotImplementedError, SongAlreadyOwnedError, NotFoundError } from './_utils/KnownErrors';
-import requireUser from './_utils/requireUser';
-import photon from './_utils/photon';
+import handler from '../../lib/server/handler';
+import {
+  NotImplementedError,
+  SongAlreadyOwnedError,
+  NotFoundError,
+} from '../../common/KnownErrors';
+import requireUser from '../../lib/server/requireUser';
+import photon from '../../lib/server/photon';
 
 export default handler(async req => {
   switch (req.method) {

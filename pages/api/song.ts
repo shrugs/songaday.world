@@ -1,6 +1,6 @@
-import handler from './_utils/handler';
-import { NotImplementedError, NotFoundError } from './_utils/KnownErrors';
-import getFullSong from './_utils/getFullSong';
+import handler from '../../lib/server/handler';
+import { NotImplementedError, NotFoundError } from '../../common/KnownErrors';
+import getFullSong from '../../lib/server/getFullSong';
 
 export default handler(async req => {
   const number = parseInt(req.query.number as string);

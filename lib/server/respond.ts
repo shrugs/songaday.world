@@ -5,7 +5,7 @@ import {
   UnauthenticatedError,
   KnownError,
   NoAuthorizationHeaderError,
-} from './KnownErrors';
+} from '../../common/KnownErrors';
 import some from 'lodash/some';
 
 const isLoudError = (error: KnownError) =>

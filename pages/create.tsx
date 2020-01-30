@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import pluralize from 'pluralize';
 import FlipMove from 'react-flip-move';
 import cx from 'classnames';
-import getInitialProps from '../lib/server/getInitialProps';
+import getInitialProps from '../lib/getInitialProps/getInitialProps';
 import MiniMann, { MiniMannConfig } from '../components/minimann/MiniMann';
 import SidePanel from '../components/SidePanel';
 import {
@@ -24,7 +24,7 @@ import Header from '../components/minimann/Header';
 import SongColorBackground from '../components/SongColorBackground';
 import buildSongListDescription from '../lib/buildSongListDescription';
 import SongCard from '../components/song/SongCard';
-import requireUser from '../lib/server/requireUser';
+import requireUser from '../lib/getInitialProps/requireUser';
 import fetcher from '../lib/fetcher';
 import APIToken from '../lib/containers/APIToken';
 

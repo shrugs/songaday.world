@@ -4,8 +4,8 @@ import useRequireToken from '../lib/useRequireToken';
 import useProfile from '../lib/queries/useProfile';
 import useLogoutMutation from '../lib/mutators/useLogoutMutation';
 import useCollectSongMutation from '../lib/mutators/useCollectSongMutation';
-import getInitialProps from '../lib/server/getInitialProps';
-import requireUser from '../lib/server/requireUser';
+import getInitialProps from '../lib/getInitialProps/getInitialProps';
+import requireUser from '../lib/getInitialProps/requireUser';
 
 function Profile() {
   useRequireToken();

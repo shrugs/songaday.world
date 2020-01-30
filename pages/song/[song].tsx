@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Header from '../../components/minimann/Header';
 import useSong from '../../lib/queries/useSong';
 import { NextPageContext } from 'next';
-import getInitialProps from '../../lib/server/getInitialProps';
+import getInitialProps from '../../lib/getInitialProps/getInitialProps';
 import CommentThread from '../../components/CommentThread';
 import SongColorBackground from '../../components/SongColorBackground';
 

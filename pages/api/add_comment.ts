@@ -1,8 +1,8 @@
-import handler from './_utils/handler';
-import { NotImplementedError, NotFoundError } from './_utils/KnownErrors';
-import photon from './_utils/photon';
-import requireUser from './_utils/requireUser';
-import getFullSong from './_utils/getFullSong';
+import handler from '../../lib/server/handler';
+import { NotImplementedError, NotFoundError } from '../../common/KnownErrors';
+import photon from '../../lib/server/photon';
+import requireUser from '../../lib/server/requireUser';
+import getFullSong from '../../lib/server/getFullSong';
 
 export default handler(async req => {
   const user = await requireUser(req);

@@ -1,7 +1,7 @@
-import { getValidUserIdForCode } from './_utils/code';
+import { getValidUserIdForCode } from '../../lib/server/code';
 import { createToken } from '../../common/jwt';
-import handler from './_utils/handler';
-import { InvalidCodeError } from './_utils/KnownErrors';
+import handler from '../../lib/server/handler';
+import { InvalidCodeError } from '../../common/KnownErrors';
 
 export default handler(async req => {
   // get code from body

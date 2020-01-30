@@ -1,9 +1,9 @@
-import { generateCode } from './_utils/code';
-import photon from './_utils/photon';
-import { sendEmail } from './_utils/email';
-import validateEmail from './_utils/validateEmail';
-import handler from './_utils/handler';
-import { InvalidEmailError } from './_utils/KnownErrors';
+import { generateCode } from '../../lib/server/code';
+import photon from '../../lib/server/photon';
+import { sendEmail } from '../../lib/server/email';
+import validateEmail from '../../lib/server/validateEmail';
+import handler from '../../lib/server/handler';
+import { InvalidEmailError } from '../../common/KnownErrors';
 
 export default handler(async req => {
   // get email from query

@@ -1,6 +1,6 @@
 import { NowRequest } from '@now/node';
 import requireUser from './requireUser';
-import { NotAdminError } from './KnownErrors';
+import { NotAdminError } from '../../common/KnownErrors';
 
 const ADMIN_EMAIL = 'admin@example.com';
 
