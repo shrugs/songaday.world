@@ -59,7 +59,7 @@ Optional email/web notifications can notify fans when a new song is released.
 - [ ] early-exit on fetcher and mutator if token/auth is required, to avoid fetching every render lol
 - [ ] generate enum/model types for frontend
   - see if we can remove the need for them at all, since they'll be loaded SSR with availableSongs
-  - attempting to import @photon/client is broken af
+  - attempting to import @photon/client enums is broken af
 - [ ] update minimann layouts
   - [x] make the background images much wider or provide wider variants for larger screens
   - [ ] export the non-background content as 1:1 squares & reposition
@@ -81,7 +81,8 @@ Optional email/web notifications can notify fans when a new song is released.
   - [ ] on update, update title and description
 - [ ] beard clean cutdown
 - [x] login/auth pages should respect to param
-- [ ] make sure links sent to email include to param
+- [ ] implement email sending for auth flow
+  - [ ] make sure links include ?to= param for redirects
 - [ ] return only .song from user/get instead of all of their collected songs if we're only showing a single song per user as avatar
 - [x] figure out why setToken(undefined) doesn't let the cache reset
   - what's happening is that initialData is still known for a pageload that occurs while logged in so when we nuke the token, we end up calling useSWR with the old initial data

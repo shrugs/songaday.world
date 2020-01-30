@@ -1,8 +1,21 @@
 import { NowResponse } from '@now/node';
-import { isKnownError } from './KnownErrors';
+import {
+  isKnownError,
+  isKnownErrorOfType,
+  UnauthenticatedError,
+  KnownError,
+  NoAuthorizationHeaderError,
+} from './KnownErrors';
+import some from 'lodash/some';
+
+const isLoudError = (error: KnownError) =>
+  some([UnauthenticatedError, NoAuthorizationHeaderError].map(e => isKnownErrorOfType(error, e)));
 
 export const handleError = (res: NowResponse, error: Error) => {
-  console.error('[api/error]', error);
+  // silence loud errors
+  if (!isKnownError(error) || !isLoudError(error)) {
+    console.error('[api/error]', error);
+  }
 
   if (isKnownError(error)) {
     res.status(error.status);
