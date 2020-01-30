@@ -27,7 +27,7 @@ export const generateCode = async (id: string) => {
 export const getValidUserIdForCode = async (code: string): Promise<string | null> => {
   const magicCode = await photon.magicCode.findOne({
     where: { code },
-    select: { createdAt: true, user: { select: { id: true } } },
+    select: { updatedAt: true, user: { select: { id: true } } },
   });
 
   // if code does not exist...
@@ -36,7 +36,7 @@ export const getValidUserIdForCode = async (code: string): Promise<string | null
   }
 
   // if code has expired...
-  if (magicCode.createdAt.getTime() + KEY_TIMEOUT < Date.now()) {
+  if (Date.now() > magicCode.updatedAt.getTime() + KEY_TIMEOUT) {
     return null;
   }
 
