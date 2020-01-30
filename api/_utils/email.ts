@@ -8,11 +8,11 @@ export const sendEmail = async (email: string, code: string) => {
     console.log(`code for ${email}: ${code}`);
   }
 
-  const link = `https://songaday.world/auth/${code}`;
+  const link = `https://songadayworld.shrugs.now.sh/auth/${code}`;
 
   await sendgrid.send({
     to: email,
-    from: 'matt@bydot.app',
+    from: 'notify@songaday.world',
     subject: `Your Temporary Song a Day Login Code is "${code}"`,
     text: `Login
 
@@ -29,7 +29,7 @@ ${code}
 If you didn't try to login, you can safely ignore this email.
     `,
     html: `
-    <h1>Login</h2>
+    <h1>Login</h1>
 
     <a href="${link}" target="_blank">Click here to log in with this magic link ✨</a>
 
