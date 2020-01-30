@@ -19,8 +19,6 @@ export default function SidePanel({
     }
   }, [escPressed, onRequestClose, open]);
 
-  open = true;
-
   // always render modal on second render because next expects server html to equal first render
   // https://spectrum.chat/next-js/general/warning-expected-server-html-to-contain-a-matching-i-in-li~9ff45be2-74b7-4d08-a782-4b3210f1dfec
   const [renderPortal, setRenderPortal] = useState(false);
