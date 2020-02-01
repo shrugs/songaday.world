@@ -32,5 +32,5 @@ export default function buildSongListDescription({
     fragments.push(`on a ${instrument}`);
   }
 
-  return `recorded ${fragments.join('')}.`;
+  return `recorded ${fragments.join('')}`;
 }

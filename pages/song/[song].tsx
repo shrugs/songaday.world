@@ -23,7 +23,7 @@ function SongPage({ number, initialSong }: { number: string; initialSong?: any }
           className="flex-grow w-full"
           location={song ? song.location : undefined}
         >
-          <CommentThread number={number} />
+          {/* <CommentThread number={number} /> */}
         </SongColorBackground>
       </div>
     </useSong.InitialDataContext.Provider>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, PropsWithChildren, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import get from 'lodash/get';
 import pluralize from 'pluralize';
 import FlipMove from 'react-flip-move';
@@ -23,14 +23,9 @@ import Header from '../components/minimann/Header';
 import SongColorBackground from '../components/SongColorBackground';
 import buildSongListDescription from '../lib/buildSongListDescription';
 import SongCard from '../components/song/SongCard';
-import requireUser from '../lib/getInitialProps/requireUser';
 import fetcher from '../lib/fetcher';
 import APIToken from '../lib/containers/APIToken';
 import Head from 'next/head';
-
-const SectionHeader = ({ children }: PropsWithChildren<{}>) => (
-  <h3 className="mb-4 text-xl font-semibold">{children}</h3>
-);
 
 const EMPTY_HEADER_CONFIG: MiniMannConfig = {
   location: Location.Vermont,
@@ -207,9 +202,10 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
           {hasManySongs ? (
             <div className="flex flex-col justify-center items-start mb-4">
               <p className="text-3xl leading-tight font-bold truncate">Other Songs Like This</p>
-              <p className="leading-tight text-gray-600 truncate">
+              <p className="leading-tight text-gray-700 truncate">
                 {hasMore ? `${songs.length - 1}+` : `${songs.length - 1}`} other{' '}
-                {pluralize('song', songs.length - 1)} {buildSongListDescription(filters)}
+                {pluralize('song', songs.length - 1)} {buildSongListDescription(filters)}. Find more
+                specific songs with the filters 👆
               </p>
             </div>
           ) : (
@@ -217,7 +213,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
           )}
           <div className="flex flex-row flex-wrap song-card-list">
             {songs.slice(1).map(song => (
-              <div key={song.id} className="w-full md:song-card mb-4">
+              <div key={song.id} className="w-full md:song-card mb-4 cursor-pointer">
                 <SongCard number={song.number} className="rounded-lg" />
               </div>
             ))}

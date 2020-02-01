@@ -9,6 +9,6 @@
 
 @responsive {
   .offset-layer-in-frame {
-    transform: translateX(-20%);
+    transform: translateX(-25%);
   }
 }

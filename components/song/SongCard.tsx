@@ -7,6 +7,7 @@ import YoutubeEmbed from '../YoutubeEmbed';
 import { DateTime } from 'luxon';
 import useSong from '../../lib/queries/useSong';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 function SongCard({ className, number }: { number: string } & WithClassName) {
   const { data: song } = useSong({ number });
@@ -17,7 +18,7 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
   const router = useRouter();
   const searchForSong = useCallback(
     (key: string, value: string) => () => {
-      router.push(`/create?${new URLSearchParams({ [key]: value })}`);
+      router.push(`/?${new URLSearchParams({ [key]: value })}`);
     },
     [router],
   );
@@ -34,22 +35,24 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
           className,
         )}
       >
-        <div className="mb-1 flex flex-row justify-between items-stretch">
-          <div className="flex flex-col justify-center items-start">
-            <p className="text-xl leading-tight font-semibold truncate">{song.title}</p>
-            <p className="text-xs italic leading-tight text-gray-600 truncate">
-              Song {song.number} &#124; {subtitleDateString}
-            </p>
-          </div>
-          <div className="my-1 p-2 rounded text-white flex flex-col date">
-            <div className="flex-grow flex items-center justify-center text-2xl font-extrabold">
-              {song.number}
+        <Link href={`/song/${song.number}`}>
+          <div className="mb-1 flex flex-row justify-between items-stretch cursor-pointer">
+            <div className="flex flex-col justify-center items-start">
+              <p className="text-xl leading-tight font-semibold">{song.title}</p>
+              <p className="text-xs italic leading-tight text-gray-600">
+                Song {song.number} &#124; {subtitleDateString}
+              </p>
             </div>
-            <div className="flex-grow flex items-center justify-center text-xxs font-semibold leading-tight uppercase truncate">
-              {calendarDateString}
+            <div className="my-1 p-2 rounded text-white flex flex-col date">
+              <div className="flex-grow flex items-center justify-center text-2xl font-extrabold">
+                {song.number}
+              </div>
+              <div className="flex-grow flex items-center justify-center text-xxs font-semibold leading-tight uppercase truncate">
+                {calendarDateString}
+              </div>
             </div>
           </div>
-        </div>
+        </Link>
         <div className="mb-1">
           <YoutubeEmbed id={song.youtubeId} />
         </div>

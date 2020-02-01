@@ -1,5 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
+import { Topic } from '../../lib/utils/constants';
 
 const uriFromKey = (prefix: string, key: string) => `/images/${prefix}_${key.toLowerCase()}.svg`;
 
@@ -26,6 +27,10 @@ export default function MiniMann({
   offset = false,
 }: MiniMannProps) {
   const conditionalOffset = cx({ 'lg:offset-layer-in-frame': offset });
+  // all instrumental topics use the same "topic" graphic
+  const isInstrumental = topic && topic.startsWith('Instrumental');
+  topic = isInstrumental ? Topic.Instrumental : topic;
+
   return (
     <>
       <div className="minimann w-full aspect-location">
