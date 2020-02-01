@@ -76,16 +76,16 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
             thumbKey={song.mood}
           />
           <FilterTag
-            onClick={searchForSong('beard', song.beard)}
-            className="mr-2 mb-2"
-            prefix="beard"
-            thumbKey={song.beard}
-          />
-          <FilterTag
             onClick={searchForSong('instrument', song.instrument)}
             className="mr-2 mb-2"
             prefix="instrument"
             thumbKey={song.instrument}
+          />
+          <FilterTag
+            onClick={searchForSong('beard', song.beard)}
+            className="mr-2 mb-2"
+            prefix="beard"
+            thumbKey={song.beard}
           />
         </div>
         <div className="flex flex-row flex-wrap">

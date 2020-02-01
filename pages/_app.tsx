@@ -33,7 +33,6 @@ class MyApp extends App<{ initialProfile: any }> {
                   <Component {...pageProps} />
                 </div>
               </div>
-              <div id="modal-root" className="fixed"></div>
             </div>
           </useProfile.InitialDataContext.Provider>
         </Providers>

@@ -90,3 +90,4 @@ Optional email/web notifications can notify fans when a new song is released.
   - a solution is to only provide initialData on the first invocation at all
 - [ ] include spotify, bandcamp, etc links in model/ui
 - [ ] on instrumental tracks, don't show mood, beard, or instrument
+- [ ] replace react-spring with basic css animations
