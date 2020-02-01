@@ -106,7 +106,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
     return (
       <button
         className={cx(
-          'mr-1 mb-1 px-4 py-2 leading-none text-sm border-2 border-gray-800 rounded-sm font-bold disabled:opacity-50 disabled:pointer-events-none',
+          'mr-1 mb-1 px-4 py-2 leading-none text-sm border-2 border-gray-800 rounded font-bold disabled:opacity-50 disabled:pointer-events-none',
           {
             'bg-gray-200': !focused && !selected,
             'bg-gray-100': !focused && selected,
@@ -139,9 +139,9 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-row flex-wrap">
               {tabButton('location')}
+              {tabButton('instrument')}
               {tabButton('topic')}
               {tabButton('mood')}
-              {tabButton('instrument')}
               {tabButton('beard')}
             </div>
             <button
@@ -201,11 +201,11 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
         <div className="flex flex-col">
           {hasManySongs ? (
             <div className="flex flex-col justify-center items-start mb-4">
-              <p className="text-3xl leading-tight font-bold truncate">Other Songs Like This</p>
-              <p className="leading-tight text-gray-700 truncate">
-                {hasMore ? `${songs.length - 1}+` : `${songs.length - 1}`} other{' '}
-                {pluralize('song', songs.length - 1)} {buildSongListDescription(filters)}. Find more
-                specific songs with the filters 👆
+              <p className="text-3xl leading-tight font-bold">More Songs Like This</p>
+              <p className="leading-tight text-gray-700">
+                {hasMore ? `${songs.length - 1}+` : `${songs.length - 1}`} more{' '}
+                {pluralize('song', songs.length - 1)} {buildSongListDescription(filters)}. Search
+                for more specific songs with the filters 👆
               </p>
             </div>
           ) : (

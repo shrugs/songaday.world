@@ -36,20 +36,20 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
         )}
       >
         <Link href={`/song/${song.number}`}>
-          <div className="mb-1 flex flex-row justify-between items-stretch cursor-pointer">
-            <div className="flex flex-col justify-center items-start">
-              <p className="text-xl leading-tight font-semibold">{song.title}</p>
-              <p className="text-xs italic leading-tight text-gray-600">
-                Song {song.number} &#124; {subtitleDateString}
-              </p>
-            </div>
-            <div className="my-1 p-2 rounded text-white flex flex-col date">
+          <div className="mb-1 flex flex-row justify-start items-stretch cursor-pointer">
+            <div className="my-1 p-2 mr-2 rounded text-white flex flex-col date">
               <div className="flex-grow flex items-center justify-center text-2xl font-extrabold">
                 {song.number}
               </div>
               <div className="flex-grow flex items-center justify-center text-xxs font-semibold leading-tight uppercase truncate">
                 {calendarDateString}
               </div>
+            </div>
+            <div className="flex flex-col justify-center items-start">
+              <p className="text-xl leading-tight font-semibold">{song.title}</p>
+              <p className="text-xs italic leading-tight text-gray-600">
+                Song {song.number} &#124; {subtitleDateString}
+              </p>
             </div>
           </div>
         </Link>
@@ -67,6 +67,12 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
             thumbKey={song.location}
           />
           <FilterTag
+            onClick={searchForSong('instrument', song.instrument)}
+            className="mr-2 mb-2"
+            prefix="instrument"
+            thumbKey={song.instrument}
+          />
+          <FilterTag
             onClick={searchForSong('topic', song.topic)}
             className="mr-2 mb-2"
             prefix="topic"
@@ -77,12 +83,6 @@ function SongCard({ className, number }: { number: string } & WithClassName) {
             className="mr-2 mb-2"
             prefix="mood"
             thumbKey={song.mood}
-          />
-          <FilterTag
-            onClick={searchForSong('instrument', song.instrument)}
-            className="mr-2 mb-2"
-            prefix="instrument"
-            thumbKey={song.instrument}
           />
           <FilterTag
             onClick={searchForSong('beard', song.beard)}

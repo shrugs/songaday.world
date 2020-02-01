@@ -2,7 +2,6 @@ import React from 'react';
 import MiniMann from './MiniMann';
 import SongCard from '../song/SongCard';
 import useSong from '../../lib/queries/useSong';
-import Link from 'next/link';
 
 export default function Header({ number }: { number: string }) {
   const { data: song } = useSong({ number });

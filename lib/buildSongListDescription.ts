@@ -8,7 +8,7 @@ export default function buildSongListDescription({
   instrument,
 }: MinimannPropertyFilter) {
   if (!location && !topic && !mood && !beard && !instrument) {
-    return `in the catalog.`;
+    return `in the catalog`;
   }
 
   const fragments = [];

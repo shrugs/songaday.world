@@ -96,3 +96,5 @@ Optional email/web notifications can notify fans when a new song is released.
 - [ ] make sure all background colors work with black text on them
   - when this inevitably doesn't work, add dark mode toggle to all location configs
 - [ ] add clickable link to song card for going to song page
+- [ ] improve copy around other songs when no specific song is selected
+- [ ] make text tags clickable/searchable
