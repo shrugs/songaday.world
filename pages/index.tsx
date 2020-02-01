@@ -229,8 +229,6 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 }
 
 Create.getInitialProps = getInitialProps(async ctx => {
-  requireUser(ctx);
-
   const initialAvailableSongs = await useAvailableSongs.getInitialData(ctx, ctx.query, {
     required: true,
   });

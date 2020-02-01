@@ -1,5 +1,4 @@
 import photon from '../../lib/server/photon';
-import requireUser from '../../lib/server/requireUser';
 import handler from '../../lib/server/handler';
 import { NotImplementedError } from '../../common/KnownErrors';
 import { Location, Topic, Mood, Beard, Instrument } from '@prisma/client';
@@ -10,8 +9,6 @@ import take from 'lodash/take';
 const MAX_SONGS = 5;
 
 export default handler(async req => {
-  const user = await requireUser(req);
-
   const location = req.query.location as Location;
   const topic = req.query.topic as Topic;
   const mood = req.query.mood as Mood;
