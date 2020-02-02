@@ -5,16 +5,29 @@ import Avatar from './minimann/Avatar';
 import get from 'lodash/get';
 
 function Navbar() {
-  const { data: profile } = useProfile();
-  const avatarSong = useMemo(() => get(profile, ['collectedSongs', 0, 'song']), [profile]);
+  // const { data: profile } = useProfile();
+  // const avatarSong = useMemo(() => get(profile, ['collectedSongs', 0, 'song']), []);
 
   return (
     <div className="flex flex-row flex-wrap px-4 py-2 h-12 sm:h-16 md:h-20 lg:h-24">
       <Link href="/">
-        <img className="h-full cursor-pointer" src="/images/logo.svg"></img>
+        <img
+          className="h-full cursor-pointer"
+          src="/images/logo.svg"
+          alt="the Song a Day World logo"
+        ></img>
       </Link>
       <div className="ml-2 flex-auto flex flex-row justify-end items-center">
-        {!profile && (
+        <Link href="https://twitter.com/songadaymann">
+          <a
+            className="font-normal text-sm underline text-gray-700"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            @songadaymann on Twitter 🐦
+          </a>
+        </Link>
+        {/* {!profile && (
           <Link href="/login">
             <a className="font-medium text-sm">Login / Signup</a>
           </Link>
@@ -33,7 +46,7 @@ function Navbar() {
               <span className="font-small text-xs sm:text-sm">{profile.email}</span>
             </a>
           </Link>
-        )}
+        )} */}
       </div>
     </div>
   );

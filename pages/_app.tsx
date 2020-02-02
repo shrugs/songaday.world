@@ -38,11 +38,6 @@ class MyApp extends App<{ initialProfile: any }> {
         </Providers>
 
         <style jsx global>{`
-          body {
-            width: 100%;
-            min-height: 100vh;
-          }
-
           #__next {
             width: 100%;
             min-height: 100vh;
@@ -53,15 +48,15 @@ class MyApp extends App<{ initialProfile: any }> {
   }
 }
 
-MyApp.getInitialProps = async (ctx: AppContextType<Router>) => {
-  const appProps = await App.getInitialProps(ctx);
+// MyApp.getInitialProps = async (ctx: AppContextType<Router>) => {
+//   const appProps = await App.getInitialProps(ctx);
 
-  let initialProfile = undefined;
-  try {
-    initialProfile = await useProfile.getInitialData(ctx.ctx);
-  } catch {}
+//   let initialProfile = undefined;
+//   try {
+//     initialProfile = await useProfile.getInitialData(ctx.ctx);
+//   } catch {}
 
-  return { ...appProps, initialProfile };
-};
+//   return { ...appProps, initialProfile };
+// };
 
 export default MyApp;

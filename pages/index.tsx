@@ -129,7 +129,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
       </Head>
 
       {songNumber ? (
-        <Header number={songNumber} />
+        <Header number={songNumber} initialSong={song} />
       ) : (
         <MiniMann {...(song || EMPTY_HEADER_CONFIG)} />
       )}
@@ -214,7 +214,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
           <div className="flex flex-row flex-wrap song-card-list">
             {songs.slice(1).map(song => (
               <div key={song.id} className="w-full md:song-card mb-4 cursor-pointer">
-                <SongCard number={song.number} className="rounded-lg" />
+                <SongCard number={song.number} initialSong={song} className="rounded-lg" />
               </div>
             ))}
           </div>

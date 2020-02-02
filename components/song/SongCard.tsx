@@ -9,8 +9,12 @@ import useSong from '../../lib/queries/useSong';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-function SongCard({ className, number }: { number: string } & WithClassName) {
-  const { data: song } = useSong({ number });
+function SongCard({
+  className,
+  number,
+  initialSong,
+}: { number: string; initialSong?: any } & WithClassName) {
+  const { data: song } = useSong({ number }, initialSong);
   const date = useMemo(() => (song ? DateTime.fromISO(song.releasedAt) : DateTime.local()), [song]);
   const subtitleDateString = useMemo(() => date.toLocaleString(DateTime.DATE_FULL), [date]);
   const calendarDateString = useMemo(() => date.toFormat('LLL dd'), [date]);

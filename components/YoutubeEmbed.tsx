@@ -9,7 +9,8 @@ function YoutubeEmbed({ id }: { id: string }) {
   return (
     <div className="relative overflow-hidden aspect-16/9">
       <iframe
-        className="absolute w-full h-full top-0 left-0 "
+        className="absolute w-full h-full top-0 left-0"
+        title={`YouTube embed of ${url}`}
         src={url}
         allow="encrypted-media"
         frameBorder="0"

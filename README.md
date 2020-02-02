@@ -88,13 +88,15 @@ Optional email/web notifications can notify fans when a new song is released.
 - [x] figure out why setToken(undefined) doesn't let the cache reset
   - what's happening is that initialData is still known for a pageload that occurs while logged in so when we nuke the token, we end up calling useSWR with the old initial data
   - a solution is to only provide initialData on the first invocation at all
-- [ ] include spotify, bandcamp, etc links in model/ui
+- [ ] include spotify, bandcamp, etc links in model & song card ui
 - [x] on instrumental tracks, use constant instrumental topic grapic
 - [x] replace react-spring with basic css animations
 - [ ] add basic SEO tags for social
 - [ ] add human strings for all filter keys and properties
-- [ ] make sure all background colors work with black text on them
-  - when this inevitably doesn't work, add dark mode toggle to all location configs
-- [ ] add clickable link to song card for going to song page
+- [ ] add dark mode toggle to all location configs and use for text colors
+- [x] add clickable link to song card for going to song page
 - [ ] improve copy around other songs when no specific song is selected
 - [ ] make text tags clickable/searchable
+- [ ] use intersection observer to lazy load youtube embeds
+  - https://github.com/researchgate/react-intersection-observer
+- [ ] fix `initialSong` prop-drilling in index/Header/SongCard

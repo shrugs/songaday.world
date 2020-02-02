@@ -1,5 +1,5 @@
 import useSWR, { trigger, mutate } from 'swr';
-import { useContext, createContext, useEffect, useRef } from 'react';
+import { useContext, createContext, useRef } from 'react';
 import { NextPageContext } from 'next';
 import getApiHostUrl from '../server/getApiHostUrl';
 import APIToken from '../containers/APIToken';
