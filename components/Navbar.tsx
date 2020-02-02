@@ -9,7 +9,7 @@ function Navbar() {
   // const avatarSong = useMemo(() => get(profile, ['collectedSongs', 0, 'song']), []);
 
   return (
-    <div className="flex flex-row flex-wrap px-4 py-2 h-12 sm:h-16 md:h-20 lg:h-24">
+    <header className="flex flex-row flex-wrap px-4 py-2 h-12 sm:h-16 md:h-20 lg:h-24">
       <Link href="/">
         <img
           className="h-full cursor-pointer"
@@ -24,7 +24,7 @@ function Navbar() {
             rel="noopener noreferrer"
             target="_blank"
           >
-            @songadaymann on Twitter 🐦
+            @songadaymann 🐦
           </a>
         </Link>
         {/* {!profile && (
@@ -48,7 +48,7 @@ function Navbar() {
           </Link>
         )} */}
       </div>
-    </div>
+    </header>
   );
 }
 

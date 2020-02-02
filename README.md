@@ -100,3 +100,4 @@ Optional email/web notifications can notify fans when a new song is released.
 - [ ] use intersection observer to lazy load youtube embeds
   - https://github.com/researchgate/react-intersection-observer
 - [ ] fix `initialSong` prop-drilling in index/Header/SongCard
+- [ ] add a heading / skip link / landmark region for

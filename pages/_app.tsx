@@ -29,9 +29,9 @@ class MyApp extends App<{ initialProfile: any }> {
             <div className="relative antialiased text-gray-900 min-h-screen flex flex-col">
               <div className="relative w-full max-w-6xl mx-auto flex-grow flex flex-col">
                 <Navbar />
-                <div className="flex-grow flex flex-col">
+                <main className="flex-grow flex flex-col">
                   <Component {...pageProps} />
-                </div>
+                </main>
               </div>
             </div>
           </useProfile.InitialDataContext.Provider>
