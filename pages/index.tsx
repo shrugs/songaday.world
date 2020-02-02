@@ -12,6 +12,9 @@ import {
   Beard,
   Instrument,
   MinimannPropertyValue,
+  LocationViewConfig,
+  HumanMaps,
+  HumanKeys,
 } from '../lib/utils/constants';
 import FilterTag from '../components/FilterTag';
 import NoticeBox from '../components/NoticeBox';
@@ -68,55 +71,56 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   }, [cancel]);
 
   // ui filter header state
-  const [selectedTab, setSelectedTab] = useState<string>();
+  const [focusedTab, setFocusedTab] = useState<string>();
 
   // ui selected song state
-  const [selectedSong, setSelectedSong] = useState<number>();
+  const [focusedSong, setFocusedSong] = useState<number>();
 
   const discardChanges = useCallback(() => {
     resetFilters();
-    setSelectedTab(undefined);
-    setSelectedSong(undefined);
+    setFocusedTab(undefined);
+    setFocusedSong(undefined);
   }, [resetFilters]);
 
   const songs: any[] = useMemo(() => get(data, ['songs'], []), [data]);
   const song: any = useMemo(() => {
-    if (selectedSong) {
-      return songs.find(song => song.number == selectedSong);
+    if (focusedSong) {
+      return songs.find(song => song.number == focusedSong);
     } else {
       return songs.length ? songs[0] : undefined;
     }
-  }, [selectedSong, songs]);
+  }, [focusedSong, songs]);
   const songNumber = useMemo(() => get(song, ['number']), [song]);
   const songLocation = useMemo(() => get(song, ['location']), [song]);
+  const dark = get(LocationViewConfig, [songLocation, 'dark'], false);
 
   const hasManySongs = songs.length > 1;
 
   // force showing the selected filters if we're not looking at a specific set or there's only one song
-  const showSelectedFilters = !selectedTab || !hasManySongs;
+  const showSelectedFilters = !focusedTab || !hasManySongs;
   // hide the selected tab when showing the selected filters
-  const visiblySelectedTab = showSelectedFilters ? undefined : selectedTab;
+  const visiblySelectedTab = showSelectedFilters ? undefined : focusedTab;
 
   // view builders
   const tabButton = (key: string) => {
     const focused = visiblySelectedTab === key;
     const selected = filters[key] !== undefined;
-    const disabled = !hasManySongs;
+    const disabled = !hasManySongs || (!focused && selected);
 
     return (
       <button
         className={cx(
           'mr-1 mb-1 px-4 py-2 leading-none text-sm border-2 border-gray-800 rounded font-bold disabled:opacity-50 disabled:pointer-events-none',
           {
-            'bg-gray-200': !focused && !selected,
-            'bg-gray-100': !focused && selected,
+            'bg-gray-200 text-gray-900': !focused && !selected,
+            'bg-gray-100 text-gray-900': !focused && selected,
             'bg-gray-800 text-white': focused,
           },
         )}
-        onClick={() => setSelectedTab(focused ? undefined : key)}
+        onClick={() => setFocusedTab(focused ? undefined : key)}
         disabled={disabled}
       >
-        {filters[key] || key}
+        {filters[key] ? HumanMaps[key][filters[key]] : HumanKeys[key]}
       </button>
     );
   };
@@ -134,7 +138,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
         <MiniMann {...(song || EMPTY_HEADER_CONFIG)} />
       )}
 
-      <SongColorBackground className="flex-grow p-4" location={songLocation}>
+      <SongColorBackground className="flex-grow p-4 pb-10" location={songLocation}>
         <div className="flex flex-col">
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-row flex-wrap">
@@ -145,15 +149,18 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
               {tabButton('beard')}
             </div>
             <button
-              className="p-4 hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none"
+              className={cx(
+                'p-4 hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
+                { 'text-white': dark },
+              )}
               onClick={discardChanges}
               disabled={!hasFiltered}
             >
-              clear all filters
+              clear all
             </button>
           </div>
 
-          <FlipMove className="flex flex-row flex-wrap">
+          <FlipMove className={cx('flex flex-row flex-wrap', { 'text-white': dark })}>
             {showSelectedFilters &&
               Object.keys(filters).map(
                 key =>
@@ -166,7 +173,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
                         size="24"
                         selected={true}
                       >
-                        {filters[key]}
+                        {HumanMaps[key][filters[key]]}
                       </FilterTag>
                     </div>
                   ),
@@ -174,18 +181,18 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
             {!showSelectedFilters &&
               data &&
               data.filters &&
-              data.filters[selectedTab] &&
-              data.filters[selectedTab].map(prop => (
+              data.filters[focusedTab] &&
+              data.filters[focusedTab].map(prop => (
                 <div className={cx({ 'pointer-events-none': loadingSongs })} key={prop}>
                   <FilterTag
-                    onClick={() => handleFilterTagSelect(selectedTab, prop)}
+                    onClick={() => handleFilterTagSelect(focusedTab, prop)}
                     className="mr-4 mb-2"
-                    prefix={selectedTab}
+                    prefix={focusedTab}
                     thumbKey={prop}
                     size="24"
-                    selected={filters[selectedTab] === prop}
+                    selected={filters[focusedTab] === prop}
                   >
-                    {prop}
+                    {HumanMaps[focusedTab][prop]}
                   </FilterTag>
                 </div>
               ))}
@@ -201,11 +208,17 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
         <div className="flex flex-col">
           {hasManySongs ? (
             <div className="flex flex-col justify-center items-start mb-4">
-              <p className="text-3xl leading-tight font-bold">More Songs Like This</p>
-              <p className="leading-tight text-gray-700">
+              <p
+                className={cx('text-3xl leading-tight font-bold', {
+                  'text-white': dark,
+                })}
+              >
+                More Songs Like This
+              </p>
+              <p className={cx('leading-tight', { 'text-white': dark })}>
                 {hasMore ? `${songs.length - 1}+` : `${songs.length - 1}`} more{' '}
-                {pluralize('song', songs.length - 1)} {buildSongListDescription(filters)}. Search
-                for more specific songs with the filters 👆
+                {pluralize('song', songs.length - 1)} {buildSongListDescription(filters)}. Discover
+                more specific songs with the filters here 👆
               </p>
             </div>
           ) : (
@@ -219,6 +232,12 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
             ))}
           </div>
         </div>
+        {hasMore && (
+          <NoticeBox color="gray">
+            👆 There are more than {songs.length - 1} songs {buildSongListDescription(filters)}.
+            Discover more specific songs using the filters above 👆
+          </NoticeBox>
+        )}
       </SongColorBackground>
     </>
   );

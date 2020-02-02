@@ -18,15 +18,14 @@ function Navbar() {
         ></img>
       </Link>
       <div className="ml-2 flex-auto flex flex-row justify-end items-center">
-        <Link href="https://twitter.com/songadaymann">
-          <a
-            className="font-normal text-sm underline text-gray-700"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            @songadaymann 🐦
-          </a>
-        </Link>
+        <a
+          className="font-normal text-sm underline text-gray-700"
+          href="https://twitter.com/songadaymann"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          @songadaymann 🐦
+        </a>
         {/* {!profile && (
           <Link href="/login">
             <a className="font-medium text-sm">Login / Signup</a>

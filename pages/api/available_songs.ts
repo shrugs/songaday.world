@@ -6,7 +6,7 @@ import uniq from 'lodash/uniq';
 import mapValues from 'lodash/mapValues';
 import take from 'lodash/take';
 
-const MAX_SONGS = 5;
+const MAX_SONGS = 11;
 
 export default handler(async req => {
   const location = req.query.location as Location;

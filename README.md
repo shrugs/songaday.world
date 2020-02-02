@@ -92,12 +92,13 @@ Optional email/web notifications can notify fans when a new song is released.
 - [x] on instrumental tracks, use constant instrumental topic grapic
 - [x] replace react-spring with basic css animations
 - [ ] add basic SEO tags for social
-- [ ] add human strings for all filter keys and properties
-- [ ] add dark mode toggle to all location configs and use for text colors
+- [x] add human strings for all filter keys and properties
+- [x] add dark mode toggle to all location configs and use for text colors
 - [x] add clickable link to song card for going to song page
-- [ ] improve copy around other songs when no specific song is selected
+- [x] improve copy around other songs when no specific song is selected
 - [ ] make text tags clickable/searchable
 - [ ] use intersection observer to lazy load youtube embeds
   - https://github.com/researchgate/react-intersection-observer
 - [ ] fix `initialSong` prop-drilling in index/Header/SongCard
-- [ ] add a heading / skip link / landmark region for
+- [x] add a heading / skip link / landmark region for
+- [ ] analytics integration

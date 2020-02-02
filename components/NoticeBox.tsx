@@ -10,7 +10,7 @@ export default function NoticeBox({
   return (
     <div
       className={cx(
-        `mt-1 bg-${color}-100 rounded border-2 border-${color}-200 px-4 py-2 text-center text-gray-600`,
+        `mt-1 bg-${color}-100 rounded border-2 border-${color}-200 px-4 py-2 text-center text-gray-700`,
         className,
       )}
     >

@@ -1,6 +1,6 @@
 import React from 'react';
 import MiniMann, { MiniMannConfig } from './MiniMann';
-import { BackgroundThemes } from '../../lib/utils/constants';
+import { LocationViewConfig } from '../../lib/utils/constants';
 
 export default function Avatar({ config }: { config: MiniMannConfig }) {
   return (
@@ -26,7 +26,7 @@ export default function Avatar({ config }: { config: MiniMannConfig }) {
 
         .background-fill {
           top: 50%;
-          background-color: ${BackgroundThemes[config.location]};
+          background-color: ${LocationViewConfig[config.location].color};
         }
       `}</style>
     </>

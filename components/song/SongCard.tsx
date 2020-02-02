@@ -40,20 +40,20 @@ function SongCard({
         )}
       >
         <Link href={`/song/${song.number}`}>
-          <div className="mb-1 flex flex-row justify-start items-stretch cursor-pointer">
-            <div className="my-1 p-2 mr-2 rounded text-white flex flex-col date">
+          <div className="mb-1 flex flex-row justify-between items-stretch cursor-pointer">
+            <div className="flex flex-col justify-center items-start">
+              <p className="text-xl leading-tight font-semibold">{song.title}</p>
+              <p className="text-xs italic leading-tight text-gray-600">
+                Song {song.number} &#124; {subtitleDateString}
+              </p>
+            </div>
+            <div className="my-1 p-2 rounded text-white flex flex-col date">
               <div className="flex-grow flex items-center justify-center text-2xl font-extrabold">
                 {song.number}
               </div>
               <div className="flex-grow flex items-center justify-center text-xxs font-semibold leading-tight uppercase truncate">
                 {calendarDateString}
               </div>
-            </div>
-            <div className="flex flex-col justify-center items-start">
-              <p className="text-xl leading-tight font-semibold">{song.title}</p>
-              <p className="text-xs italic leading-tight text-gray-600">
-                Song {song.number} &#124; {subtitleDateString}
-              </p>
             </div>
           </div>
         </Link>
@@ -96,9 +96,9 @@ function SongCard({
           />
         </div>
         <div className="flex flex-row flex-wrap">
-          <TextTag className="mr-2 mb-2" text="New York" />
-          <TextTag className="mr-2 mb-2" text="Fm" />
-          <TextTag className="mr-2 mb-2" text="Politics" />
+          {song.tags.map(tag => (
+            <TextTag key={tag} className="mr-2 mb-2" text={tag} />
+          ))}
         </div>
       </div>
 
