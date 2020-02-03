@@ -24,7 +24,7 @@ import cleanObject from '../lib/utils/cleanObject';
 import useQueryParams from '../lib/useQueryParams';
 import Header from '../components/minimann/Header';
 import SongColorBackground from '../components/SongColorBackground';
-import buildSongListDescription from '../lib/buildSongListDescription';
+import SongListDescription from '../components/SongListDescription';
 import SongCard from '../components/song/SongCard';
 import fetcher from '../lib/fetcher';
 import APIToken from '../lib/containers/APIToken';
@@ -140,6 +140,19 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 
       <SongColorBackground className="flex-grow p-4 pb-10" location={songLocation}>
         <div className="flex flex-col">
+          <p className={cx('mb-1 leading-tight text-sm', { 'text-white': dark })}>
+            {hasFiltered ? (
+              <>
+                Showing songs <SongListDescription filters={filters} />.
+              </>
+            ) : (
+              <>
+                Showing <span className="font-semibold">random songs</span> from the catalog.
+              </>
+            )}{' '}
+            Discover more specific songs with the filters 👇
+          </p>
+
           <div className="flex flex-row justify-between items-center">
             <div className="flex flex-row flex-wrap">
               {tabButton('location')}
@@ -207,22 +220,27 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
 
         <div className="flex flex-col">
           {hasManySongs ? (
-            <div className="flex flex-col justify-center items-start mb-4">
+            <div className="flex flex-col justify-center items-start my-2">
               <p
-                className={cx('text-3xl leading-tight font-bold', {
+                className={cx('text-xl md:text-3xl leading-tight font-bold', {
                   'text-white': dark,
                 })}
               >
-                More Songs Like This
+                {hasFiltered ? 'More Songs Like This' : 'More Songs From the Catalog'}
               </p>
-              <p className={cx('leading-tight', { 'text-white': dark })}>
-                {hasMore ? `${songs.length - 1}+` : `${songs.length - 1}`} more{' '}
-                {pluralize('song', songs.length - 1)} {buildSongListDescription(filters)}. Discover
-                more specific songs with the filters here 👆
+              <p className={cx('leading-tight text-base', { 'text-white': dark })}>
+                {hasFiltered && (
+                  <>
+                    {hasMore ? `${songs.length - 1}+` : `${songs.length - 1}`} more{' '}
+                    {pluralize('song', songs.length - 1)} <SongListDescription filters={filters} />.
+                  </>
+                )}
               </p>
             </div>
           ) : (
-            <NoticeBox color="gray">You've found the only song with this combination!</NoticeBox>
+            <NoticeBox color="gray">
+              You've found the only song in the catalog <SongListDescription filters={filters} />!
+            </NoticeBox>
           )}
           <div className="flex flex-row flex-wrap song-card-list">
             {songs.slice(1).map(song => (
@@ -234,8 +252,9 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
         </div>
         {hasMore && (
           <NoticeBox color="gray">
-            👆 There are more than {songs.length - 1} songs {buildSongListDescription(filters)}.
-            Discover more specific songs using the filters above 👆
+            👆 There are more than {songs.length - 1} songs{' '}
+            {hasFiltered ? <SongListDescription filters={filters} /> : 'in the catalog'}! Discover
+            more specific songs using the filters above 👆
           </NoticeBox>
         )}
       </SongColorBackground>
