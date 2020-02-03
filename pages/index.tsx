@@ -29,6 +29,12 @@ import SongCard from '../components/song/SongCard';
 import fetcher from '../lib/fetcher';
 import APIToken from '../lib/containers/APIToken';
 import Head from 'next/head';
+import random from 'lodash/random';
+import Router from 'next/router';
+
+const MAX_SONGS = 365;
+
+const randomSong = () => random(1, MAX_SONGS, false);
 
 const EMPTY_HEADER_CONFIG: MiniMannConfig = {
   location: Location.Vermont,
@@ -101,6 +107,10 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   // hide the selected tab when showing the selected filters
   const visiblySelectedTab = showSelectedFilters ? undefined : focusedTab;
 
+  const handleFeelingLucky = useCallback(async () => {
+    // TODO: make random song selection fetch a random song's info and then populate filters with its information
+  }, []);
+
   // view builders
   const tabButton = (key: string) => {
     const focused = visiblySelectedTab === key;
@@ -161,16 +171,27 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
               {tabButton('mood')}
               {tabButton('beard')}
             </div>
-            <button
-              className={cx(
-                'p-4 hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
-                { 'text-white': dark },
-              )}
-              onClick={discardChanges}
-              disabled={!hasFiltered}
-            >
-              clear all
-            </button>
+            <div className="flex flex-row items-center">
+              {/* {!hasFiltered && (
+                <button
+                  className="mr-1 px-2 py-2 bg-gray-200 hover:bg-gray-100 text-gray-900 border-2 border-gray-800 rounded leading-none text-sm font-bold flex flex-row"
+                  onClick={handleFeelingLucky}
+                >
+                  <span className="mx-1 whitespace-no-wrap">I'm feeling lucky</span>
+                  <img className="h-4 w-4" src="/assets/dice.svg" alt="dice"></img>
+                </button>
+              )} */}
+              <button
+                className={cx(
+                  'p-4 hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
+                  { 'text-white': dark },
+                )}
+                onClick={discardChanges}
+                disabled={!hasFiltered}
+              >
+                clear all
+              </button>
+            </div>
           </div>
 
           <FlipMove className={cx('flex flex-row flex-wrap', { 'text-white': dark })}>
