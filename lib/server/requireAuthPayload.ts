@@ -1,11 +1,11 @@
-import { NowRequest } from '@now/node';
 import { verifyToken } from '../../common/jwt';
 import {
   NoAuthorizationHeaderError,
   MalformedAuthorizationHeaderError,
 } from '../../common/KnownErrors';
+import { NextApiRequest } from 'next';
 
-export default function requireAuthPayload(req: NowRequest) {
+export default function requireAuthPayload(req: NextApiRequest) {
   const header = req.headers.authorization;
   if (!header) {
     throw new NoAuthorizationHeaderError();
