@@ -31,6 +31,7 @@ import APIToken from '../lib/containers/APIToken';
 import Head from 'next/head';
 import random from 'lodash/random';
 import Router from 'next/router';
+import { useLocalStorage } from 'react-use';
 
 const MAX_SONGS = 365;
 
@@ -45,6 +46,12 @@ const EMPTY_HEADER_CONFIG: MiniMannConfig = {
 };
 
 function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
+  const [hasDismissedWelcome, setHasDismissedWelcome] = useLocalStorage(
+    'hasDismissedWelcome',
+    false,
+  );
+  const dismissWelcome = useCallback(() => setHasDismissedWelcome(true), [setHasDismissedWelcome]);
+
   // filter state
   const [filters, setFilters] = useQueryParams();
   const resetFilters = useCallback(() => setFilters({}), [setFilters]);
@@ -141,6 +148,40 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
         <title>Song a Day World</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <FlipMove>
+        {!hasDismissedWelcome && (
+          <div>
+            <SongColorBackground
+              className={cx('p-4 rounded-lg my-4 flex flex-row justify-between items-end', {
+                'text-white': dark,
+              })}
+              location={songLocation}
+            >
+              <div className="flex-grow flex flex-col leading-relaxed">
+                <p className="font-bold ">
+                  Welcome to Song A Day's new home on the web, collecting the 4000+ songs I've
+                  recorded over the last 10 years!
+                </p>
+                <p>Every day tells a unique story. In my case, songs tell the story.</p>
+                <p className="">
+                  Currently, there're <strong>only 365</strong> songs here. If you're interested in
+                  helping me finish the site, I'd love to hear from you. I'm looking primarily for:
+                </p>
+                <ol className="">
+                  <li>1. Next.js engineers!</li>
+                  <li>2. Illustrators!</li>
+                  <li>3. And any feedback you have on the site.</li>
+                </ol>
+                <p className="font-semibold">Email me: Jonathan (at) Jonathanmann dot net</p>
+              </div>
+              <button className="pl-8 hover:underline" onClick={dismissWelcome}>
+                dismiss
+              </button>
+            </SongColorBackground>
+          </div>
+        )}
+      </FlipMove>
 
       {songNumber ? (
         <Header number={songNumber} initialSong={song} />
