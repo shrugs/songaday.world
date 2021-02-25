@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Song } from '../../lib/utils/constants';
+import { Song } from '../../lib/types';
 import SongCard from '../song/SongCard';
 import MiniMann from './MiniMann';
 

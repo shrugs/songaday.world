@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useCallback, useMemo } from 'react';
 
-import { Song } from '../../lib/utils/constants';
+import { Song } from '../../lib/types';
 import WithClassName from '../../lib/utils/WithClassName';
 import FilterTag from '../FilterTag';
 import YoutubeEmbed from '../YoutubeEmbed';

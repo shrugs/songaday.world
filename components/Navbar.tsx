@@ -7,7 +7,7 @@ function Navbar() {
       <Link href="/">
         <img
           className="h-full cursor-pointer"
-          src="/images/logo.svg"
+          src="/assets/logo.svg"
           alt="the Song a Day World logo"
         />
       </Link>

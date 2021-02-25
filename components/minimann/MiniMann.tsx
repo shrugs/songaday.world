@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Topic } from '../../lib/utils/constants';
 
-const uriFromKey = (prefix: string, key: string) => `/images/${prefix}_${key.toLowerCase()}.svg`;
+const uriFromKey = (prefix: string, key: string) => `/images/${prefix}_${key.toLowerCase()}.png`;
 
 export interface MiniMannConfig {
   location: string;
@@ -19,7 +19,6 @@ interface MiniMannProps extends MiniMannConfig {
 
 // expects parent to provide sizing
 // renders a minimann, given their configuration
-// TODO: arguments—id or full config?
 export default function MiniMann({
   location,
   topic,
@@ -36,9 +35,10 @@ export default function MiniMann({
   return (
     <>
       <div className="minimann w-full aspect-location">
-        <div className={`mood ${conditionalOffset}`}></div>
-        <div className={`beard ${conditionalOffset}`}></div>
         <div className={`topic ${conditionalOffset}`}></div>
+        <div className={`mood ${conditionalOffset}`}></div>
+        {/* // TODO: support beards again  */}
+        {/* <div className={`beard ${conditionalOffset}`}></div> */}
         <div className={`instrument ${conditionalOffset}`}></div>
       </div>
 

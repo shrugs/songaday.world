@@ -30,11 +30,11 @@ import {
 } from '../lib/utils/constants';
 
 const EMPTY_HEADER_CONFIG: MiniMannConfig = {
-  location: Location.Vermont,
-  topic: Topic.Kids,
-  mood: Mood.Angry,
-  beard: Beard.Shadow,
-  instrument: Instrument.Organ,
+  location: Location.NewYork,
+  topic: Topic.SocialJustice,
+  mood: Mood.Chill,
+  beard: Beard.Stubble,
+  instrument: Instrument.ElectricGuitar,
 };
 
 function Index({ initialData }: { initialData: SongsResponse }) {
@@ -50,7 +50,7 @@ function Index({ initialData }: { initialData: SongsResponse }) {
   const key = useMemo(() => `/api/songs?${new URLSearchParams(cleanObject(filters))}`, [filters]);
 
   const { data, error } = useSWR<SongsResponse>(key, fetcher, {
-    initialData,
+    initialData: key === `/api/songs?` ? initialData : undefined,
     // we don't actually need to revalidate at all on this one
     revalidateOnFocus: false,
     revalidateOnMount: !initialData,
@@ -72,8 +72,8 @@ function Index({ initialData }: { initialData: SongsResponse }) {
     setFocusedSong(undefined);
   }, [resetFilters]);
 
-  const songs: any[] = useMemo(() => data?.songs ?? [], [data]);
-  const song: any = useMemo(() => {
+  const songs = useMemo(() => data?.songs ?? [], [data]);
+  const song = useMemo(() => {
     if (focusedSong) {
       return songs.find((song) => song.number == focusedSong);
     } else {
@@ -187,7 +187,7 @@ function Index({ initialData }: { initialData: SongsResponse }) {
               data.filters &&
               data.filters[focusedTab] &&
               data.filters[focusedTab].map((prop) => (
-                <div className={cx({ 'pointer-events-none': loading })} key={prop}>
+                <div key={prop} className={cx({ 'pointer-events-none': loading })}>
                   <FilterTag
                     onClick={() => handleFilterTagSelect(focusedTab, prop as MinimannPropertyValue)}
                     className="mr-4 mb-2"
@@ -235,7 +235,7 @@ function Index({ initialData }: { initialData: SongsResponse }) {
           )}
           <div className="flex flex-row flex-wrap song-card-list">
             {songs.slice(1).map((song) => (
-              <div key={song.id} className="w-full md:song-card mb-4 cursor-pointer">
+              <div key={song.number} className="w-full md:song-card mb-4 cursor-pointer">
                 <SongCard song={song} className="rounded-lg" />
               </div>
             ))}
