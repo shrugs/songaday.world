@@ -30,6 +30,7 @@ import {
 } from '../lib/utils/constants';
 
 const EMPTY_HEADER_CONFIG: MiniMannConfig = {
+  number: 0,
   location: Location.NewYork,
   topic: Topic.SocialJustice,
   mood: Mood.Chill,
@@ -125,7 +126,7 @@ function Index({ initialData }: { initialData: SongsResponse }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {songNumber ? <Header song={song} /> : <MiniMann {...(song || EMPTY_HEADER_CONFIG)} />}
+      {songNumber ? <Header song={song} /> : <MiniMann {...EMPTY_HEADER_CONFIG} />}
 
       <SongColorBackground className="flex-grow p-4 pb-10" location={songLocation}>
         <div className="flex flex-col">

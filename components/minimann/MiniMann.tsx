@@ -1,17 +1,16 @@
 import cx from 'classnames';
 import React from 'react';
 
+import { Song } from '../../lib/types';
 import { Topic } from '../../lib/utils/constants';
+import { nameFromKey, resolveTopic } from '../../lib/utils/images';
 
-const uriFromKey = (prefix: string, key: string) => `/images/${prefix}_${key.toLowerCase()}.png`;
+const uriFromKey = (prefix: string, key: string) => `/images/${nameFromKey(prefix, key)}`;
 
-export interface MiniMannConfig {
-  location: string;
-  topic: string;
-  mood: string;
-  beard: string;
-  instrument: string;
-}
+export type MiniMannConfig = Pick<
+  Song,
+  'number' | 'location' | 'topic' | 'mood' | 'beard' | 'instrument'
+>;
 
 interface MiniMannProps extends MiniMannConfig {
   offset?: boolean;
@@ -20,6 +19,7 @@ interface MiniMannProps extends MiniMannConfig {
 // expects parent to provide sizing
 // renders a minimann, given their configuration
 export default function MiniMann({
+  number,
   location,
   topic,
   mood,
@@ -37,8 +37,7 @@ export default function MiniMann({
       <div className="minimann w-full aspect-location">
         <div className={`topic ${conditionalOffset}`}></div>
         <div className={`mood ${conditionalOffset}`}></div>
-        {/* // TODO: support beards again  */}
-        {/* <div className={`beard ${conditionalOffset}`}></div> */}
+        <div className={`beard ${conditionalOffset}`}></div>
         <div className={`instrument ${conditionalOffset}`}></div>
       </div>
 
@@ -47,7 +46,7 @@ export default function MiniMann({
           background-image: url(${uriFromKey('location', location)});
         }
         .topic {
-          background-image: url(${uriFromKey('topic', topic)});
+          background-image: url(${uriFromKey('topic', resolveTopic(number, topic))});
         }
         .mood {
           background-image: url(${uriFromKey('mood', mood)});

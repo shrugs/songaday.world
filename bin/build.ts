@@ -47,20 +47,9 @@ const isValidProperty = <T>(all: Record<string, string>, value: any): value is T
   all[value] !== undefined;
 
 const ensureValidProperty = <T>(all: Record<string, string>, value: any) => {
-  if (isValidProperty<T>(all, value)) {
-    return value;
-  }
+  if (!isValidProperty<T>(all, value)) throw new Error(`Invalid property: '${value}'`);
 
-  throw new Error(`Invalid property: '${value}'`);
-};
-
-const handle = async (fn: () => Promise<void>) => {
-  try {
-    await fn();
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
+  return value;
 };
 
 // expecsts year1.csv, exported from https://docs.google.com/spreadsheets/d/15wJgkbF40NRYjcBtZRgIu1BbLl8QFLl8_3nv9YcNILg/edit#gid=0
@@ -132,10 +121,15 @@ const main = async () => {
   });
 
   writeFileSync(path.join(__dirname, '../generated/db.json'), JSON.stringify(inputs), {
-    flag: 'wx',
+    flag: 'w',
   });
-
-  process.exit(0);
 };
 
-handle(main);
+main()
+  .then(() => {
+    process.exit(0);
+  })
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

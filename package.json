@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:db": "yarn script bin/build.ts",
+    "generate": "yarn script bin/generate.ts",
     "lint": "eslint --ext .ts,.tsx .",
     "start": "next start",
     "script": "ts-node -P tsconfig.bin.json"
@@ -22,6 +23,7 @@
     "lodash": "^4.17.21",
     "luxon": "^1.26.0",
     "next": "^10.0.7",
+    "p-map": "^4.0.0",
     "pluralize": "^8.0.0",
     "postcss": "^8.2.6",
     "react": "17.0.1",
@@ -33,6 +35,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.11",
+    "@types/gm": "^1.18.9",
     "@types/lodash": "^4.14.168",
     "@types/luxon": "^1.26.0",
     "@types/node": "^14.14.31",
@@ -47,9 +50,11 @@
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "gm": "^1.23.1",
     "postcss-import": "^14.0.0",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.2.1",
+    "tempy": "^1.0.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.2"
   }
