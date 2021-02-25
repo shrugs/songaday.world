@@ -1,7 +1,7 @@
-import ErrorPage from "./_error";
+import ErrorPage from './_error';
 
 function NotFoundPage() {
   return <ErrorPage statusCode={404} />;
 }
 
-export default NotFoundPage
+export default NotFoundPage;

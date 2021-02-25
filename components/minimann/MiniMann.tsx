@@ -1,5 +1,6 @@
-import React from 'react';
 import cx from 'classnames';
+import React from 'react';
+
 import { Topic } from '../../lib/utils/constants';
 
 const uriFromKey = (prefix: string, key: string) => `/images/${prefix}_${key.toLowerCase()}.svg`;

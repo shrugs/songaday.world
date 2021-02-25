@@ -1,6 +1,7 @@
 import React from 'react';
-import MiniMann, { MiniMannConfig } from './MiniMann';
+
 import { LocationViewConfig } from '../../lib/utils/constants';
+import MiniMann, { MiniMannConfig } from './MiniMann';
 
 export default function Avatar({ config }: { config: MiniMannConfig }) {
   return (

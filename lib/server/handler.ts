@@ -1,17 +1,25 @@
-import { handleError, success } from './respond';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-type HandlerFn = (req: NextApiRequest) => Promise<any>;
+export function nope(res: NextApiResponse, status: number, message: string) {
+  return res.status(status).json({ message });
+}
 
-// wrapper function for handlers that catches errors and responds with expected format
-export default (handler: HandlerFn) => async (
-  req: NextApiRequest,
-  res: NextApiResponse,
-): Promise<any> => {
-  try {
-    const data = await handler(req);
-    return success(res, data);
-  } catch (error) {
-    return handleError(res, error);
-  }
-};
+export function yup<T>(res: NextApiResponse, body: T) {
+  return res.status(200).json(body);
+}
+
+export function guardOnlyGet(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'GET') return nope(res, 400, `<dog fetch meme> No ${req.method}. Only GET.`);
+}
+
+export function handler(handle: (req: NextApiRequest, res: NextApiResponse) => Promise<unknown>) {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
+    try {
+      await handle(req, res);
+    } catch (error) {
+      console.error(error);
+      return nope(res, 500, error.message);
+    }
+  };
+}

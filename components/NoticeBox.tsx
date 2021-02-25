@@ -1,5 +1,6 @@
-import React, { PropsWithChildren } from 'react';
 import cx from 'classnames';
+import React, { PropsWithChildren } from 'react';
+
 import WithClassName from '../lib/utils/WithClassName';
 
 export default function NoticeBox({

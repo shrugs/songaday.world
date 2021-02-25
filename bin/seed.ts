@@ -5,14 +5,15 @@ config();
 
 import parse from 'csv-parse/lib/sync';
 import { readFileSync } from 'fs';
-import path from 'path';
-import { DateTime } from 'luxon';
+import compact from 'lodash/compact';
+import head from 'lodash/head';
 import last from 'lodash/last';
 import trim from 'lodash/trim';
 import without from 'lodash/without';
-import head from 'lodash/head';
-import compact from 'lodash/compact';
-import { Song, Location, Beard, Instrument, Mood, Topic } from '../lib/utils/constants';
+import { DateTime } from 'luxon';
+import path from 'path';
+
+import { Beard, Instrument, Location, Mood, Song, Topic } from '../lib/utils/constants';
 
 // these instruments are listed, but we don't have any images for them
 const INGORE_INSTRUMENTS = ['Shaker', 'Claps'];
@@ -67,7 +68,7 @@ const main = async () => {
     columns: true,
   });
 
-  const inputs: Song[] = data.map<any>(record => {
+  const inputs: Song[] = data.map<any>((record) => {
     // console.log(record);
     const number = parseInt(record.number);
     const description = trim(record.description).replace(/^N\/A$/, '');
@@ -81,30 +82,24 @@ const main = async () => {
     const mood = ensureValidProperty<Mood>(Mood, trim(record.mood));
     const beard = ensureValidProperty<Beard>(
       Beard,
-      trim(record.beard)
-        .replace('N/A', Beard.Clean)
-        .replace('Beard', Beard.Stubble),
+      trim(record.beard).replace('N/A', Beard.Clean).replace('Beard', Beard.Stubble),
     );
     const location = ensureValidProperty<Location>(
       Location,
-      trim(record.location)
-        .replace(/ /gi, '')
-        .replace(/,/gi, ''),
+      trim(record.location).replace(/ /gi, '').replace(/,/gi, ''),
     );
     const topic = ensureValidProperty<Topic>(
       Topic,
-      trim(record.topic)
-        .replace(/ /gi, '')
-        .replace('Object', 'Objects'), // special case: 'Object' in spreadsheet is 'Objects' in model
+      trim(record.topic).replace(/ /gi, '').replace('Object', 'Objects'), // special case: 'Object' in spreadsheet is 'Objects' in model
     );
 
     const instruments = compact(
       trim(record.instruments)
         .split(',')
         .map(trim)
-        .map(text => text.replace(/ /gi, ''))
-        .filter(text => !INGORE_INSTRUMENTS.includes(text))
-        .map(text => ensureValidProperty<Instrument>(Instrument, text)),
+        .map((text) => text.replace(/ /gi, ''))
+        .filter((text) => !INGORE_INSTRUMENTS.includes(text))
+        .map((text) => ensureValidProperty<Instrument>(Instrument, text)),
     );
 
     const instrumentsWithoutVocals = without(instruments, Instrument.Vocals);
@@ -113,7 +108,10 @@ const main = async () => {
 
     // for instruments, we have two cases
     // when the track topic is instrumental, the topic becomes Instrumental{PrimaryInstrument}
-    const fullTopic = ensureValidProperty<Topic>(Topic, topic === Topic.Instrumental ? `${topic}${primaryInstument}` : topic);
+    const fullTopic = ensureValidProperty<Topic>(
+      Topic,
+      topic === Topic.Instrumental ? `${topic}${primaryInstument}` : topic,
+    );
 
     return {
       number,
@@ -131,7 +129,7 @@ const main = async () => {
   });
 
   for (const input of inputs) {
-    console.log(input)
+    console.log(input);
   }
 
   process.exit(0);

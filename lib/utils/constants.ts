@@ -254,16 +254,3 @@ export const HumanKeys: Record<string, string> = {
   beard: 'Beard',
   instrument: 'Instrument',
 };
-
-export interface Song {
-  number: number;
-  youtubeId: string;
-  title: string;
-  description: string;
-  location: Location;
-  topic: Topic;
-  mood: Mood;
-  beard: Beard;
-  instrument: Instrument;
-  releasedAt: string;
-}

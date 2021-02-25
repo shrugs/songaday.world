@@ -1,9 +1,10 @@
-import React from 'react';
 import cx from 'classnames';
-import WithClassName from '../lib/utils/WithClassName';
-import { PropsWithChildren } from 'react';
-import { Location, LocationViewConfig } from '../lib/utils/constants';
 import get from 'lodash/get';
+import React from 'react';
+import { PropsWithChildren } from 'react';
+
+import { Location, LocationViewConfig } from '../lib/utils/constants';
+import WithClassName from '../lib/utils/WithClassName';
 
 export default function SongColorBackground({
   className,

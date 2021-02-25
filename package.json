@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "lint": "eslint --ext .ts,.tsx .",
     "start": "next start",
     "script": "ts-node -P tsconfig.bin.json"
   },

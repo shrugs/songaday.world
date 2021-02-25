@@ -1,20 +1,16 @@
-import React, { useMemo, useCallback } from 'react';
 import cx from 'classnames';
-import FilterTag from '../FilterTag';
-import TextTag from './TextTag';
-import WithClassName from '../../lib/utils/WithClassName';
-import YoutubeEmbed from '../YoutubeEmbed';
 import { DateTime } from 'luxon';
-import useSong from '../../lib/queries/useSong';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useCallback, useMemo } from 'react';
 
-function SongCard({
-  className,
-  number,
-  initialSong,
-}: { number: string; initialSong?: any } & WithClassName) {
-  const { data: song } = useSong({ number }, initialSong);
+import { Song } from '../../lib/utils/constants';
+import WithClassName from '../../lib/utils/WithClassName';
+import FilterTag from '../FilterTag';
+import YoutubeEmbed from '../YoutubeEmbed';
+import TextTag from './TextTag';
+
+function SongCard({ className, song }: { song: Song } & WithClassName) {
   const date = useMemo(() => (song ? DateTime.fromISO(song.releasedAt) : DateTime.local()), [song]);
   const subtitleDateString = useMemo(() => date.toLocaleString(DateTime.DATE_FULL), [date]);
   const calendarDateString = useMemo(() => date.toFormat('LLL dd'), [date]);
@@ -96,7 +92,7 @@ function SongCard({
           />
         </div>
         <div className="flex flex-row flex-wrap">
-          {song.tags.map(tag => (
+          {song.tags.map((tag) => (
             <TextTag key={tag} className="mr-2 mb-2" text={tag} />
           ))}
         </div>

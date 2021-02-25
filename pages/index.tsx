@@ -1,29 +1,31 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import pluralize from 'pluralize';
 import cx from 'classnames';
-import MiniMann, { MiniMannConfig } from '../components/minimann/MiniMann';
-import {
-  Location,
-  Topic,
-  Mood,
-  Beard,
-  Instrument,
-  MinimannPropertyValue,
-  LocationViewConfig,
-  HumanMaps,
-  HumanKeys,
-  Song,
-} from '../lib/utils/constants';
+import Head from 'next/head';
+import pluralize from 'pluralize';
+import React, { useCallback, useMemo, useState } from 'react';
+import useSWR from 'swr';
+
 import FilterTag from '../components/FilterTag';
-import NoticeBox from '../components/NoticeBox';
-import useQueryParams from '../lib/useQueryParams';
 import Header from '../components/minimann/Header';
+import MiniMann, { MiniMannConfig } from '../components/minimann/MiniMann';
+import NoticeBox from '../components/NoticeBox';
+import SongCard from '../components/song/SongCard';
 import SongColorBackground from '../components/SongColorBackground';
 import SongListDescription from '../components/SongListDescription';
-import SongCard from '../components/song/SongCard';
-import Head from 'next/head';
-
-const MAX_SONGS = 365;
+import fetcher from '../lib/fetcher';
+import { SongsResponse } from '../lib/types';
+import useQueryParams from '../lib/useQueryParams';
+import { cleanObject } from '../lib/utils/cleanObject';
+import {
+  Beard,
+  HumanKeys,
+  HumanMaps,
+  Instrument,
+  Location,
+  LocationViewConfig,
+  MinimannPropertyValue,
+  Mood,
+  Topic,
+} from '../lib/utils/constants';
 
 const EMPTY_HEADER_CONFIG: MiniMannConfig = {
   location: Location.Vermont,
@@ -33,7 +35,7 @@ const EMPTY_HEADER_CONFIG: MiniMannConfig = {
   instrument: Instrument.Organ,
 };
 
-function Index({ initialSongs }: { initialSongs: Song[] }) {
+function Index({ initialData }: { initialData: SongsResponse }) {
   // filter state
   const [filters, setFilters] = useQueryParams();
   const resetFilters = useCallback(() => setFilters({}), [setFilters]);
@@ -43,9 +45,16 @@ function Index({ initialSongs }: { initialSongs: Song[] }) {
     setFilters({ ...filters, [key]: value });
   };
 
-  const data = undefined;
-  const error = undefined;
-  const loadingSongs = true;
+  const key = useMemo(() => `/api/songs?${new URLSearchParams(cleanObject(filters))}`, [filters]);
+
+  const { data, error } = useSWR<SongsResponse>(key, fetcher, {
+    initialData,
+    // we don't actually need to revalidate at all
+    revalidateOnFocus: false,
+    revalidateOnMount: false,
+    revalidateOnReconnect: false,
+  });
+  const loading = !data && !error;
 
   const hasMore = useMemo(() => data?.hasMore ?? false, [data]);
 
@@ -64,14 +73,14 @@ function Index({ initialSongs }: { initialSongs: Song[] }) {
   const songs: any[] = useMemo(() => data?.songs ?? [], [data]);
   const song: any = useMemo(() => {
     if (focusedSong) {
-      return songs.find(song => song.number == focusedSong);
+      return songs.find((song) => song.number == focusedSong);
     } else {
       return songs.length ? songs[0] : undefined;
     }
   }, [focusedSong, songs]);
   const songNumber = song?.number;
   const songLocation = song?.location;
-  const dark = LocationViewConfig[songLocation]?.dark ?? false
+  const dark = LocationViewConfig[songLocation]?.dark ?? false;
 
   const hasManySongs = songs.length > 1;
 
@@ -114,11 +123,7 @@ function Index({ initialSongs }: { initialSongs: Song[] }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {songNumber ? (
-        <Header number={songNumber} initialSong={song} />
-      ) : (
-        <MiniMann {...(song || EMPTY_HEADER_CONFIG)} />
-      )}
+      {songNumber ? <Header song={song} /> : <MiniMann {...(song || EMPTY_HEADER_CONFIG)} />}
 
       <SongColorBackground className="flex-grow p-4 pb-10" location={songLocation}>
         <div className="flex flex-col">
@@ -160,7 +165,7 @@ function Index({ initialSongs }: { initialSongs: Song[] }) {
           <div className={cx('flex flex-row flex-wrap', { 'text-white': dark })}>
             {showSelectedFilters &&
               Object.keys(filters).map(
-                key =>
+                (key) =>
                   filters[key] && (
                     <div key={key}>
                       <FilterTag
@@ -179,10 +184,10 @@ function Index({ initialSongs }: { initialSongs: Song[] }) {
               data &&
               data.filters &&
               data.filters[focusedTab] &&
-              data.filters[focusedTab].map(prop => (
-                <div className={cx({ 'pointer-events-none': loadingSongs })} key={prop}>
+              data.filters[focusedTab].map((prop) => (
+                <div className={cx({ 'pointer-events-none': loading })} key={prop}>
                   <FilterTag
-                    onClick={() => handleFilterTagSelect(focusedTab, prop)}
+                    onClick={() => handleFilterTagSelect(focusedTab, prop as MinimannPropertyValue)}
                     className="mr-4 mb-2"
                     prefix={focusedTab}
                     thumbKey={prop}
@@ -195,7 +200,7 @@ function Index({ initialSongs }: { initialSongs: Song[] }) {
               ))}
           </div>
 
-          {error && !loadingSongs && (
+          {error && !loading && (
             <NoticeBox className="mb-2" color="red">
               {JSON.stringify(error)}
             </NoticeBox>
@@ -227,9 +232,9 @@ function Index({ initialSongs }: { initialSongs: Song[] }) {
             </NoticeBox>
           )}
           <div className="flex flex-row flex-wrap song-card-list">
-            {songs.slice(1).map(song => (
+            {songs.slice(1).map((song) => (
               <div key={song.id} className="w-full md:song-card mb-4 cursor-pointer">
-                <SongCard number={song.number} initialSong={song} className="rounded-lg" />
+                <SongCard song={song} className="rounded-lg" />
               </div>
             ))}
           </div>

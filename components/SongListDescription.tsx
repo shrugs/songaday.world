@@ -1,11 +1,12 @@
 import React from 'react';
+
 import {
-  MinimannPropertyFilter,
-  HumanLocation,
-  HumanTopic,
-  HumanMood,
   HumanBeard,
   HumanInstrument,
+  HumanLocation,
+  HumanMood,
+  HumanTopic,
+  MinimannPropertyFilter,
 } from '../lib/utils/constants';
 
 export default function SongListDescription({

@@ -1,4 +1,4 @@
-import pickBy from 'lodash/pickBy';
 import identity from 'lodash/identity';
+import pickBy from 'lodash/pickBy';
 
-export default (obj: Record<string, any>) => pickBy(obj, identity);
+export const cleanObject = (obj: Record<string, any>) => pickBy(obj, identity);

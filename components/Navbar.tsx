@@ -1,8 +1,7 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 
 function Navbar() {
-
   return (
     <header className="flex flex-row flex-wrap px-4 py-2 h-12 sm:h-16 md:h-20 lg:h-24">
       <Link href="/">
