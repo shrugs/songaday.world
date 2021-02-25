@@ -1,21 +1,27 @@
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { ComponentPropsWithoutRef } from 'react';
 import useSWR from 'swr';
 
 import Header from '../../components/minimann/Header';
 import SongColorBackground from '../../components/SongColorBackground';
+import { getSong } from '../../lib/db';
 import fetcher from '../../lib/fetcher';
 import { Song } from '../../lib/types';
 
 function SongPage({ initialData }: { initialData?: Song }) {
-  const { data, error } = useSWR<Song>(`/api/song`, fetcher, {
+  const router = useRouter();
+  const number = router.query.number as string;
+
+  // TODO: handle error
+  const { data, error } = useSWR<Song>(`/api/song/${number}`, fetcher, {
     initialData,
-    // we don't actually need to revalidate at all
+    // we don't actually need to revalidate at all on this one
     revalidateOnFocus: false,
-    revalidateOnMount: false,
+    revalidateOnMount: !initialData,
     revalidateOnReconnect: false,
   });
-  const loading = !data && !error;
 
   return (
     <div className="flex-grow flex flex-col">
@@ -29,5 +35,16 @@ function SongPage({ initialData }: { initialData?: Song }) {
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<
+  ComponentPropsWithoutRef<typeof SongPage>
+> = async (ctx) => {
+  // fetch
+  const song = getSong(parseInt(ctx.params.number as string));
+
+  if (!song) return { notFound: true };
+
+  return { props: { initialData: song } };
+};
 
 export default SongPage;

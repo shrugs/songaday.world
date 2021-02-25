@@ -1,7 +1,8 @@
 import cx from 'classnames';
+import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import pluralize from 'pluralize';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { ComponentPropsWithoutRef, useCallback, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
 import FilterTag from '../components/FilterTag';
@@ -11,6 +12,7 @@ import NoticeBox from '../components/NoticeBox';
 import SongCard from '../components/song/SongCard';
 import SongColorBackground from '../components/SongColorBackground';
 import SongListDescription from '../components/SongListDescription';
+import { findSongs } from '../lib/db';
 import fetcher from '../lib/fetcher';
 import { SongsResponse } from '../lib/types';
 import useQueryParams from '../lib/useQueryParams';
@@ -49,9 +51,9 @@ function Index({ initialData }: { initialData: SongsResponse }) {
 
   const { data, error } = useSWR<SongsResponse>(key, fetcher, {
     initialData,
-    // we don't actually need to revalidate at all
+    // we don't actually need to revalidate at all on this one
     revalidateOnFocus: false,
-    revalidateOnMount: false,
+    revalidateOnMount: !initialData,
     revalidateOnReconnect: false,
   });
   const loading = !data && !error;
@@ -75,7 +77,7 @@ function Index({ initialData }: { initialData: SongsResponse }) {
     if (focusedSong) {
       return songs.find((song) => song.number == focusedSong);
     } else {
-      return songs.length ? songs[0] : undefined;
+      return songs?.[0];
     }
   }, [focusedSong, songs]);
   const songNumber = song?.number;
@@ -250,5 +252,19 @@ function Index({ initialData }: { initialData: SongsResponse }) {
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps<
+  ComponentPropsWithoutRef<typeof Index>
+> = async (ctx) => {
+  const response = findSongs({
+    location: ctx.query.location as Location,
+    topic: ctx.query.topic as Topic,
+    mood: ctx.query.mood as Mood,
+    beard: ctx.query.beard as Beard,
+    instrument: ctx.query.instrument as Instrument,
+  });
+
+  return { props: { initialData: response } };
+};
 
 export default Index;
