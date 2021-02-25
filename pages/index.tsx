@@ -174,7 +174,6 @@ function Index({ initialData }: { initialData: SongsResponse }) {
                         className="mr-4 mb-2"
                         prefix={key}
                         thumbKey={filters[key]}
-                        size="24"
                         selected={true}
                       >
                         {HumanMaps[key][filters[key]]}
@@ -193,7 +192,6 @@ function Index({ initialData }: { initialData: SongsResponse }) {
                     className="mr-4 mb-2"
                     prefix={focusedTab}
                     thumbKey={prop}
-                    size="24"
                     selected={filters[focusedTab] === prop}
                   >
                     {HumanMaps[focusedTab][prop]}

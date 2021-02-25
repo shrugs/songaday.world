@@ -65,30 +65,35 @@ function SongCard({ className, song }: { song: Song } & WithClassName) {
             className="mr-2 mb-2"
             prefix="location"
             thumbKey={song.location}
+            smol
           />
           <FilterTag
             onClick={searchForSong('instrument', song.instrument)}
             className="mr-2 mb-2"
             prefix="instrument"
             thumbKey={song.instrument}
+            smol
           />
           <FilterTag
             onClick={searchForSong('topic', song.topic)}
             className="mr-2 mb-2"
             prefix="topic"
             thumbKey={song.topic}
+            smol
           />
           <FilterTag
             onClick={searchForSong('mood', song.mood)}
             className="mr-2 mb-2"
             prefix="mood"
             thumbKey={song.mood}
+            smol
           />
           <FilterTag
             onClick={searchForSong('beard', song.beard)}
             className="mr-2 mb-2"
             prefix="beard"
             thumbKey={song.beard}
+            smol
           />
         </div>
         <div className="flex flex-row flex-wrap">

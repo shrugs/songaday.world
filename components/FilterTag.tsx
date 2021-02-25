@@ -11,24 +11,28 @@ export default function FilterTag({
   prefix,
   thumbKey,
   selected = false,
-  size = '10',
+  smol = false,
   children,
   onClick,
 }: PropsWithChildren<{
   prefix: string;
   thumbKey: string;
   selected?: boolean;
-  size?: string;
+  smol?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
 }> &
   WithClassName) {
   const shouldCover = prefix === 'location';
   const hasChildren = React.Children.count(children) > 0;
   return (
-    <div onClick={onClick} className={cx(`flex flex-col w-${size} cursor-pointer`, className)}>
+    <div
+      onClick={onClick}
+      className={cx(className, 'flex flex-col cursor-pointer', smol ? 'w-10' : 'w-24')}
+    >
       <div
         className={cx(
-          `relative rounded-lg hover:shadow overflow-hidden bg-white w-${size} h-${size}`,
+          'relative rounded-lg hover:shadow overflow-hidden bg-white',
+          smol ? 'w-10 h-10' : 'w-24 h-24',
           {
             'border-4 border-selectpurple': selected,
             'mb-1': hasChildren,
@@ -37,7 +41,7 @@ export default function FilterTag({
         )}
       >
         <div
-          className={cx(`w-full h-full bg-no-repeat bg-center thumb`, {
+          className={cx('w-full h-full bg-no-repeat bg-center thumb', {
             'bg-contain': !shouldCover,
             'bg-cover': shouldCover,
           })}
