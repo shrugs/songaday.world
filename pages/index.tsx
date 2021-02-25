@@ -1,9 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import get from 'lodash/get';
 import pluralize from 'pluralize';
-import FlipMove from 'react-flip-move';
 import cx from 'classnames';
-import getInitialProps from '../lib/getInitialProps/getInitialProps';
 import MiniMann, { MiniMannConfig } from '../components/minimann/MiniMann';
 import {
   Location,
@@ -18,7 +16,6 @@ import {
 } from '../lib/utils/constants';
 import FilterTag from '../components/FilterTag';
 import NoticeBox from '../components/NoticeBox';
-import useAvailableSongs from '../lib/queries/useAvailableSongs';
 import { useAsync } from 'react-async';
 import cleanObject from '../lib/utils/cleanObject';
 import useQueryParams from '../lib/useQueryParams';
@@ -27,7 +24,6 @@ import SongColorBackground from '../components/SongColorBackground';
 import SongListDescription from '../components/SongListDescription';
 import SongCard from '../components/song/SongCard';
 import fetcher from '../lib/fetcher';
-import APIToken from '../lib/containers/APIToken';
 import Head from 'next/head';
 import random from 'lodash/random';
 
@@ -54,12 +50,13 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   };
 
   // data state
-  const [token] = APIToken.useContainer();
   const promiseFn = useMemo(
     () => async ({ filters }) =>
-      fetcher(token, `/api/available_songs?${new URLSearchParams(cleanObject(filters))}`),
-    [token],
+      fetcher(`/api/available_songs?${new URLSearchParams(cleanObject(filters))}`),
+    [],
   );
+
+  // TODO: replace with swr?
   const { data, error, isPending: loadingSongs, cancel } = useAsync<any>({
     promiseFn,
     initialValue: initialAvailableSongs,
@@ -193,7 +190,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
             </div>
           </div>
 
-          <FlipMove className={cx('flex flex-row flex-wrap', { 'text-white': dark })}>
+          <div className={cx('flex flex-row flex-wrap', { 'text-white': dark })}>
             {showSelectedFilters &&
               Object.keys(filters).map(
                 key =>
@@ -229,7 +226,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
                   </FilterTag>
                 </div>
               ))}
-          </FlipMove>
+          </div>
 
           {error && !loadingSongs && (
             <NoticeBox className="mb-2" color="red">
@@ -281,13 +278,5 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
     </>
   );
 }
-
-Create.getInitialProps = getInitialProps(async ctx => {
-  const initialAvailableSongs = await useAvailableSongs.getInitialData(ctx, ctx.query, {
-    required: true,
-  });
-
-  return { initialAvailableSongs };
-});
 
 export default Create;

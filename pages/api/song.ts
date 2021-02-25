@@ -1,13 +1,13 @@
 import handler from '../../lib/server/handler';
 import { NotImplementedError, NotFoundError } from '../../common/KnownErrors';
-import getFullSong from '../../lib/server/getFullSong';
 
 export default handler(async req => {
   const number = parseInt(req.query.number as string);
 
   switch (req.method) {
     case 'GET': {
-      const song = await getFullSong(number);
+      // TODO: look up song by number
+      const song = undefined;
 
       if (!song) {
         throw new NotFoundError();

@@ -1,21 +1,13 @@
 import React from 'react';
 import App from 'next/app';
 
-import nest from '../lib/nest';
-import APIToken from '../lib/containers/APIToken';
-
 import '../styles/_main.css';
 import Navbar from '../components/Navbar';
 import Head from 'next/head';
-import { AppContextType } from 'next/dist/next-server/lib/utils';
-import { Router } from 'next/router';
-import useProfile from '../lib/queries/useProfile';
 
-const Providers = nest([APIToken.Provider]);
-
-class MyApp extends App<{ initialProfile: any }> {
+class MyApp extends App {
   render() {
-    const { Component, pageProps, initialProfile } = this.props;
+    const { Component, pageProps } = this.props;
 
     return (
       <>
@@ -24,18 +16,14 @@ class MyApp extends App<{ initialProfile: any }> {
           <meta name="viewport" content="width=device-width" />
         </Head>
 
-        <Providers>
-          <useProfile.InitialDataContext.Provider value={initialProfile}>
-            <div className="relative antialiased text-gray-900 min-h-screen flex flex-col">
-              <div className="relative w-full max-w-6xl mx-auto flex-grow flex flex-col">
-                <Navbar />
-                <main className="flex-grow flex flex-col">
-                  <Component {...pageProps} />
-                </main>
-              </div>
-            </div>
-          </useProfile.InitialDataContext.Provider>
-        </Providers>
+        <div className="relative antialiased text-gray-900 min-h-screen flex flex-col">
+          <div className="relative w-full max-w-6xl mx-auto flex-grow flex flex-col">
+            <Navbar />
+            <main className="flex-grow flex flex-col">
+              <Component {...pageProps} />
+            </main>
+          </div>
+        </div>
 
         <style jsx global>{`
           #__next {
@@ -47,16 +35,5 @@ class MyApp extends App<{ initialProfile: any }> {
     );
   }
 }
-
-// MyApp.getInitialProps = async (ctx: AppContextType<Router>) => {
-//   const appProps = await App.getInitialProps(ctx);
-
-//   let initialProfile = undefined;
-//   try {
-//     initialProfile = await useProfile.getInitialData(ctx.ctx);
-//   } catch {}
-
-//   return { ...appProps, initialProfile };
-// };
 
 export default MyApp;

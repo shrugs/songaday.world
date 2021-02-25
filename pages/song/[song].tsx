@@ -2,9 +2,6 @@ import React from 'react';
 import Head from 'next/head';
 import Header from '../../components/minimann/Header';
 import useSong from '../../lib/queries/useSong';
-import { NextPageContext } from 'next';
-import getInitialProps from '../../lib/getInitialProps/getInitialProps';
-import CommentThread from '../../components/CommentThread';
 import SongColorBackground from '../../components/SongColorBackground';
 
 function SongPage({ number, initialSong }: { number: string; initialSong?: any }) {
@@ -29,11 +26,5 @@ function SongPage({ number, initialSong }: { number: string; initialSong?: any }
     </useSong.InitialDataContext.Provider>
   );
 }
-
-SongPage.getInitialProps = getInitialProps(async (ctx: NextPageContext) => {
-  const number = ctx.query.song as string;
-  const initialSong = await useSong.getInitialData(ctx, { number });
-  return { number, initialSong };
-});
 
 export default SongPage;

@@ -1,10 +1,10 @@
-import photon from '../../lib/server/photon';
+
 import handler from '../../lib/server/handler';
 import { NotImplementedError } from '../../common/KnownErrors';
-import { Location, Topic, Mood, Beard, Instrument } from '@prisma/client';
 import uniq from 'lodash/uniq';
 import mapValues from 'lodash/mapValues';
 import take from 'lodash/take';
+import { Beard, Instrument, Location, Mood, Topic } from '../../lib/utils/constants';
 
 const MAX_SONGS = 11;
 
@@ -19,18 +19,8 @@ export default handler(async req => {
     case 'GET': {
       // first, find available songs by filter criteria in req.query.
       // then take the valid songs and find all of their available filters
-      const songs = await photon.song.findMany({
-        where: {
-          location,
-          topic,
-          mood,
-          beard,
-          instrument,
-          // NOT: {
-          //   owner: {},
-          // },
-        },
-      });
+      // TODO: filter in-mem songs db by values
+      const songs = [];
 
       const filters = mapValues(
         songs.reduce(

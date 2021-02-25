@@ -4,63 +4,15 @@ export class KnownError extends Error {
   }
 }
 
-export class NotAdminError extends KnownError {
-  constructor() {
-    super('NotAdmin');
-  }
-}
-
-export class InvalidCodeError extends KnownError {
-  constructor() {
-    super('InvalidCode');
-  }
-}
-
-export class InvalidEmailError extends KnownError {
-  constructor() {
-    super('InvalidEmail');
-  }
-}
-
-export class NoAuthorizationHeaderError extends KnownError {
-  constructor() {
-    super('NoAuthorizationHeader');
-  }
-}
-
-export class MalformedAuthorizationHeaderError extends KnownError {
-  constructor() {
-    super('MalformedAuthorizationHeader');
-  }
-}
-
 export class NotImplementedError extends KnownError {
   constructor() {
     super('NotImplementedError', 501);
   }
 }
 
-export class UnauthenticatedError extends KnownError {
-  constructor() {
-    super('Unauthenticated', 401);
-  }
-}
-
 export class UnsupportedMethodError extends KnownError {
   constructor() {
-    super('UnsupportedMethod');
-  }
-}
-
-export class SongAlreadyOwnedError extends KnownError {
-  constructor() {
-    super('SongAlreadyOwnedError');
-  }
-}
-
-export class SongAlreadyCollectedError extends KnownError {
-  constructor() {
-    super('SongAlreadyCollectedError');
+    super('UnsupportedMethod', 400);
   }
 }
 
@@ -74,8 +26,11 @@ export function isKnownError(error: any): error is KnownError {
   return !!error.code && !!error.status;
 }
 
-type AKnownError = typeof NotFoundError | typeof UnauthenticatedError;
+type AnyKnownError =
+  | typeof NotImplementedError
+  | typeof UnsupportedMethodError
+  | typeof NotFoundError;
 
-export function isKnownErrorOfType(error: KnownError, aKnownError: AKnownError): boolean {
-  return error.code === new aKnownError().code;
+export function isKnownErrorOfType(error: KnownError, anyKnownError: AnyKnownError): boolean {
+  return error.code === new anyKnownError().code;
 }

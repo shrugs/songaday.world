@@ -15,6 +15,7 @@ export interface MiniMannConfig {
 interface MiniMannProps extends MiniMannConfig {
   offset?: boolean;
 }
+
 // expects parent to provide sizing
 // renders a minimann, given their configuration
 // TODO: arguments—id or full config?

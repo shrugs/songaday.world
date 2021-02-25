@@ -3,17 +3,16 @@
 import { config } from 'dotenv';
 config();
 
-import photon from '../lib/server/photon';
 import parse from 'csv-parse/lib/sync';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { DateTime } from 'luxon';
-import { SongCreateInput, Location, Topic, Mood, Beard, Instrument } from '@prisma/client';
 import last from 'lodash/last';
 import trim from 'lodash/trim';
 import without from 'lodash/without';
 import head from 'lodash/head';
 import compact from 'lodash/compact';
+import { Song, Location, Beard, Instrument, Mood, Topic } from '../lib/utils/constants';
 
 // these instruments are listed, but we don't have any images for them
 const INGORE_INSTRUMENTS = ['Shaker', 'Claps'];
@@ -68,7 +67,7 @@ const main = async () => {
     columns: true,
   });
 
-  const inputs: SongCreateInput[] = data.map<any>(record => {
+  const inputs: Song[] = data.map<any>(record => {
     // console.log(record);
     const number = parseInt(record.number);
     const description = trim(record.description).replace(/^N\/A$/, '');
@@ -86,7 +85,7 @@ const main = async () => {
         .replace('N/A', Beard.Clean)
         .replace('Beard', Beard.Stubble),
     );
-    const location = ensureValidProperty(
+    const location = ensureValidProperty<Location>(
       Location,
       trim(record.location)
         .replace(/ /gi, '')
@@ -114,7 +113,7 @@ const main = async () => {
 
     // for instruments, we have two cases
     // when the track topic is instrumental, the topic becomes Instrumental{PrimaryInstrument}
-    const fullTopic = topic === Topic.Instrumental ? `${topic}${primaryInstument}` : topic;
+    const fullTopic = ensureValidProperty<Topic>(Topic, topic === Topic.Instrumental ? `${topic}${primaryInstument}` : topic);
 
     return {
       number,
@@ -126,17 +125,13 @@ const main = async () => {
       beard,
       location,
       instrument: primaryInstument,
-      tags: { set: tags },
-      releasedAt: releasedAt.toJSDate(),
-    } as SongCreateInput;
+      tags,
+      releasedAt: releasedAt.toISODate(),
+    } as Song;
   });
 
   for (const input of inputs) {
-    await photon.song.upsert({
-      where: { number: input.number },
-      create: input,
-      update: input,
-    });
+    console.log(input)
   }
 
   process.exit(0);
