@@ -1,5 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import get from 'lodash/get';
+import React, { useState, useCallback, useMemo } from 'react';
 import pluralize from 'pluralize';
 import cx from 'classnames';
 import MiniMann, { MiniMannConfig } from '../components/minimann/MiniMann';
@@ -13,23 +12,18 @@ import {
   LocationViewConfig,
   HumanMaps,
   HumanKeys,
+  Song,
 } from '../lib/utils/constants';
 import FilterTag from '../components/FilterTag';
 import NoticeBox from '../components/NoticeBox';
-import { useAsync } from 'react-async';
-import cleanObject from '../lib/utils/cleanObject';
 import useQueryParams from '../lib/useQueryParams';
 import Header from '../components/minimann/Header';
 import SongColorBackground from '../components/SongColorBackground';
 import SongListDescription from '../components/SongListDescription';
 import SongCard from '../components/song/SongCard';
-import fetcher from '../lib/fetcher';
 import Head from 'next/head';
-import random from 'lodash/random';
 
 const MAX_SONGS = 365;
-
-const randomSong = () => random(1, MAX_SONGS, false);
 
 const EMPTY_HEADER_CONFIG: MiniMannConfig = {
   location: Location.Vermont,
@@ -39,7 +33,7 @@ const EMPTY_HEADER_CONFIG: MiniMannConfig = {
   instrument: Instrument.Organ,
 };
 
-function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
+function Index({ initialSongs }: { initialSongs: Song[] }) {
   // filter state
   const [filters, setFilters] = useQueryParams();
   const resetFilters = useCallback(() => setFilters({}), [setFilters]);
@@ -49,28 +43,11 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
     setFilters({ ...filters, [key]: value });
   };
 
-  // data state
-  const promiseFn = useMemo(
-    () => async ({ filters }) =>
-      fetcher(`/api/available_songs?${new URLSearchParams(cleanObject(filters))}`),
-    [],
-  );
+  const data = undefined;
+  const error = undefined;
+  const loadingSongs = true;
 
-  // TODO: replace with swr?
-  const { data, error, isPending: loadingSongs, cancel } = useAsync<any>({
-    promiseFn,
-    initialValue: initialAvailableSongs,
-    filters,
-    watch: filters,
-  });
-
-  const hasMore = useMemo(() => get(data, ['hasMore'], false), [data]);
-
-  // TODO: remove this line when this issue is closed
-  // https://github.com/async-library/react-async/issues/249
-  useEffect(() => {
-    cancel();
-  }, [cancel]);
+  const hasMore = useMemo(() => data?.hasMore ?? false, [data]);
 
   // ui filter header state
   const [focusedTab, setFocusedTab] = useState<string>();
@@ -84,7 +61,7 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
     setFocusedSong(undefined);
   }, [resetFilters]);
 
-  const songs: any[] = useMemo(() => get(data, ['songs'], []), [data]);
+  const songs: any[] = useMemo(() => data?.songs ?? [], [data]);
   const song: any = useMemo(() => {
     if (focusedSong) {
       return songs.find(song => song.number == focusedSong);
@@ -92,9 +69,9 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
       return songs.length ? songs[0] : undefined;
     }
   }, [focusedSong, songs]);
-  const songNumber = useMemo(() => get(song, ['number']), [song]);
-  const songLocation = useMemo(() => get(song, ['location']), [song]);
-  const dark = get(LocationViewConfig, [songLocation, 'dark'], false);
+  const songNumber = song?.number;
+  const songLocation = song?.location;
+  const dark = LocationViewConfig[songLocation]?.dark ?? false
 
   const hasManySongs = songs.length > 1;
 
@@ -102,10 +79,6 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   const showSelectedFilters = !focusedTab || !hasManySongs;
   // hide the selected tab when showing the selected filters
   const visiblySelectedTab = showSelectedFilters ? undefined : focusedTab;
-
-  const handleFeelingLucky = useCallback(async () => {
-    // TODO: make random song selection fetch a random song's info and then populate filters with its information
-  }, []);
 
   // view builders
   const tabButton = (key: string) => {
@@ -116,7 +89,10 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
     return (
       <button
         className={cx(
-          'mr-1 mb-1 px-4 py-2 leading-none text-sm border-2 border-gray-800 rounded font-bold disabled:opacity-50 disabled:pointer-events-none',
+          'mr-1 mb-1 px-4 py-2',
+          'leading-none text-sm font-bold',
+          'rounded border-2 border-gray-800',
+          'disabled:opacity-50 disabled:pointer-events-none',
           {
             'bg-gray-200 text-gray-900': !focused && !selected,
             'bg-gray-100 text-gray-900': !focused && selected,
@@ -168,15 +144,6 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
               {tabButton('beard')}
             </div>
             <div className="flex flex-row items-center">
-              {/* {!hasFiltered && (
-                <button
-                  className="mr-1 px-2 py-2 bg-gray-200 hover:bg-gray-100 text-gray-900 border-2 border-gray-800 rounded leading-none text-sm font-bold flex flex-row"
-                  onClick={handleFeelingLucky}
-                >
-                  <span className="mx-1 whitespace-no-wrap">I'm feeling lucky</span>
-                  <img className="h-4 w-4" src="/assets/dice.svg" alt="dice"></img>
-                </button>
-              )} */}
               <button
                 className={cx(
                   'p-4 hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
@@ -279,4 +246,4 @@ function Create({ initialAvailableSongs }: { initialAvailableSongs: any }) {
   );
 }
 
-export default Create;
+export default Index;
