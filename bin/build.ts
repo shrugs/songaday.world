@@ -15,6 +15,7 @@ import path from 'path';
 
 import { Song } from '../lib/types';
 import { Beard, Instrument, Location, Mood, Topic } from '../lib/utils/constants';
+import { getBackground } from '../lib/utils/images';
 
 // these instruments are listed, but we don't have any images for them
 const INGORE_INSTRUMENTS = ['Shaker', 'Claps'];
@@ -72,10 +73,7 @@ const main = async () => {
     const tags = compact(record.tags.split(',').map(trim));
 
     const mood = ensureValidProperty<Mood>(Mood, trim(record.mood));
-    const beard = ensureValidProperty<Beard>(
-      Beard,
-      trim(record.beard).replace('N/A', Beard.Clean).replace('Beard', Beard.Stubble),
-    );
+    const beard = ensureValidProperty<Beard>(Beard, trim(record.beard).replace('N/A', Beard.Clean));
     const location = ensureValidProperty<Location>(
       Location,
       trim(record.location).replace(/ /gi, '').replace(/,/gi, ''),
@@ -105,6 +103,8 @@ const main = async () => {
       topic === Topic.Instrumental ? `${topic}${primaryInstument}` : topic,
     );
 
+    const releasedAtStr = releasedAt.toISODate();
+
     return {
       number,
       youtubeId,
@@ -115,8 +115,9 @@ const main = async () => {
       beard,
       location,
       instrument: primaryInstument,
+      background: getBackground(releasedAtStr),
       tags,
-      releasedAt: releasedAt.toISODate(),
+      releasedAt: releasedAtStr,
     };
   });
 

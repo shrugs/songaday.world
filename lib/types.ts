@@ -16,6 +16,15 @@ export interface Song {
   mood: Mood;
   beard: Beard;
   instrument: Instrument;
+  background: string; // Holiday or hsl rgb
   tags: string[];
   releasedAt: string;
+}
+
+export enum Holiday {
+  Birthday = 'birthday',
+  Thanksgiving = 'thanksgiving',
+  Halloween = 'halloween',
+  Christmas = 'christmas',
+  NewYearsEve = 'newyearseve',
 }

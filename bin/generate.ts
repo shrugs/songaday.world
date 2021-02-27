@@ -35,52 +35,36 @@ const composite = (a: string, b: string, out: string) =>
       }),
   );
 
+function tempBackgroundColor(color: string): Promise<string> {
+  const path = tempy.file({ extension: 'png' });
+  return new Promise((resolve, reject) =>
+    gm(1792, 768, color).write(path, (err) => {
+      if (err) return reject(err);
+      return resolve(path);
+    }),
+  );
+}
+
 const main = async () => {
   // ensure the generated directory is available
   ensureDir(join(__dirname, '../public/generated'));
-
-  await composite(
-    pathFromKey('topic', resolveTopic(songs[0].number, songs[0].topic)),
-    pathFromKey('mood', songs[0].mood),
-    'out.png',
-  );
 
   await pMap(
     songs,
     async (song) => {
       const { number } = song;
 
-      if (
-        [
-          Topic.Christmas,
-          Topic.Objects,
-          Topic.Friend,
-          Topic.InstrumentalSamples,
-          Topic.InstrumentalSynths,
-          Topic.Food,
-        ].includes(song.topic)
-      )
-        return;
-
-      if (
-        [
-          Instrument.AcousticGuitar,
-          Instrument.Banjo,
-          Instrument.Vocals,
-          Instrument.Congas,
-        ].includes(song.instrument)
-      )
-        return;
-
-      if ([Beard.Stubble].includes(song.beard)) return;
+      if ([Topic.InstrumentalSamples, Topic.InstrumentalSynths].includes(song.topic)) return;
+      if ([Instrument.Vocals, Instrument.Congas].includes(song.instrument)) return;
 
       const temp = tempy.file({ extension: 'png' });
       const final = join(__dirname, `../public/generated/${number}.png`);
-      await composite(
-        pathFromKey('location', song.location),
-        pathFromKey('topic', resolveTopic(number, song.topic)),
-        temp,
-      );
+
+      const background = song.background.startsWith('#')
+        ? await tempBackgroundColor(song.background)
+        : pathFromKey('special', song.background);
+      await composite(background, pathFromKey('location', song.location), temp);
+      await composite(temp, pathFromKey('topic', resolveTopic(song.topic, song.releasedAt)), temp);
       await composite(temp, pathFromKey('mood', song.mood), temp);
       await composite(temp, pathFromKey('beard', song.beard), temp);
       await composite(temp, pathFromKey('instrument', song.instrument), final);

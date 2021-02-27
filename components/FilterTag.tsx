@@ -4,7 +4,7 @@ import React, { MouseEventHandler, PropsWithChildren } from 'react';
 import WithClassName from '../lib/utils/WithClassName';
 
 const uriFromKey = (prefix: string, key: string) =>
-  `/images/${prefix}_${key.toLowerCase()}_cutdown.svg`;
+  `/thumbnails/${prefix}_${key.toLowerCase()}_cutdown.svg`;
 
 export default function FilterTag({
   className,

@@ -80,8 +80,8 @@ export enum Mood {
 
 export enum Beard {
   Clean = 'Clean',
+  Beard = 'Beard',
   Shadow = 'Shadow',
-  Stubble = 'Stubble',
 }
 
 export enum Instrument {
@@ -216,8 +216,8 @@ export const HumanMood: Record<Mood, string> = {
 
 export const HumanBeard: Record<Beard, string> = {
   [Beard.Clean]: 'Clean',
+  [Beard.Beard]: 'Beard',
   [Beard.Shadow]: 'Shadow',
-  [Beard.Stubble]: 'Stubble',
 };
 
 export const HumanInstrument: Record<Instrument, string> = {

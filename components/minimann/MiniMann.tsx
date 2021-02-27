@@ -9,7 +9,7 @@ const uriFromKey = (prefix: string, key: string) => `/images/${nameFromKey(prefi
 
 export type MiniMannConfig = Pick<
   Song,
-  'number' | 'location' | 'topic' | 'mood' | 'beard' | 'instrument'
+  'location' | 'topic' | 'mood' | 'beard' | 'instrument' | 'releasedAt'
 >;
 
 interface MiniMannProps extends MiniMannConfig {
@@ -19,12 +19,12 @@ interface MiniMannProps extends MiniMannConfig {
 // expects parent to provide sizing
 // renders a minimann, given their configuration
 export default function MiniMann({
-  number,
   location,
   topic,
   mood,
   beard,
   instrument,
+  releasedAt,
   offset = false,
 }: MiniMannProps) {
   const conditionalOffset = cx({ 'lg:offset-layer-in-frame': offset });
@@ -46,7 +46,7 @@ export default function MiniMann({
           background-image: url(${uriFromKey('location', location)});
         }
         .topic {
-          background-image: url(${uriFromKey('topic', resolveTopic(number, topic))});
+          background-image: url(${uriFromKey('topic', resolveTopic(topic, releasedAt))});
         }
         .mood {
           background-image: url(${uriFromKey('mood', mood)});
