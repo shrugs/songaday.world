@@ -16,28 +16,48 @@ export default function SongListDescription({
 }) {
   const fragments = [];
   if (location) {
-    fragments.push(<> in </>);
-    fragments.push(<span className="font-semibold">{HumanLocation[location]}</span>);
+    fragments.push(<React.Fragment key="in"> in </React.Fragment>);
+    fragments.push(
+      <span className="font-semibold" key="in-value">
+        {HumanLocation[location]}
+      </span>,
+    );
   }
 
   if (topic) {
-    fragments.push(<> about </>);
-    fragments.push(<span className="font-semibold">{HumanTopic[topic]}</span>);
+    fragments.push(<React.Fragment key="about"> about </React.Fragment>);
+    fragments.push(
+      <span className="font-semibold" key="about-value">
+        {HumanTopic[topic]}
+      </span>,
+    );
   }
 
   if (instrument) {
-    fragments.push(<> on the </>);
-    fragments.push(<span className="font-semibold">{HumanInstrument[instrument]}</span>);
+    fragments.push(<React.Fragment key="on"> on the </React.Fragment>);
+    fragments.push(
+      <span className="font-semibold" key="on-value">
+        {HumanInstrument[instrument]}
+      </span>,
+    );
   }
 
   if (mood) {
-    fragments.push(<> while </>);
-    fragments.push(<span className="font-semibold">{HumanMood[mood]}</span>);
+    fragments.push(<React.Fragment key="while"> while </React.Fragment>);
+    fragments.push(
+      <span className="font-semibold" key="while-value">
+        {HumanMood[mood]}
+      </span>,
+    );
   }
 
   if (beard) {
-    fragments.push(<> with a </>);
-    fragments.push(<span className="font-semibold">{HumanBeard[beard]} beard</span>);
+    fragments.push(<React.Fragment key="with"> with a </React.Fragment>);
+    fragments.push(
+      <span className="font-semibold" key="with-value">
+        {HumanBeard[beard]} beard
+      </span>,
+    );
   }
 
   return <span>recorded{fragments}</span>;

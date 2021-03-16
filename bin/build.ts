@@ -121,9 +121,13 @@ const main = async () => {
     };
   });
 
-  writeFileSync(path.join(__dirname, '../generated/db.json'), JSON.stringify(inputs), {
-    flag: 'w',
-  });
+  writeFileSync(
+    path.join(__dirname, '../generated/db.js'),
+    `export default ${JSON.stringify(inputs)}`,
+    {
+      flag: 'w',
+    },
+  );
 };
 
 main()

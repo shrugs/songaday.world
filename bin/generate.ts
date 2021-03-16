@@ -9,7 +9,7 @@ import pMap from 'p-map';
 import { join } from 'path';
 import tempy from 'tempy';
 
-import db from '../generated/db.json';
+import db from '../generated/db';
 import { Song } from '../lib/types';
 import { Instrument, Topic } from '../lib/utils/constants';
 import { nameFromKey, resolveTopic } from '../lib/utils/images';

@@ -2,7 +2,7 @@ import mapValues from 'lodash/mapValues';
 import take from 'lodash/take';
 import uniq from 'lodash/uniq';
 
-import _db from '../generated/db.json';
+import _db from '../generated/db';
 import { Song, SongsResponse } from './types';
 import { Beard, Instrument, Location, Mood, Topic } from './utils/constants';
 

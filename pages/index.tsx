@@ -38,7 +38,10 @@ const EMPTY_HEADER_CONFIG: MiniMannConfig = {
   releasedAt: '2021-03-16T11:20:56.737-04:00',
 };
 
-function Index({ initialData }: { initialData: SongsResponse }) {
+const makeKey = (filters: Record<string, string>) =>
+  `/api/songs?${new URLSearchParams(cleanObject(filters))}`;
+
+function Index({ initialKey, initialData }: { initialKey: string; initialData: SongsResponse }) {
   // filter state
   const [filters, setFilters] = useQueryParams();
   const resetFilters = useCallback(() => setFilters({}), [setFilters]);
@@ -48,13 +51,14 @@ function Index({ initialData }: { initialData: SongsResponse }) {
     setFilters({ ...filters, [key]: value });
   };
 
-  const key = useMemo(() => `/api/songs?${new URLSearchParams(cleanObject(filters))}`, [filters]);
+  const key = useMemo(() => makeKey(filters), [filters]);
 
+  const useInitialData = key === initialKey;
   const { data, error } = useSWR<SongsResponse>(key, fetcher, {
-    initialData: key === `/api/songs?` ? initialData : undefined,
+    initialData: useInitialData ? initialData : undefined,
     // we don't actually need to revalidate at all on this one
     revalidateOnFocus: false,
-    revalidateOnMount: !initialData,
+    revalidateOnMount: !useInitialData,
     revalidateOnReconnect: false,
   });
   const loading = !data && !error;
@@ -255,15 +259,17 @@ function Index({ initialData }: { initialData: SongsResponse }) {
 export const getServerSideProps: GetServerSideProps<
   ComponentPropsWithoutRef<typeof Index>
 > = async (ctx) => {
-  const response = findSongs({
+  const filters = {
     location: ctx.query.location as Location,
     topic: ctx.query.topic as Topic,
     mood: ctx.query.mood as Mood,
     beard: ctx.query.beard as Beard,
     instrument: ctx.query.instrument as Instrument,
-  });
+  };
+  const initialKey = makeKey(filters);
+  const initialData = findSongs(filters);
 
-  return { props: { initialData: response } };
+  return { props: { initialKey, initialData } };
 };
 
 export default Index;
