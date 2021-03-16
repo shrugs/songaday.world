@@ -30,12 +30,12 @@ import {
 } from '../lib/utils/constants';
 
 const EMPTY_HEADER_CONFIG: MiniMannConfig = {
-  number: 0,
   location: Location.NewYork,
   topic: Topic.SocialJustice,
   mood: Mood.Chill,
-  beard: Beard.Stubble,
+  beard: Beard.Beard,
   instrument: Instrument.ElectricGuitar,
+  releasedAt: '2021-03-16T11:20:56.737-04:00',
 };
 
 function Index({ initialData }: { initialData: SongsResponse }) {

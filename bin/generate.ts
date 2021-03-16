@@ -11,7 +11,7 @@ import tempy from 'tempy';
 
 import db from '../generated/db.json';
 import { Song } from '../lib/types';
-import { Beard, Instrument, Topic } from '../lib/utils/constants';
+import { Instrument, Topic } from '../lib/utils/constants';
 import { nameFromKey, resolveTopic } from '../lib/utils/images';
 
 const songs = db as Song[];
