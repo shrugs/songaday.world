@@ -16,20 +16,14 @@ import { useInView } from 'react-intersection-observer';
 
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
-import { SongsResponse } from '../lib/types';
 import { useSongs } from '../lib/useSongs';
 import { HumanKeys, HumanMaps } from '../lib/utils/constants';
 import { FilterTag } from './FilterTag';
+import { GridOfSongs } from './GridOfSongs';
 import SongCard from './SongCard';
 import SongListDescription from './SongListDescription';
 
-export function Page({
-  initialKey,
-  initialData,
-}: {
-  initialKey?: string;
-  initialData?: SongsResponse;
-}) {
+export function Page() {
   // filter state
   const {
     filters: { id, ...filters },
@@ -101,7 +95,7 @@ export function Page({
           {error && <Alert status="error">{error.message}</Alert>}
 
           <VStack spacing={4} align="stretch">
-            <SimpleGrid gap="2" columns={[3, null, 6]}>
+            <SimpleGrid gap={3} columns={[3, null, 6]}>
               {tabButton('location')}
               {tabButton('instrument')}
               {tabButton('topic')}
@@ -112,7 +106,7 @@ export function Page({
               </Button>
             </SimpleGrid>
 
-            <SimpleGrid gap={4} columns={[2, 4, 6]}>
+            <SimpleGrid gap={3} columns={[2, 4, 6]}>
               {loading
                 ? times(12, (i) => <Skeleton key={i} h="9rem" w="full" borderRadius="md" />)
                 : availableFilters?.[focusedTab]?.map((key) => (
@@ -162,24 +156,11 @@ export function Page({
             </HStack>
           )}
 
-          <SimpleGrid gap="4" columns={{ base: 1, lg: 2 }}>
-            {songs.map((song) => (
-              <Link
-                key={song.number}
-                href={makeHref({ id: song.number.toString() })}
-                passHref
-                shallow
-              >
-                <a>
-                  <SongCard h="full" song={song} card />
-                </a>
-              </Link>
-            ))}
+          <GridOfSongs songs={songs}>
             {includeSkeletons && times(12, (i) => <SongCard key={i} song={undefined} card />)}
 
-            {/* sentinel */}
             <div ref={sentinel} />
-          </SimpleGrid>
+          </GridOfSongs>
         </VStack>
       </Box>
     </>

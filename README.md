@@ -4,4 +4,7 @@ An experiment for the Song a Day project.
 
 ## TODO:
 
-- [ ] meta tags with first image
+- [ ] web3 modal + opensea integration
+  - who owns this token?
+  - what songs do i own?
+  - proxy through backend, using cdn swr with high expiry

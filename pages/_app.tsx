@@ -5,6 +5,7 @@ import { NextSeo } from 'next-seo';
 import React from 'react';
 
 import Navbar from '../components/Navbar';
+import { Account } from '../containers/Account';
 import { Filters } from '../containers/Filters';
 import { theme } from '../lib/theme';
 
@@ -13,6 +14,7 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <NextSeo
         title="Song a Day World"
+        description="Hello! I'm Jonathan Mann! I've been writing, producing and sharing a Song A Day for 12 years. Now I'm making each one available as a unique NFT for the first time."
         twitter={{
           cardType: 'summary_large_image',
           handle: '@songadaymann',
@@ -28,10 +30,12 @@ function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <ChakraProvider theme={theme}>
-        <Filters.Provider>
-          <Navbar />
-          <Component {...pageProps} />
-        </Filters.Provider>
+        <Account.Provider>
+          <Filters.Provider>
+            <Navbar />
+            <Component {...pageProps} />
+          </Filters.Provider>
+        </Account.Provider>
       </ChakraProvider>
     </>
   );
