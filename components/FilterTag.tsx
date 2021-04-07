@@ -1,5 +1,5 @@
 import { Img } from '@chakra-ui/image';
-import { AspectRatio, Box, BoxProps, Text, VStack } from '@chakra-ui/layout';
+import { AspectRatio, BoxProps, Text, VStack } from '@chakra-ui/layout';
 import React, { PropsWithChildren } from 'react';
 
 const uriFromKey = (prefix: string, key: string) =>

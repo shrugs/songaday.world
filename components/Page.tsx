@@ -1,28 +1,12 @@
-import {
-  Alert,
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  Divider,
-  Grid,
-  HStack,
-  SimpleGrid,
-  Skeleton,
-  Text,
-  VStack,
-} from '@chakra-ui/react';
+import { Alert, Box, Button, Divider, SimpleGrid, Skeleton, Text, VStack } from '@chakra-ui/react';
 import { times } from 'lodash-es';
-import Head from 'next/head';
 import Link from 'next/link';
-import { NextSeo } from 'next-seo';
 import { useCallback, useMemo, useState } from 'react';
 
 import { SongDetail } from '../components/SongDetail';
-import { FilterParams, Filters } from '../containers/Filters';
+import { Filters } from '../containers/Filters';
 import { SongsResponse } from '../lib/types';
 import { useSongs } from '../lib/useSongs';
-import { MinimannPropertyValue } from '../lib/utils/constants';
 import { HumanKeys, HumanMaps } from '../lib/utils/constants';
 import FilterTag from './FilterTag';
 import SongCard from './SongCard';
@@ -38,7 +22,6 @@ export function Page({
   // filter state
   const {
     filters: { id, ...filters },
-    pushFilter,
     resetFilters,
     makeHref,
   } = Filters.useContainer();
@@ -96,11 +79,6 @@ export function Page({
 
   return (
     <>
-      <NextSeo title="Song a Day World" />
-      <Head>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       {id && <SongDetail id={id} />}
 
       <Divider />
