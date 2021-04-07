@@ -1,12 +1,15 @@
 import { Button, HStack, Img, Link, VStack } from '@chakra-ui/react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import { Account } from '../containers/Account';
 import { useDidHydrate } from '../lib/useDidHydrate';
 
 function Navbar() {
-  const { connect, account, loading } = Account.useContainer();
+  const router = useRouter();
+  const isOnAddressPage = router.route === '/a/[account]';
+  const { connect, disconnect, account, loading } = Account.useContainer();
   const didHydrate = useDidHydrate();
 
   const links = (
@@ -33,9 +36,15 @@ function Navbar() {
             {links}
           </HStack>
           {didHydrate && account ? (
-            <Button as="a" href={`/a/${account}`}>
-              My Songs
-            </Button>
+            isOnAddressPage ? (
+              <Button onClick={disconnect} variant="outline">
+                Disconnect
+              </Button>
+            ) : (
+              <Button as="a" href={`/a/${account}`}>
+                My Songs
+              </Button>
+            )
           ) : (
             <Button onClick={connect} isLoading={loading}>
               Connect Wallet

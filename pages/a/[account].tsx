@@ -32,6 +32,7 @@ export const getStaticProps: GetStaticProps<ComponentPropsWithoutRef<typeof Acco
   const account = ctx.params.account as string;
 
   if (!account) return { notFound: true };
+  if (!account.startsWith('0x')) return { notFound: true };
 
   const response = await fetch(
     `https://api.opensea.io/api/v1/assets?${new URLSearchParams({
