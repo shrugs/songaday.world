@@ -1,10 +1,11 @@
-import '../styles/_main.css';
-
+import { ChakraProvider } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 
 import Navbar from '../components/Navbar';
+import { Filters } from '../containers/Filters';
+import { theme } from '../lib/theme';
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -14,21 +15,12 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="viewport" content="width=device-width" />
       </Head>
 
-      <div className="relative antialiased text-gray-900 min-h-screen flex flex-col">
-        <div className="relative w-full max-w-6xl mx-auto flex-grow flex flex-col">
+      <ChakraProvider theme={theme}>
+        <Filters.Provider>
           <Navbar />
-          <main className="flex-grow flex flex-col">
-            <Component {...pageProps} />
-          </main>
-        </div>
-      </div>
-
-      <style jsx global>{`
-        #__next {
-          width: 100%;
-          min-height: 100vh;
-        }
-      `}</style>
+          <Component {...pageProps} />
+        </Filters.Provider>
+      </ChakraProvider>
     </>
   );
 }

@@ -1,22 +1,35 @@
-import React, { useMemo } from 'react';
+import { BoxProps, chakra } from '@chakra-ui/react';
 
-function YoutubeEmbed({ id }: { id: string }) {
-  const url = useMemo(
-    () => `https://www.youtube-nocookie.com/embed/${id}?autoplay=0&rel=0&showinfo=0`,
-    [id],
-  );
+const toURLBool = (val: boolean) => (val ? '1' : undefined);
 
+const IFrame = chakra('iframe');
+
+function YoutubeEmbed({
+  id,
+  autoPlay = false,
+  ...delegated
+}: BoxProps & { id: string; autoPlay?: boolean }) {
   return (
-    <div className="relative overflow-hidden aspect-16/9">
-      <iframe
-        className="absolute w-full h-full top-0 left-0"
-        title={`YouTube embed of ${url}`}
-        src={url}
-        allow="encrypted-media"
-        frameBorder="0"
-        allowFullScreen
-      />
-    </div>
+    <IFrame
+      src={`https://www.youtube-nocookie.com/embed/${id}?${new URLSearchParams({
+        loop: toURLBool(true),
+        autoplay: toURLBool(autoPlay),
+        muted: toURLBool(autoPlay),
+        api: '0',
+        modestbranding: '1',
+        rel: '0',
+        dnt: '1',
+        disablekb: '1',
+        enablejsapi: '0',
+        playsinline: '1',
+        feature: 'oembed',
+      })}`}
+      frameBorder="0"
+      allow="vr; xr; accelerometer; autoplay; magnetometer; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+      {...{ allowvr: 'yes', mozallowfullscreen: 'true', webkitallowfullscreen: 'true' }}
+      {...delegated}
+    />
   );
 }
 

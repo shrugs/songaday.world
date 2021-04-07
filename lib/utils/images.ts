@@ -49,6 +49,7 @@ function getNthTargetDayOfMonth({ n, day, month, year }) {
   const firstOccurenceOfTargetDay = firstDayOfMonth.plus({
     days: offsetFromTargetDay,
   });
+
   const nthDay = firstOccurenceOfTargetDay.plus({
     days: (n - 1) * 7,
   });

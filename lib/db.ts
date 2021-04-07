@@ -1,6 +1,4 @@
-import mapValues from 'lodash/mapValues';
-import take from 'lodash/take';
-import uniq from 'lodash/uniq';
+import { mapValues, uniq } from 'lodash-es';
 
 import _db from '../generated/db';
 import { Song, SongsResponse } from './types';
@@ -8,20 +6,22 @@ import { Beard, Instrument, Location, Mood, Topic } from './utils/constants';
 
 const db = _db as Song[];
 
-const MAX_SONGS = 11;
-
 export function findSongs({
   location,
   topic,
   mood,
   beard,
   instrument,
+  page,
+  size,
 }: {
   location: Location;
   topic: Topic;
   mood: Mood;
   beard: Beard;
   instrument: Instrument;
+  page: number;
+  size: number;
 }): SongsResponse {
   // first, find available songs by filter criteria in req.query.
   // then take the valid songs and find all of their available filters
@@ -58,9 +58,9 @@ export function findSongs({
   );
 
   return {
-    songs: take(songs, MAX_SONGS),
     filters,
-    hasMore: songs.length > MAX_SONGS,
+    songs: songs.slice(page * size, page * size + size),
+    totalCount: songs.length,
   };
 }
 

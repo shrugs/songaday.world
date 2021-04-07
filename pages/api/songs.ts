@@ -11,6 +11,8 @@ export default handler(async (req, res) => {
     mood: req.query.mood as Mood,
     beard: req.query.beard as Beard,
     instrument: req.query.instrument as Instrument,
+    page: req.query.page ? parseInt(req.query.page as string) : 0,
+    size: req.query.size ? parseInt(req.query.size as string) : 12,
   });
 
   return yup(res, response);

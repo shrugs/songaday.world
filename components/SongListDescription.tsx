@@ -1,4 +1,5 @@
-import React from 'react';
+import { Text } from '@chakra-ui/react';
+import React, { ReactNode } from 'react';
 
 import {
   HumanBeard,
@@ -14,49 +15,49 @@ export default function SongListDescription({
 }: {
   filters: MinimannPropertyFilter;
 }) {
-  const fragments = [];
+  const fragments: ReactNode[] = [];
   if (location) {
     fragments.push(<React.Fragment key="in"> in </React.Fragment>);
     fragments.push(
-      <span className="font-semibold" key="in-value">
+      <Text as="span" key="in-value" fontWeight="semibold">
         {HumanLocation[location]}
-      </span>,
+      </Text>,
     );
   }
 
   if (topic) {
     fragments.push(<React.Fragment key="about"> about </React.Fragment>);
     fragments.push(
-      <span className="font-semibold" key="about-value">
+      <Text as="span" key="about-value" fontWeight="semibold">
         {HumanTopic[topic]}
-      </span>,
+      </Text>,
     );
   }
 
   if (instrument) {
     fragments.push(<React.Fragment key="on"> on the </React.Fragment>);
     fragments.push(
-      <span className="font-semibold" key="on-value">
+      <Text as="span" key="on-value" fontWeight="semibold">
         {HumanInstrument[instrument]}
-      </span>,
+      </Text>,
     );
   }
 
   if (mood) {
     fragments.push(<React.Fragment key="while"> while </React.Fragment>);
     fragments.push(
-      <span className="font-semibold" key="while-value">
+      <Text as="span" key="while-value" fontWeight="semibold">
         {HumanMood[mood]}
-      </span>,
+      </Text>,
     );
   }
 
   if (beard) {
     fragments.push(<React.Fragment key="with"> with a </React.Fragment>);
     fragments.push(
-      <span className="font-semibold" key="with-value">
+      <Text as="span" key="with-value" fontWeight="semibold">
         {HumanBeard[beard]} beard
-      </span>,
+      </Text>,
     );
   }
 

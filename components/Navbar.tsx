@@ -1,35 +1,31 @@
-import Link from 'next/link';
+import { HStack, Img, Link } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import React from 'react';
 
 function Navbar() {
   return (
-    <header className="flex flex-row flex-wrap px-4 py-2 h-12 sm:h-16 md:h-20 lg:h-24">
-      <Link href="/">
-        <img
-          className="h-full cursor-pointer"
-          src="/assets/logo.svg"
-          alt="the Song a Day World logo"
-        />
-      </Link>
-      <div className="ml-2 flex-auto flex flex-row justify-end items-center">
-        <a
-          className="font-normal text-sm underline text-gray-700 mr-4"
-          href="https://www.jonathanmann.net/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          About Song a Day
-        </a>
-        <a
-          className="font-normal text-sm underline text-gray-700"
-          href="https://twitter.com/songadaymann"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          @songadaymann 🐦
-        </a>
-      </div>
-    </header>
+    <HStack
+      as="header"
+      justifyContent="space-between"
+      px="4"
+      py="4"
+      borderBottom="1px"
+      borderColor="gray.200"
+    >
+      <NextLink href="/" passHref>
+        <Link h={[12, 16, 20]}>
+          <Img h="full" cursor="pointer" src="/assets/logo.svg" alt="the Song a Day World logo" />
+        </Link>
+      </NextLink>
+      <HStack spacing="4">
+        <Link href="https://www.jonathanmann.net/" fontSize={['sm', 'sm', 'md']} isExternal>
+          About
+        </Link>
+        <Link href="https://twitter.com/songadaymann" fontSize={['sm', 'sm', 'md']} isExternal>
+          @songadaymann
+        </Link>
+      </HStack>
+    </HStack>
   );
 }
 
