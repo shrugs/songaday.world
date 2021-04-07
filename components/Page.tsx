@@ -1,14 +1,25 @@
-import { Alert, Box, Button, Divider, SimpleGrid, Skeleton, Text, VStack } from '@chakra-ui/react';
+import {
+  Alert,
+  Box,
+  Button,
+  Divider,
+  HStack,
+  SimpleGrid,
+  Skeleton,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import { times } from 'lodash-es';
 import Link from 'next/link';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
 import { SongsResponse } from '../lib/types';
 import { useSongs } from '../lib/useSongs';
 import { HumanKeys, HumanMaps } from '../lib/utils/constants';
-import FilterTag from './FilterTag';
+import { FilterTag } from './FilterTag';
 import SongCard from './SongCard';
 import SongListDescription from './SongListDescription';
 
@@ -28,9 +39,32 @@ export function Page({
 
   const hasFiltered = useMemo(() => Object.values(filters).filter(Boolean).length > 0, [filters]);
 
-  const { songs, availableFilters, loading, error, hasMore, isEmpty, totalCount } = useSongs(
-    filters,
-  );
+  const {
+    songs,
+    availableFilters,
+    loading,
+    error,
+    hasMore,
+    loadMore,
+    isEmpty,
+    isHydrating,
+    totalCount,
+  } = useSongs(filters);
+
+  const includeSkeletons = isHydrating || loading;
+
+  const [sentinel, inView] = useInView({
+    rootMargin: '0px -200px',
+    skip: !hasMore,
+    initialInView: false,
+  });
+
+  useEffect(() => {
+    if (!inView) return;
+    if (loading) return;
+    if (!hasMore) return;
+    loadMore();
+  }, [hasMore, inView, loadMore, loading]);
 
   // ui filter header state
   const [_focusedTab, setFocusedTab] = useState<string>();
@@ -44,37 +78,16 @@ export function Page({
   const tabButton = (key: string) => {
     const focused = focusedTab === key;
     const selected = !!filters[key];
-    const disabled = !isEmpty || (!focused && selected);
 
     return (
       <Button
         onClick={() => setFocusedTab(focused ? undefined : key)}
         isActive={focused || selected}
-        // isDisabled={disabled}
+        textDecoration={focused && 'underline'}
       >
         {filters[key] ? HumanMaps[key][filters[key]] : HumanKeys[key]}
       </Button>
     );
-
-    // return (
-    //   <button
-    //     className={cx(
-    //       'mr-1 mb-1 px-4 py-2',
-    //       'leading-none text-sm font-bold',
-    //       'rounded border-2 border-gray-800',
-    //       'disabled:opacity-50 disabled:pointer-events-none',
-    //       {
-    //         'bg-gray-200 text-gray-900': !focused && !selected,
-    //         'bg-gray-100 text-gray-900': !focused && selected,
-    //         'bg-gray-800 text-white': focused,
-    //       },
-    //     )}
-    //     onClick={() => setFocusedTab(focused ? undefined : key)}
-    //     disabled={disabled}
-    //   >
-    //     {filters[key] ? HumanMaps[key][filters[key]] : HumanKeys[key]}
-    //   </button>
-    // );
   };
 
   return (
@@ -141,6 +154,14 @@ export function Page({
             )}
           </Text>
 
+          {isEmpty && (
+            <HStack>
+              <Button variant="outline" onClick={discardChanges}>
+                Clear all filters
+              </Button>
+            </HStack>
+          )}
+
           <SimpleGrid gap="4" columns={{ base: 1, lg: 2 }}>
             {songs.map((song) => (
               <Link
@@ -154,53 +175,13 @@ export function Page({
                 </a>
               </Link>
             ))}
+            {includeSkeletons && times(12, (i) => <SongCard key={i} song={undefined} card />)}
+
+            {/* sentinel */}
+            <div ref={sentinel} />
           </SimpleGrid>
         </VStack>
       </Box>
-
-      {/* <SongColorBackground className="flex-grow p-4 pb-10" location={songLocation}>
-        <div className="flex flex-col">
-
-        <div className="flex flex-col">
-          {hasManySongs ? (
-            <div className="flex flex-col justify-center items-start my-2">
-              <p
-                className={cx('text-xl md:text-3xl leading-tight font-bold', {
-                  'text-white': dark,
-                })}
-              >
-                {hasFiltered ? 'More Songs Like This' : 'More Songs From the Catalog'}
-              </p>
-              <p className={cx('leading-tight text-base', { 'text-white': dark })}>
-                {hasFiltered && (
-                  <>
-                    {hasMore ? `${songs.length - 1}+` : `${songs.length - 1}`} more{' '}
-                    {pluralize('song', songs.length - 1)} <SongListDescription filters={filters} />.
-                  </>
-                )}
-              </p>
-            </div>
-          ) : (
-            <NoticeBox color="gray">
-              You've found the only song in the catalog <SongListDescription filters={filters} />!
-            </NoticeBox>
-          )}
-          <div className="flex flex-row flex-wrap song-card-list">
-            {songs.slice(1).map((song) => (
-              <div key={song.number} className="w-full md:song-card mb-4 cursor-pointer">
-                <SongCard song={song} className="rounded-lg" />
-              </div>
-            ))}
-          </div>
-        </div>
-        {hasMore && (
-          <NoticeBox color="gray">
-            👆 There are more than {songs.length - 1} songs{' '}
-            {hasFiltered ? <SongListDescription filters={filters} /> : 'in the catalog'}! Discover
-            more specific songs using the filters above 👆
-          </NoticeBox>
-        )}
-      </SongColorBackground> */}
     </>
   );
 }

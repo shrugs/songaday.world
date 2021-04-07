@@ -1,26 +1,25 @@
 import { Img } from '@chakra-ui/image';
 import { AspectRatio, BoxProps, Text, VStack } from '@chakra-ui/layout';
+import { forwardRef } from '@chakra-ui/system';
 import React, { PropsWithChildren } from 'react';
 
 const uriFromKey = (prefix: string, key: string) =>
   `/thumbnails/${prefix}_${key.toLowerCase()}_cutdown.svg`;
 
-export default function FilterTag({
-  prefix,
-  thumbKey,
-  selected = false,
-  children,
-  ...delegated
-}: BoxProps &
-  PropsWithChildren<{
-    prefix: string;
-    thumbKey: string;
-    selected?: boolean;
-  }>) {
+export const FilterTag = forwardRef<
+  BoxProps &
+    PropsWithChildren<{
+      prefix: string;
+      thumbKey: string;
+      selected?: boolean;
+    }>,
+  'div'
+>(function FilterTag({ prefix, thumbKey, selected = false, children, ...delegated }, ref) {
   const tile = React.Children.count(children) === 0;
 
   return (
     <VStack
+      ref={ref}
       {...delegated}
       align="stretch"
       spacing="2"
@@ -49,42 +48,4 @@ export default function FilterTag({
       </Text>
     </VStack>
   );
-
-  // return (
-  //   <div
-  //     onClick={onClick}
-  //     className={cx(className, 'flex flex-col cursor-pointer', smol ? 'w-10' : 'w-24')}
-  //   >
-  //     <div
-  //       className={cx(
-  //         'relative rounded-lg hover:shadow overflow-hidden bg-white',
-  //         smol ? 'w-10 h-10' : 'w-24 h-24',
-  //         {
-  //           'border-4 border-selectpurple': selected,
-  //           'mb-1': hasChildren,
-  //           'p-2': !shouldCover,
-  //         },
-  //       )}
-  //     >
-  //       <div
-  //         className={cx('w-full h-full bg-no-repeat bg-center thumb', {
-  //           'bg-contain': !shouldCover,
-  //           'bg-cover': shouldCover,
-  //         })}
-  //       ></div>
-  //       {selected && (
-  //         <div className="absolute top-0 right-0 bottom-0 left-0 flex items-center justify-center">
-  //           <img className="w-1/2" src="/assets/check.svg"></img>
-  //         </div>
-  //       )}
-  //     </div>
-  //     {hasChildren && <p className="'text'-xs font-semibold truncate">{children}</p>}
-
-  //     <style jsx>{`
-  //       .thumb {
-  //         background-image: url(${uriFromKey(prefix, thumbKey)});
-  //       }
-  //     `}</style>
-  //   </div>
-  // );
-}
+});

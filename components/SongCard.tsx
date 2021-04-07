@@ -6,7 +6,6 @@ import {
   Heading,
   HStack,
   Img,
-  Link,
   SimpleGrid,
   Skeleton,
   SkeletonText,
@@ -14,12 +13,12 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { DateTime } from 'luxon';
-import NextLink from 'next/link';
+import Link from 'next/link';
 import React, { useMemo } from 'react';
 
 import { Filters } from '../containers/Filters';
 import { Song } from '../lib/types';
-import FilterTag from './FilterTag';
+import { FilterTag } from './FilterTag';
 import TextTag from './TextTag';
 import YoutubeEmbed from './YoutubeEmbed';
 
@@ -106,35 +105,25 @@ function SongCard({
         <Grid gap={4} gridTemplateColumns="repeat(auto-fit, 3rem)">
           {song ? (
             <>
-              <NextLink href={makeHref({ location: song.location })} passHref shallow>
-                <Link>
-                  <FilterTag h="3rem" prefix="location" thumbKey={song.location} />
-                </Link>
-              </NextLink>
+              <Link href={makeHref({ location: song.location })} shallow>
+                <FilterTag h="3rem" prefix="location" thumbKey={song.location} />
+              </Link>
 
-              <NextLink href={makeHref({ instrument: song.instrument })} passHref shallow>
-                <Link>
-                  <FilterTag h="3rem" prefix="instrument" thumbKey={song.instrument} />
-                </Link>
-              </NextLink>
+              <Link href={makeHref({ instrument: song.instrument })} shallow>
+                <FilterTag h="3rem" prefix="instrument" thumbKey={song.instrument} />
+              </Link>
 
-              <NextLink href={makeHref({ topic: song.topic })} passHref shallow>
-                <Link>
-                  <FilterTag h="3rem" prefix="topic" thumbKey={song.topic} />
-                </Link>
-              </NextLink>
+              <Link href={makeHref({ topic: song.topic })} shallow>
+                <FilterTag h="3rem" prefix="topic" thumbKey={song.topic} />
+              </Link>
 
-              <NextLink href={makeHref({ mood: song.mood })} passHref shallow>
-                <Link>
-                  <FilterTag h="3rem" prefix="mood" thumbKey={song.mood} />
-                </Link>
-              </NextLink>
+              <Link href={makeHref({ mood: song.mood })} shallow>
+                <FilterTag h="3rem" prefix="mood" thumbKey={song.mood} />
+              </Link>
 
-              <NextLink href={makeHref({ beard: song.beard })} passHref shallow>
-                <Link>
-                  <FilterTag h="3rem" prefix="beard" thumbKey={song.beard} />
-                </Link>
-              </NextLink>
+              <Link href={makeHref({ beard: song.beard })} shallow>
+                <FilterTag h="3rem" prefix="beard" thumbKey={song.beard} />
+              </Link>
             </>
           ) : (
             <>

@@ -20,7 +20,7 @@ export default function SongListDescription({
     fragments.push(<React.Fragment key="in"> in </React.Fragment>);
     fragments.push(
       <Text as="span" key="in-value" fontWeight="semibold">
-        {HumanLocation[location]}
+        {HumanLocation[location] ?? `'${location}'`}
       </Text>,
     );
   }
@@ -29,7 +29,7 @@ export default function SongListDescription({
     fragments.push(<React.Fragment key="about"> about </React.Fragment>);
     fragments.push(
       <Text as="span" key="about-value" fontWeight="semibold">
-        {HumanTopic[topic]}
+        {HumanTopic[topic] ?? `'${topic}'`}
       </Text>,
     );
   }
@@ -38,7 +38,7 @@ export default function SongListDescription({
     fragments.push(<React.Fragment key="on"> on the </React.Fragment>);
     fragments.push(
       <Text as="span" key="on-value" fontWeight="semibold">
-        {HumanInstrument[instrument]}
+        {HumanInstrument[instrument] ?? `'${instrument}'`}
       </Text>,
     );
   }
@@ -47,7 +47,7 @@ export default function SongListDescription({
     fragments.push(<React.Fragment key="while"> while </React.Fragment>);
     fragments.push(
       <Text as="span" key="while-value" fontWeight="semibold">
-        {HumanMood[mood]}
+        {HumanMood[mood] ?? `'${mood}'`}
       </Text>,
     );
   }
@@ -56,7 +56,7 @@ export default function SongListDescription({
     fragments.push(<React.Fragment key="with"> with a </React.Fragment>);
     fragments.push(
       <Text as="span" key="with-value" fontWeight="semibold">
-        {HumanBeard[beard]} beard
+        {HumanBeard[beard] ?? `'${beard}'`} beard
       </Text>,
     );
   }
