@@ -8,7 +8,7 @@ import SongCard from '../../components/SongCard';
 import { getSong } from '../../lib/db';
 import { Song } from '../../lib/types';
 
-function AccountPage({ account, songs }: { account: string; songs: Song[] }) {
+function AccountPage({ songs }: { songs: Song[] }) {
   return (
     <Box py={4} px={2}>
       <GridOfSongs songs={songs}>
@@ -43,9 +43,14 @@ export const getStaticProps: GetStaticProps<ComponentPropsWithoutRef<typeof Acco
 
   const results = await response.json();
 
-  const songs = results.assets.map((asset) => getSong(parseSongId(asset))).filter(Boolean);
+  if (!results.assets) {
+    console.error(JSON.stringify(results));
+    throw new Error(`Unable to parse opensea response`);
+  }
 
-  return { props: { account, songs }, revalidate: ONE_HOUR };
+  const songs = results.assets?.map((asset) => getSong(parseSongId(asset))).filter(Boolean);
+
+  return { props: { songs: songs ?? null }, revalidate: ONE_HOUR };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
