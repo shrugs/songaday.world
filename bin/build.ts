@@ -92,8 +92,8 @@ const main = async () => {
         .map((text) => ensureValidProperty<Instrument>(Instrument, text)),
     );
 
-    const instrumentsWithoutVocals = without(instruments, Instrument.Vocals);
     // the primary instrument is the first instrument that isn't vocals, or Vocals
+    const instrumentsWithoutVocals = without(instruments, Instrument.Vocals);
     const primaryInstument = head(instrumentsWithoutVocals) || Instrument.Vocals;
 
     // for instruments, we have two cases

@@ -55,7 +55,7 @@ export const getStaticProps: GetStaticProps<ComponentPropsWithoutRef<typeof Acco
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  return { paths: [], fallback: true };
+  return { paths: [], fallback: 'blocking' };
 };
 
 export default AccountPage;

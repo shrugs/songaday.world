@@ -3,8 +3,15 @@ import { AspectRatio, BoxProps, Text, VStack } from '@chakra-ui/layout';
 import { forwardRef } from '@chakra-ui/system';
 import React, { PropsWithChildren } from 'react';
 
-const uriFromKey = (prefix: string, key: string) =>
-  `/thumbnails/${prefix}_${key.toLowerCase()}_cutdown.svg`;
+import { Instrument, Topic } from '../lib/utils/constants';
+
+const uriFromKey = (prefix: string, key: string) => {
+  if (prefix === 'topic' && key === Topic.Poetic) key = 'poetic1';
+  if ((prefix === 'topic' && key === Topic.InstrumentalSamples) || key === Topic.InstrumentalSynths)
+    return `/assets/missing_thumbnail.png`;
+  if (prefix === 'instrument' && key === Instrument.Vocals) return `/assets/missing_thumbnail.png`;
+  return `/thumbnails/${prefix}_${key.toLowerCase()}.png`;
+};
 
 export const FilterTag = forwardRef<
   BoxProps &
@@ -16,6 +23,7 @@ export const FilterTag = forwardRef<
   'div'
 >(function FilterTag({ prefix, thumbKey, selected = false, children, ...delegated }, ref) {
   const tile = React.Children.count(children) === 0;
+  const cover = prefix === 'location';
 
   return (
     <VStack
@@ -33,7 +41,7 @@ export const FilterTag = forwardRef<
       transition="all 100ms linear"
     >
       <AspectRatio w="full" ratio={1} position="relative">
-        <Img h="full" w="full" src={uriFromKey(prefix, thumbKey)} />
+        <Img p={cover ? undefined : 1} h="full" w="full" src={uriFromKey(prefix, thumbKey)} />
       </AspectRatio>
 
       <Text

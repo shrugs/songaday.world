@@ -6,7 +6,8 @@
     "db": "yarn script bin/build.ts",
     "dev": "next dev",
     "build": "next build",
-    "generate": "yarn script bin/generate.ts",
+    "images": "yarn script bin/images.ts",
+    "thumbnails": "yarn script bin/thumbnails.ts",
     "lint": "eslint --ext .ts,.tsx .",
     "start": "next start",
     "script": "ts-node -P tsconfig.bin.json"
