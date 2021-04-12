@@ -1,11 +1,14 @@
 import {
   AspectRatio,
+  Avatar,
   Box,
   BoxProps,
+  Button,
   Grid,
   Heading,
   HStack,
   Img,
+  Link as ChakraLink,
   SimpleGrid,
   Skeleton,
   SkeletonText,
@@ -17,7 +20,9 @@ import Link from 'next/link';
 import React, { useMemo } from 'react';
 
 import { Filters } from '../containers/Filters';
+import tokenIds from '../generated/tokenIds';
 import { Song } from '../lib/types';
+import { useNifty } from '../lib/useNifty';
 import { FilterTag } from './FilterTag';
 import TextTag from './TextTag';
 import YoutubeEmbed from './YoutubeEmbed';
@@ -34,6 +39,8 @@ function SongCard({
   const date = useMemo(() => (song ? DateTime.fromISO(song.releasedAt) : DateTime.local()), [song]);
   const subtitleDateString = useMemo(() => date.toLocaleString(DateTime.DATE_FULL), [date]);
   const calendarDateString = useMemo(() => date.toFormat('LLL dd'), [date]);
+
+  const { data, loading, isHydrating, error, openSeaUri } = useNifty(tokenIds[song?.number]);
 
   return (
     <VStack
@@ -105,24 +112,34 @@ function SongCard({
         <Grid gap={4} gridTemplateColumns="repeat(auto-fit, 3rem)">
           {song ? (
             <>
-              <Link href={makeHref({ location: song.location })} shallow>
-                <FilterTag h="3rem" prefix="location" thumbKey={song.location} />
+              <Link href={makeHref({ location: song.location })} passHref shallow>
+                <ChakraLink zIndex="1">
+                  <FilterTag h="3rem" prefix="location" thumbKey={song.location} />
+                </ChakraLink>
               </Link>
 
-              <Link href={makeHref({ instrument: song.instrument })} shallow>
-                <FilterTag h="3rem" prefix="instrument" thumbKey={song.instrument} />
+              <Link href={makeHref({ instrument: song.instrument })} passHref shallow>
+                <ChakraLink zIndex="1">
+                  <FilterTag h="3rem" prefix="instrument" thumbKey={song.instrument} />
+                </ChakraLink>
               </Link>
 
-              <Link href={makeHref({ topic: song.topic })} shallow>
-                <FilterTag h="3rem" prefix="topic" thumbKey={song.topic} />
+              <Link href={makeHref({ topic: song.topic })} passHref shallow>
+                <ChakraLink zIndex="1">
+                  <FilterTag h="3rem" prefix="topic" thumbKey={song.topic} />
+                </ChakraLink>
               </Link>
 
-              <Link href={makeHref({ mood: song.mood })} shallow>
-                <FilterTag h="3rem" prefix="mood" thumbKey={song.mood} />
+              <Link href={makeHref({ mood: song.mood })} passHref shallow>
+                <ChakraLink zIndex="1">
+                  <FilterTag h="3rem" prefix="mood" thumbKey={song.mood} />
+                </ChakraLink>
               </Link>
 
-              <Link href={makeHref({ beard: song.beard })} shallow>
-                <FilterTag h="3rem" prefix="beard" thumbKey={song.beard} />
+              <Link href={makeHref({ beard: song.beard })} passHref shallow>
+                <ChakraLink zIndex="1">
+                  <FilterTag h="3rem" prefix="beard" thumbKey={song.beard} />
+                </ChakraLink>
               </Link>
             </>
           ) : (
@@ -145,6 +162,34 @@ function SongCard({
             </>
           )}
         </SimpleGrid>
+
+        {!error && (
+          <HStack justifyContent="space-between">
+            <Button
+              as="a"
+              size="xs"
+              href={`https://opensea.io/accounts/${data?.owner.id.split('@')[0]}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              leftIcon={<Avatar size="2xs" name={data?.owner.handle} src={data?.owner.image} />}
+              zIndex="1"
+            >
+              <span>{data?.owner.handle ?? <Skeleton h="4" w="24" />}</span>
+            </Button>
+            <Button
+              as="a"
+              size="xs"
+              variant="ghost"
+              href={openSeaUri}
+              target="_blank"
+              rel="noopener noreferrer"
+              isDisabled={!data}
+              zIndex="1"
+            >
+              See on OpenSea
+            </Button>
+          </HStack>
+        )}
       </VStack>
 
       {/* margin collapse fix */}

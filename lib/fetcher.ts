@@ -9,9 +9,7 @@ export default async function fetcher(url: string) {
     throw new Error('Internal Server Error');
   }
 
-  if (!res.ok) {
-    throw new Error(data.message);
-  }
+  if (!res.ok) throw new Error(data.message);
 
   return data;
 }

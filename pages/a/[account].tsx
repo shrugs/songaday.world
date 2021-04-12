@@ -1,4 +1,4 @@
-import { Box, VStack } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { times } from 'lodash-es';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { ComponentPropsWithoutRef } from 'react';
@@ -7,6 +7,7 @@ import { GridOfSongs } from '../../components/GridOfSongs';
 import SongCard from '../../components/SongCard';
 import { getSong } from '../../lib/db';
 import { Song } from '../../lib/types';
+import { parseSongId } from '../../lib/utils/parseSongId';
 
 function AccountPage({ songs }: { songs: Song[] }) {
   return (
@@ -20,11 +21,6 @@ function AccountPage({ songs }: { songs: Song[] }) {
 
 const COLLECTION = 'song-a-day';
 const ONE_HOUR = 60 * 60;
-
-function parseSongId(asset): number {
-  const parts = asset.external_link.split('/');
-  return parseInt(parts[parts.length - 1]);
-}
 
 export const getStaticProps: GetStaticProps<ComponentPropsWithoutRef<typeof AccountPage>> = async (
   ctx,
