@@ -24,6 +24,7 @@ import tokenIds from '../generated/tokenIds';
 import { Song } from '../lib/types';
 import { useNifty } from '../lib/useNifty';
 import { FilterTag } from './FilterTag';
+import { OwnershipButton } from './OwnershipButton';
 import TextTag from './TextTag';
 import YoutubeEmbed from './YoutubeEmbed';
 
@@ -165,17 +166,15 @@ function SongCard({
 
         {!error && (
           <HStack justifyContent="space-between">
-            <Button
-              as="a"
-              size="xs"
-              href={`https://opensea.io/accounts/${data?.owner.id.split('@')[0]}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              leftIcon={<Avatar size="2xs" name={data?.owner.handle} src={data?.owner.image} />}
-              zIndex="1"
-            >
-              <span>{data?.owner.handle ?? <Skeleton h="4" w="24" />}</span>
-            </Button>
+            <HStack>
+              {loading || isHydrating ? (
+                <OwnershipButton ownership={undefined} />
+              ) : (
+                data?.ownerships?.map((ownership) => (
+                  <OwnershipButton key={ownership.owner.id} ownership={ownership} />
+                ))
+              )}
+            </HStack>
             <Button
               as="a"
               size="xs"
