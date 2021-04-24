@@ -53,15 +53,13 @@ const ensureValidProperty = <T>(all: Record<string, string>, value: any) => {
   return value;
 };
 
-// expecsts year1.csv, exported from https://docs.google.com/spreadsheets/d/15wJgkbF40NRYjcBtZRgIu1BbLl8QFLl8_3nv9YcNILg/edit#gid=0
-// to be present locally
-const main = async () => {
-  const input = readFileSync(path.join(__dirname, 'year1.csv'));
+function songsFromCSV(year: number) {
+  const input = readFileSync(path.join(__dirname, `year${year}.csv`));
   const data: SongFromCSV[] = parse(input, {
     columns: true,
   });
 
-  const inputs = data.map<Song>((record) => {
+  return data.map<Song>((record) => {
     // console.log(record);
     const number = parseInt(record.number);
     const description = trim(record.description).replace(/^N\/A$/, '');
@@ -120,6 +118,12 @@ const main = async () => {
       releasedAt: releasedAtStr,
     };
   });
+}
+
+// expects year1.csv, exported from https://docs.google.com/spreadsheets/d/15wJgkbF40NRYjcBtZRgIu1BbLl8QFLl8_3nv9YcNILg/edit#gid=0
+// to be present locally
+const main = async () => {
+  const inputs = songsFromCSV(1);
 
   writeFileSync(
     path.join(__dirname, '../generated/db.js'),
