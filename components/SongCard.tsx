@@ -166,15 +166,17 @@ function SongCard({
 
         {!error && (
           <HStack justifyContent="space-between">
-            <HStack>
-              {loading || isHydrating ? (
-                <OwnershipButton ownership={undefined} />
-              ) : (
-                data?.ownerships?.map((ownership) => (
-                  <OwnershipButton key={ownership.owner.id} ownership={ownership} />
-                ))
-              )}
-            </HStack>
+            <Box flex="1" overflowX="auto" display="flex">
+              <HStack>
+                {loading || isHydrating ? (
+                  <OwnershipButton ownership={undefined} />
+                ) : (
+                  data?.ownerships?.map((ownership) => (
+                    <OwnershipButton key={ownership.owner.id} ownership={ownership} />
+                  ))
+                )}
+              </HStack>
+            </Box>
             <Button
               as="a"
               size="xs"
