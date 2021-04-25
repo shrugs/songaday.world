@@ -138,13 +138,7 @@ export function Page() {
                 Found {totalCount} songs <SongListDescription filters={filters} />.
               </>
             ) : (
-              <>
-                Showing {totalCount}{' '}
-                <Text as="span" fontWeight="semibold">
-                  random songs
-                </Text>{' '}
-                from the catalog.
-              </>
+              <>Showing {totalCount} songs from the catalog.</>
             )}
           </Text>
 

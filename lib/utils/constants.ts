@@ -231,6 +231,8 @@ export enum Instrument {
   Bells = 'Bells',
   Tuba = 'Tuba',
   Accordion = 'Accordion',
+  Shaker = 'Shaker',
+  Claps = 'Claps',
 }
 
 export const HumanInstrument: Record<Instrument, string> = {
@@ -258,6 +260,8 @@ export const HumanInstrument: Record<Instrument, string> = {
   [Instrument.Bells]: 'Bells',
   [Instrument.Tuba]: 'Tuba',
   [Instrument.Accordion]: 'Accordion',
+  [Instrument.Shaker]: 'Shaker',
+  [Instrument.Claps]: 'Claps',
 };
 
 export type MinimannProperty =
@@ -311,7 +315,14 @@ export const MISSING_TOPICS_FOR_YEAR = {
 };
 
 export const MISSING_INSTRUMENTS_FOR_YEAR = {
-  [Year.One]: [Instrument.Vocals, Instrument.Congas, Instrument.DrumMachine, Instrument.Drums],
+  [Year.One]: [
+    Instrument.Vocals,
+    Instrument.Congas,
+    Instrument.DrumMachine,
+    Instrument.Drums,
+    Instrument.Shaker,
+    Instrument.Claps,
+  ],
   [Year.Two]: [
     Instrument.Vocals,
     Instrument.Congas,
@@ -325,6 +336,7 @@ export const MISSING_INSTRUMENTS_FOR_YEAR = {
     Instrument.Tuba,
     Instrument.Accordion,
     Instrument.Uke,
+    Instrument.Claps,
   ],
 };
 

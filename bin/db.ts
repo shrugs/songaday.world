@@ -5,20 +5,60 @@ config();
 
 import parse from 'csv-parse/lib/sync';
 import { readFileSync, writeFileSync } from 'fs';
+import { chunk, difference } from 'lodash';
 import compact from 'lodash/compact';
 import head from 'lodash/head';
 import last from 'lodash/last';
 import trim from 'lodash/trim';
 import without from 'lodash/without';
 import { DateTime } from 'luxon';
+import fetch from 'node-fetch';
+import pMap from 'p-map';
 import path from 'path';
 
 import { Song } from '../lib/types';
 import { Beard, Instrument, Location, Mood, Topic, Year } from '../lib/utils/constants';
 import { getBackground } from '../lib/utils/images';
 
-// these instruments are listed, but we don't have any images for them
-const INGORE_INSTRUMENTS = ['Shaker', 'Claps'];
+const LIMIT = 50;
+
+interface VideoItem {
+  id: string;
+  snippet: {
+    description: string;
+  };
+}
+
+interface VideoInfo {
+  description: string;
+}
+
+async function fetchVideosByIds(ids: string[]): Promise<VideoItem[]> {
+  const response = await fetch(
+    `https://www.googleapis.com/youtube/v3/videos?${new URLSearchParams({
+      part: ['snippet'].join(','),
+      id: ids.join(','),
+      key: process.env.YOUTUBE_API_KEY,
+    })}`,
+  );
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(JSON.stringify(result));
+  }
+
+  if (result.items.length < ids.length) {
+    const missing = difference(
+      ids,
+      result.items.map((item) => item.id),
+    );
+
+    console.log(`missing ${JSON.stringify(missing)}`);
+  }
+
+  return result.items;
+}
 
 interface SongFromCSV {
   number: string;
@@ -101,7 +141,6 @@ function songsFromCSV(year: Year) {
         trim(record.instruments)
           .split(',')
           .map(formatInstrument)
-          .filter((text) => !INGORE_INSTRUMENTS.includes(text))
           .map((text) => ensureValidProperty<Instrument>(Instrument, text)),
       );
 
@@ -141,14 +180,36 @@ function songsFromCSV(year: Year) {
   });
 }
 
+async function getVideoInfos(songs: Song[]): Promise<Record<string, VideoInfo>> {
+  const ids = songs.map((song) => song.youtubeId);
+  const results = await pMap(chunk(ids, LIMIT), fetchVideosByIds, { concurrency: 5 });
+  const items = results.flatMap((result) => result);
+  return items.reduce((memo, item) => {
+    memo[item.id] = {
+      description: item.snippet.description,
+    };
+    return memo;
+  }, {});
+}
+
 // expects year1.csv, exported from https://docs.google.com/spreadsheets/d/15wJgkbF40NRYjcBtZRgIu1BbLl8QFLl8_3nv9YcNILg/edit#gid=0
 // to be present locally
 const main = async () => {
-  const inputs = [Year.One, Year.Two].flatMap(songsFromCSV);
+  const data = [Year.One, Year.Two].flatMap(songsFromCSV);
+
+  // get infos
+  const songsWithoutDescription = data.filter((song) => !song.description);
+  const infos = await getVideoInfos(songsWithoutDescription);
+
+  const songs = data.map((song) => ({
+    ...song,
+    description:
+      song.description || infos[song.youtubeId]?.description || 'This song is unavailable!',
+  }));
 
   writeFileSync(
     path.join(__dirname, '../generated/db.js'),
-    `export default ${JSON.stringify(inputs)}`,
+    `export default ${JSON.stringify(songs)}`,
     {
       flag: 'w',
     },
