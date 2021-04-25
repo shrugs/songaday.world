@@ -3,25 +3,38 @@ import { AspectRatio, BoxProps, Text, VStack } from '@chakra-ui/layout';
 import { forwardRef } from '@chakra-ui/system';
 import React, { PropsWithChildren } from 'react';
 
-import { Instrument, Topic } from '../lib/utils/constants';
+import {
+  Instrument,
+  MISSING_INSTRUMENTS_FOR_YEAR,
+  MISSING_MOODS_FOR_YEAR,
+  MISSING_TOPICS_FOR_YEAR,
+  Mood,
+  Topic,
+  Year,
+} from '../lib/utils/constants';
 
-const uriFromKey = (prefix: string, key: string) => {
+const uriFromKey = (year: Year, prefix: string, key: string) => {
   if (prefix === 'topic' && key === Topic.Poetic) key = 'poetic1';
-  if ((prefix === 'topic' && key === Topic.InstrumentalSamples) || key === Topic.InstrumentalSynths)
+  if (prefix === 'topic' && MISSING_TOPICS_FOR_YEAR[year]?.includes(key as Topic))
     return `/assets/missing_thumbnail.png`;
-  if (prefix === 'instrument' && key === Instrument.Vocals) return `/assets/missing_thumbnail.png`;
-  return `/thumbnails/${prefix}_${key.toLowerCase()}.png`;
+  if (prefix === 'instrument' && MISSING_INSTRUMENTS_FOR_YEAR[year]?.includes(key as Instrument))
+    return `/assets/missing_thumbnail.png`;
+  if (prefix === 'mood' && MISSING_MOODS_FOR_YEAR[year]?.includes(key as Mood))
+    return `/assets/missing_thumbnail.png`;
+
+  return `/thumbnails/${year ?? 'all'}/${prefix}_${key.toLowerCase()}.png`;
 };
 
 export const FilterTag = forwardRef<
   BoxProps &
     PropsWithChildren<{
+      year?: Year;
       prefix: string;
       thumbKey: string;
       selected?: boolean;
     }>,
   'div'
->(function FilterTag({ prefix, thumbKey, selected = false, children, ...delegated }, ref) {
+>(function FilterTag({ year, prefix, thumbKey, selected = false, children, ...delegated }, ref) {
   const tile = React.Children.count(children) === 0;
   const cover = prefix === 'location';
 
@@ -41,7 +54,7 @@ export const FilterTag = forwardRef<
       transition="all 100ms linear"
     >
       <AspectRatio w="full" ratio={1} position="relative">
-        <Img p={cover ? undefined : 1} h="full" w="full" src={uriFromKey(prefix, thumbKey)} />
+        <Img p={cover ? undefined : 1} h="full" w="full" src={uriFromKey(year, prefix, thumbKey)} />
       </AspectRatio>
 
       <Text

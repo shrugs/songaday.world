@@ -17,7 +17,7 @@ import { useInView } from 'react-intersection-observer';
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
 import { useSongs } from '../lib/useSongs';
-import { HumanKeys, HumanMaps } from '../lib/utils/constants';
+import { HumanKeys, HumanMaps, Year } from '../lib/utils/constants';
 import { FilterTag } from './FilterTag';
 import { GridOfSongs } from './GridOfSongs';
 import SongCard from './SongCard';

@@ -11,7 +11,14 @@ import tempy from 'tempy';
 
 import db from '../generated/db';
 import { Song } from '../lib/types';
-import { Instrument, Topic } from '../lib/utils/constants';
+import {
+  Instrument,
+  MISSING_INSTRUMENTS_FOR_YEAR,
+  MISSING_TOPICS_FOR_YEAR,
+  Mood,
+  Topic,
+  Year,
+} from '../lib/utils/constants';
 import { nameFromKey, resolveTopic } from '../lib/utils/images';
 
 const INITIAL_WIDTH = 1792;
@@ -25,8 +32,8 @@ const ensureDir = (dir: string) => {
   }
 };
 
-const pathFromKey = (prefix: string, key: string) =>
-  join(__dirname, `../public/images/${nameFromKey(prefix, key)}`);
+const pathFromKey = (year: Year, prefix: string, key: string) =>
+  join(__dirname, `../public/images/${year}/${nameFromKey(prefix, key)}`);
 
 const composite = (a: string, b: string, out: string) =>
   new Promise((resolve, reject) =>
@@ -55,22 +62,43 @@ const main = async () => {
   await pMap(
     songs,
     async (song) => {
-      const { number } = song;
+      const { number, year } = song;
+      if (MISSING_TOPICS_FOR_YEAR[year].includes(song.topic)) return;
+      if (MISSING_INSTRUMENTS_FOR_YEAR[year].includes(song.instrument)) return;
 
-      if ([Topic.InstrumentalSamples, Topic.InstrumentalSynths].includes(song.topic)) return;
-      if ([Instrument.Vocals, Instrument.Congas].includes(song.instrument)) return;
+      // TODO: need these layers
+      if (
+        year === Year.Two &&
+        (song.mood === Mood.Excited || song.mood === Mood.Tired || song.mood === Mood.Bored)
+      )
+        return;
+      if (year === Year.Two && song.instrument === Instrument.Uke) return;
+      if (
+        year === Year.Two &&
+        (song.topic === Topic.InstrumentalPiano ||
+          song.topic === Topic.Motivational ||
+          song.topic === Topic.InstrumentalElectricGuitar ||
+          song.topic === Topic.Food)
+      )
+        return;
 
       const temp = tempy.file({ extension: 'png' });
       const final = join(__dirname, `../public/generated/${number}.png`);
 
       const background = song.background.startsWith('#')
         ? await tempBackgroundColor(song.background)
-        : pathFromKey('special', song.background);
-      await composite(background, pathFromKey('location', song.location), temp);
-      await composite(temp, pathFromKey('topic', resolveTopic(song.topic, song.releasedAt)), temp);
-      await composite(temp, pathFromKey('mood', song.mood), temp);
-      await composite(temp, pathFromKey('beard', song.beard), temp);
-      await composite(temp, pathFromKey('instrument', song.instrument), final);
+        : pathFromKey(year, 'special', song.background);
+      const locationPath = pathFromKey(year, 'location', song.location);
+      const topicPath = pathFromKey(year, 'topic', resolveTopic(year, song.topic, song.releasedAt));
+      const moodPath = pathFromKey(year, 'mood', song.mood);
+      const beardPath = pathFromKey(year, 'beard', song.beard);
+      const instrumentPath = pathFromKey(year, 'instrument', song.instrument);
+
+      await composite(background, locationPath, temp);
+      await composite(temp, topicPath, temp);
+      await composite(temp, moodPath, temp);
+      await composite(temp, beardPath, temp);
+      await composite(temp, instrumentPath, final);
 
       console.log(`Generated ${number}!`);
 

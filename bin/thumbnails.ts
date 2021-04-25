@@ -3,13 +3,24 @@
 import { config } from 'dotenv';
 config();
 
-import { existsSync, mkdirSync } from 'fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync } from 'fs';
 import gm from 'gm';
-import { times } from 'lodash';
+import { times, uniq } from 'lodash';
 import pMap from 'p-map';
 import { join } from 'path';
 
-import { Beard, Instrument, Location, Mood, Topic } from '../lib/utils/constants';
+import db from '../generated/db';
+import {
+  Instrument,
+  Location,
+  MISSING_INSTRUMENTS_FOR_YEAR,
+  MISSING_MOODS_FOR_YEAR,
+  MISSING_TOPICS_FOR_YEAR,
+  Mood,
+  NUM_POETIC,
+  Topic,
+  Year,
+} from '../lib/utils/constants';
 import { nameFromKey } from '../lib/utils/images';
 
 const INITIAL_WIDTH = 1792;
@@ -22,11 +33,11 @@ const ensureDir = (dir: string) => {
   }
 };
 
-const sourcePath = (prefix: string, key: string) =>
-  join(__dirname, `../public/images/${nameFromKey(prefix, key)}`);
+const sourcePath = (year: Year, prefix: string, key: string) =>
+  join(__dirname, `../public/images/${year}/${nameFromKey(prefix, key)}`);
 
-const thumbnailPath = (prefix: string, key: string) =>
-  join(__dirname, `../public/thumbnails/${nameFromKey(prefix, key)}`);
+const thumbnailPath = (year: Year, prefix: string, key: string) =>
+  join(__dirname, `../public/thumbnails/${year}/${nameFromKey(prefix, key)}`);
 
 const trimBasic = (source: string, destination: string): Promise<void> =>
   new Promise((resolve, reject) =>
@@ -89,59 +100,85 @@ const trimCover = async (source: string, destination: string): Promise<void> =>
   );
 
 async function withPrefixAndKey(
+  year: Year,
   prefix: string,
   key: string,
   cb: (source: string, destination: string) => Promise<void>,
 ) {
-  const source = sourcePath(prefix, key);
-  const destination = thumbnailPath(prefix, key);
+  const source = sourcePath(year, prefix, key);
+  const destination = thumbnailPath(year, prefix, key);
 
   await cb(source, destination);
 }
 
-const main = async () => {
+const uniqForYear = (year: Year, property: string) =>
+  uniq(db.filter((song) => song.year === year).map((song) => song[property]));
+
+async function generate(year: Year) {
+  console.log(`Generating thumbnails for year ${year} ->`);
+
   // ensure the directory is available
-  ensureDir(join(__dirname, '../public/thumbnails'));
+  ensureDir(join(__dirname, `../public/thumbnails/${year}`));
 
-  await pMap(Object.keys(Beard), async (key) => {
-    await withPrefixAndKey('beard', key, trimBasic);
+  const beards = uniqForYear(year, 'beard');
+  const topics = uniqForYear(year, 'topic')
+    .flatMap((key) =>
+      key === Topic.Poetic ? times(NUM_POETIC[year], (i) => `poetic${i + 1}`) : [key],
+    )
+    .filter((key: Topic) => !MISSING_TOPICS_FOR_YEAR[year].includes(key));
+  const moods = uniqForYear(year, 'mood').filter(
+    (key: Mood) => !MISSING_MOODS_FOR_YEAR[year].includes(key),
+  );
+  const instruments = uniqForYear(year, 'instrument').filter(
+    (key: Instrument) => !MISSING_INSTRUMENTS_FOR_YEAR[year].includes(key),
+  );
+  const locations = uniqForYear(year, 'location');
+
+  await pMap(beards, async (key) => {
+    await withPrefixAndKey(year, 'beard', key, trimBasic);
   });
-
   console.log(`Generated Beards...`);
 
-  await pMap(
-    Object.keys(Topic)
-      // include the extra poetic topic images
-      .flatMap((key) => (key === Topic.Poetic ? times(7, (i) => `poetic${i + 1}`) : [key]))
-      // filter unknown topics
-      .filter((key: Topic) => ![Topic.InstrumentalSamples, Topic.InstrumentalSynths].includes(key)),
-    async (key: Topic) => {
-      const noTopicBaadge =
-        key.startsWith('poetic') || [Topic.PSA, Topic.Sex, Topic.ThemeSong].includes(key);
-      await withPrefixAndKey('topic', key, noTopicBaadge ? trimBasic : trimTopicWithBadge);
-    },
-  );
+  await pMap(topics, async (key: Topic) => {
+    const noTopicBaadge =
+      key.startsWith('poetic') || [Topic.PSA, Topic.Sex, Topic.ThemeSong].includes(key);
+    await withPrefixAndKey(year, 'topic', key, noTopicBaadge ? trimBasic : trimTopicWithBadge);
+  });
   console.log(`Generated Topics...`);
 
-  await pMap(Object.keys(Mood), async (key) => {
-    await withPrefixAndKey('mood', key, trimBasic);
+  await pMap(moods, async (key) => {
+    await withPrefixAndKey(year, 'mood', key, trimBasic);
   });
   console.log(`Generated Moods...`);
 
-  await pMap(
-    Object.keys(Instrument) //
-      // filter unknown instruments
-      .filter((key: Instrument) => ![Instrument.Vocals, Instrument.Congas].includes(key)),
-    async (key: Instrument) => {
-      await withPrefixAndKey('instrument', key, trimBasic);
-    },
-  );
+  await pMap(instruments, async (key: Instrument) => {
+    await withPrefixAndKey(year, 'instrument', key, trimBasic);
+  });
   console.log(`Generated Instruments...`);
 
-  await pMap(Object.keys(Location), async (key: Location) => {
-    await withPrefixAndKey('location', key, trimCover);
+  await pMap(locations, async (key: Location) => {
+    await withPrefixAndKey(year, 'location', key, trimCover);
   });
   console.log(`Generated Locations...`);
+}
+
+const copyFiles = (from: string, to: string) =>
+  readdirSync(from).forEach((name) => copyFileSync(join(from, name), join(to, name)));
+
+const main = async () => {
+  await generate(Year.One);
+  await generate(Year.Two);
+
+  // merge for universal by copying over to the all folder
+  ensureDir(join(__dirname, `../public/thumbnails/all`));
+  copyFiles(
+    join(__dirname, `../public/thumbnails/${Year.Two}`),
+    join(__dirname, `../public/thumbnails/all`),
+  );
+  copyFiles(
+    join(__dirname, `../public/thumbnails/${Year.One}`),
+    join(__dirname, `../public/thumbnails/all`),
+  );
 };
 
 main()

@@ -1,4 +1,4 @@
-import { Beard, Instrument, Location, Mood, Topic } from './utils/constants';
+import { Beard, Instrument, Location, Mood, Topic, Year } from './utils/constants';
 
 export interface SongsResponse {
   songs: Song[];
@@ -7,7 +7,8 @@ export interface SongsResponse {
 }
 
 export interface Song {
-  number: number;
+  number: number; // which ordinal number is this song?
+  year: Year;
   youtubeId: string;
   title: string;
   description: string;

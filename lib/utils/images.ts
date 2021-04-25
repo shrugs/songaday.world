@@ -2,7 +2,7 @@ import { hsl } from 'd3-color';
 import { DateTime } from 'luxon';
 
 import { Holiday } from '../types';
-import { Topic } from './constants';
+import { NUM_POETIC, Topic, Year } from './constants';
 
 const compareDates = (a: DateTime, b: DateTime) => (a < b ? -1 : a > b ? 1 : 0);
 
@@ -61,15 +61,20 @@ export const nameFromKey = (prefix: string, key: string) => `${prefix}_${key.toL
 
 const getWeekday = (dateStr: string) => DateTime.fromISO(dateStr).weekday;
 
-const NUM_POETIC = 7;
-export const resolveTopic = (topic: Topic, releasedAt: string): string => {
+export const resolveTopic = (year: Year, topic: Topic, releasedAt: string): string => {
+  const numPoetic = NUM_POETIC[year];
   // choose one of the poetic images by day number
-  if (topic === Topic.Poetic) return `poetic${(getWeekday(releasedAt) % NUM_POETIC) + 1}`;
+  if (topic === Topic.Poetic) return `poetic${(getWeekday(releasedAt) % numPoetic) + 1}`;
 
   return topic;
 };
 
-export const getBackground = (releasedAt: string): string => {
+const SATURATION_FOR_YEAR = {
+  [Year.One]: 1,
+  [Year.Two]: 0.9,
+};
+
+export const getBackground = (year: Year, releasedAt: string): string => {
   // basically, the background can be a color OR a special image
   // if it's a holiday, return the holiday key
   // and if it's a normal day, derive the HSL value, making sure to skip the holidays
@@ -108,7 +113,8 @@ export const getBackground = (releasedAt: string): string => {
 
   // idk, hue math
   const hue = 359 - ((day + 119) % 360);
+  const saturation = SATURATION_FOR_YEAR[year];
 
   // return as hex
-  return hsl(hue, 1, 0.9).formatHex();
+  return hsl(hue, saturation, 0.9).formatHex();
 };

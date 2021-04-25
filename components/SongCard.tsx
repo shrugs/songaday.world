@@ -1,6 +1,5 @@
 import {
   AspectRatio,
-  Avatar,
   Box,
   BoxProps,
   Button,
@@ -115,31 +114,36 @@ function SongCard({
             <>
               <Link href={makeHref({ location: song.location })} passHref shallow>
                 <ChakraLink zIndex="1">
-                  <FilterTag h="3rem" prefix="location" thumbKey={song.location} />
+                  <FilterTag year={song.year} h="3rem" prefix="location" thumbKey={song.location} />
                 </ChakraLink>
               </Link>
 
               <Link href={makeHref({ instrument: song.instrument })} passHref shallow>
                 <ChakraLink zIndex="1">
-                  <FilterTag h="3rem" prefix="instrument" thumbKey={song.instrument} />
+                  <FilterTag
+                    year={song.year}
+                    h="3rem"
+                    prefix="instrument"
+                    thumbKey={song.instrument}
+                  />
                 </ChakraLink>
               </Link>
 
               <Link href={makeHref({ topic: song.topic })} passHref shallow>
                 <ChakraLink zIndex="1">
-                  <FilterTag h="3rem" prefix="topic" thumbKey={song.topic} />
+                  <FilterTag year={song.year} h="3rem" prefix="topic" thumbKey={song.topic} />
                 </ChakraLink>
               </Link>
 
               <Link href={makeHref({ mood: song.mood })} passHref shallow>
                 <ChakraLink zIndex="1">
-                  <FilterTag h="3rem" prefix="mood" thumbKey={song.mood} />
+                  <FilterTag year={song.year} h="3rem" prefix="mood" thumbKey={song.mood} />
                 </ChakraLink>
               </Link>
 
               <Link href={makeHref({ beard: song.beard })} passHref shallow>
                 <ChakraLink zIndex="1">
-                  <FilterTag h="3rem" prefix="beard" thumbKey={song.beard} />
+                  <FilterTag year={song.year} h="3rem" prefix="beard" thumbKey={song.beard} />
                 </ChakraLink>
               </Link>
             </>

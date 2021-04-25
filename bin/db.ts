@@ -14,7 +14,7 @@ import { DateTime } from 'luxon';
 import path from 'path';
 
 import { Song } from '../lib/types';
-import { Beard, Instrument, Location, Mood, Topic } from '../lib/utils/constants';
+import { Beard, Instrument, Location, Mood, Topic, Year } from '../lib/utils/constants';
 import { getBackground } from '../lib/utils/images';
 
 // these instruments are listed, but we don't have any images for them
@@ -53,77 +53,98 @@ const ensureValidProperty = <T>(all: Record<string, string>, value: any) => {
   return value;
 };
 
-function songsFromCSV(year: number) {
+const toPascalCase = (text: string) =>
+  text
+    .split(' ')
+    .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1).toLowerCase()}`)
+    .join(' ');
+const formatBeard = (text: string) =>
+  toPascalCase(trim(text).toLowerCase().replace('n/a', Beard.Clean).replace('na', Beard.Clean));
+const formatMood = (text: string) => toPascalCase(trim(text));
+const formatTag = (text: string) => trim(text);
+const formatLocation = (text: string) => trim(text).replace(/ /gi, '').replace(/,/gi, '');
+const formatTopic = (text: string) =>
+  trim(text)
+    .replace(/ /gi, '')
+    .replace(/^Object$/, 'Objects');
+const formatInstrument = (text: string) =>
+  toPascalCase(trim(text))
+    .replace(/ /gi, '')
+    .replace('Ukulele', 'Uke')
+    .replace(/^Synth$/, 'Synths')
+    .replace(/^Drum$/, 'Drums');
+
+function songsFromCSV(year: Year) {
   const input = readFileSync(path.join(__dirname, `year${year}.csv`));
   const data: SongFromCSV[] = parse(input, {
     columns: true,
   });
 
   return data.map<Song>((record) => {
-    // console.log(record);
-    const number = parseInt(record.number);
-    const description = trim(record.description).replace(/^N\/A$/, '');
-    const isQueryParam = record.videoID.includes('?v=');
-    const youtubeId = isQueryParam
-      ? last(record.videoID.split('?v='))
-      : last(record.videoID.split('/'));
-    const releasedAt = DateTime.fromFormat(record.date, 'M/d/yyyy');
-    const tags = compact(record.tags.split(',').map(trim));
+    try {
+      // console.log(record);
+      const number = parseInt(record.number);
+      const description = trim(record.description).replace(/^N\/A$/, '');
+      const isQueryParam = record.videoID.includes('?v=');
+      const youtubeId = isQueryParam
+        ? last(record.videoID.split('?v='))
+        : last(record.videoID.split('/'));
+      const releasedAt = DateTime.fromFormat(record.date, 'M/d/yyyy');
+      const tags = compact(record.tags.split(',').map(formatTag));
 
-    const mood = ensureValidProperty<Mood>(Mood, trim(record.mood));
-    const beard = ensureValidProperty<Beard>(Beard, trim(record.beard).replace('N/A', Beard.Clean));
-    const location = ensureValidProperty<Location>(
-      Location,
-      trim(record.location).replace(/ /gi, '').replace(/,/gi, ''),
-    );
-    const topic = ensureValidProperty<Topic>(
-      Topic,
-      trim(record.topic).replace(/ /gi, '').replace('Object', 'Objects'), // special case: 'Object' in spreadsheet is 'Objects' in model
-    );
+      const mood = ensureValidProperty<Mood>(Mood, formatMood(record.mood));
+      const beard = ensureValidProperty<Beard>(Beard, formatBeard(record.beard));
+      const location = ensureValidProperty<Location>(Location, formatLocation(record.location));
+      const topic = ensureValidProperty<Topic>(Topic, formatTopic(record.topic));
 
-    const instruments = compact(
-      trim(record.instruments)
-        .split(',')
-        .map(trim)
-        .map((text) => text.replace(/ /gi, ''))
-        .filter((text) => !INGORE_INSTRUMENTS.includes(text))
-        .map((text) => ensureValidProperty<Instrument>(Instrument, text)),
-    );
+      const instruments = compact(
+        trim(record.instruments)
+          .split(',')
+          .map(formatInstrument)
+          .filter((text) => !INGORE_INSTRUMENTS.includes(text))
+          .map((text) => ensureValidProperty<Instrument>(Instrument, text)),
+      );
 
-    // the primary instrument is the first instrument that isn't vocals, or Vocals
-    const instrumentsWithoutVocals = without(instruments, Instrument.Vocals);
-    const primaryInstument = head(instrumentsWithoutVocals) || Instrument.Vocals;
+      // the primary instrument is the first instrument that isn't vocals, or Vocals
+      const instrumentsWithoutVocals = without(instruments, Instrument.Vocals);
+      const primaryInstument = head(instrumentsWithoutVocals) || Instrument.Vocals;
 
-    // for instruments, we have two cases
-    // when the track topic is instrumental, the topic becomes Instrumental{PrimaryInstrument}
-    const fullTopic = ensureValidProperty<Topic>(
-      Topic,
-      topic === Topic.Instrumental ? `${topic}${primaryInstument}` : topic,
-    );
+      // for instruments, we have two cases
+      // when the track topic is instrumental, the topic becomes Instrumental{PrimaryInstrument}
+      const fullTopic = ensureValidProperty<Topic>(
+        Topic,
+        topic === Topic.Instrumental ? `${topic}${primaryInstument}` : topic,
+      );
 
-    const releasedAtStr = releasedAt.toISODate();
+      const releasedAtStr = releasedAt.toISODate();
 
-    return {
-      number,
-      youtubeId,
-      title: record.title,
-      description,
-      topic: fullTopic,
-      mood,
-      beard,
-      location,
-      instrument: primaryInstument,
-      background: getBackground(releasedAtStr),
-      tags,
-      releasedAt: releasedAtStr,
-    };
+      return {
+        number,
+        year,
+        youtubeId,
+        title: record.title,
+        description,
+        topic: fullTopic,
+        mood,
+        beard,
+        location,
+        instrument: primaryInstument,
+        background: getBackground(year, releasedAtStr),
+        tags,
+        releasedAt: releasedAtStr,
+      };
+    } catch (error) {
+      console.log(error);
+      console.log(`while parsing record`);
+      console.log(record);
+    }
   });
 }
 
 // expects year1.csv, exported from https://docs.google.com/spreadsheets/d/15wJgkbF40NRYjcBtZRgIu1BbLl8QFLl8_3nv9YcNILg/edit#gid=0
 // to be present locally
 const main = async () => {
-  const inputs = songsFromCSV(1);
+  const inputs = [Year.One, Year.Two].flatMap(songsFromCSV);
 
   writeFileSync(
     path.join(__dirname, '../generated/db.js'),

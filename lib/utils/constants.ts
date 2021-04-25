@@ -1,3 +1,8 @@
+export enum Year {
+  One = '1',
+  Two = '2',
+}
+
 export enum Location {
   Baltimore = 'Baltimore',
   Berkeley = 'Berkeley',
@@ -6,9 +11,39 @@ export enum Location {
   NewYork = 'NewYork',
   Oakland = 'Oakland',
   SouthingtonCT = 'SouthingtonCT',
+  PensacolaFL = 'PensacolaFL',
   Vermont = 'Vermont',
   Vienna = 'Vienna',
+  MauiHI = 'MauiHI',
+  PortlandOR = 'PortlandOR',
+  SeattleWA = 'SeattleWA',
+  BenningtonVT = 'BenningtonVT',
+  BerkeleyStudio = 'BerkeleyStudio',
+  SanFrancisco = 'SanFrancisco',
+  SanDiego = 'SanDiego',
 }
+
+// human versions of things, because we don't have i18n yet
+
+export const HumanLocation: Record<Location, string> = {
+  [Location.Baltimore]: 'Baltimore',
+  [Location.Berkeley]: 'Berkeley',
+  [Location.JupiterFL]: 'Jupiter, FL',
+  [Location.LosAngeles]: 'Los Angeles',
+  [Location.NewYork]: 'New York',
+  [Location.Oakland]: 'Oakland',
+  [Location.SouthingtonCT]: 'Southington, CT',
+  [Location.Vermont]: 'Vermont',
+  [Location.Vienna]: 'Vienna',
+  [Location.PensacolaFL]: 'Pensacola, FL',
+  [Location.MauiHI]: 'Maui, HI',
+  [Location.PortlandOR]: 'Portland, OR',
+  [Location.SeattleWA]: 'Seattle, WA',
+  [Location.BenningtonVT]: 'Bennington, VT',
+  [Location.BerkeleyStudio]: 'Berkeley Studio',
+  [Location.SanFrancisco]: 'San Francisco',
+  [Location.SanDiego]: 'San Diego',
+};
 
 export enum Topic {
   Airport = 'Airport',
@@ -28,6 +63,7 @@ export enum Topic {
   Instrumental = 'Instrumental',
   InstrumentalSamples = 'InstrumentalSamples',
   InstrumentalSynths = 'InstrumentalSynths',
+  InstrumentalElectricGuitar = 'InstrumentalElectricGuitar',
   Internet = 'Internet',
   Kids = 'Kids',
   Life = 'Life',
@@ -48,89 +84,22 @@ export enum Topic {
   ThemeSong = 'ThemeSong',
   TV = 'TV',
   VideoGames = 'VideoGames',
+  Family = 'Family',
+  WanderingFall = 'WanderingFall',
+  Traditional = 'Traditional',
+  Improv = 'Improv',
+  InstrumentalPiano = 'InstrumentalPiano',
+  ChatRoulette = 'ChatRoulette',
+  NoticeMe = 'NoticeMe',
+  Music = 'Music',
+  Weather = 'Weather',
+  Remix = 'Remix',
+  HarryPotter = 'HarryPotter',
+  Hero = 'Hero',
+  Podcast = 'Podcast',
+  Sports = 'Sports',
+  Conference = 'Conference',
 }
-
-export enum Mood {
-  Angry = 'Angry',
-  Anxious = 'Anxious',
-  Chill = 'Chill',
-  Confused = 'Confused',
-  Drunk = 'Drunk',
-  Excited = 'Excited',
-  Happy = 'Happy',
-  Intense = 'Intense',
-  Pensive = 'Pensive',
-  Sad = 'Sad',
-  Silly = 'Silly',
-  Tired = 'Tired',
-}
-
-export enum Beard {
-  Clean = 'Clean',
-  Beard = 'Beard',
-  Shadow = 'Shadow',
-}
-
-export enum Instrument {
-  AcousticGuitar = 'AcousticGuitar',
-  Banjo = 'Banjo',
-  BaritoneUke = 'BaritoneUke',
-  Bass = 'Bass',
-  Congas = 'Congas',
-  DrumMachine = 'DrumMachine',
-  Drums = 'Drums',
-  ElectricGuitar = 'ElectricGuitar',
-  Harpsichord = 'Harpsichord',
-  Organ = 'Organ',
-  Piano = 'Piano',
-  Samples = 'Samples',
-  Synths = 'Synths',
-  Uke = 'Uke',
-  Vocals = 'Vocals',
-}
-
-export type MinimannProperty =
-  | typeof Location
-  | typeof Topic
-  | typeof Mood
-  | typeof Beard
-  | typeof Instrument;
-
-export type MinimannPropertyValue = Location | Topic | Mood | Beard | Instrument;
-
-export interface MinimannPropertyFilter {
-  location?: Location;
-  topic?: Topic;
-  mood?: Mood;
-  beard?: Beard;
-  instrument?: Instrument;
-}
-
-export const LocationViewConfig: Record<Location, { color: string; dark: boolean }> = {
-  [Location.Baltimore]: { color: '#94809E', dark: true },
-  [Location.Berkeley]: { color: '#D6CF90', dark: false },
-  [Location.JupiterFL]: { color: '#D6CF90', dark: false },
-  [Location.LosAngeles]: { color: '#7fc779', dark: true },
-  [Location.NewYork]: { color: '#6183b0', dark: true },
-  [Location.Oakland]: { color: '#a8a887', dark: true },
-  [Location.SouthingtonCT]: { color: '#A9CF8A', dark: false },
-  [Location.Vermont]: { color: '#c9eeff', dark: false },
-  [Location.Vienna]: { color: '#93ACB8', dark: true },
-};
-
-// human versions of things
-
-export const HumanLocation: Record<Location, string> = {
-  [Location.Baltimore]: 'Baltimore',
-  [Location.Berkeley]: 'Berkeley',
-  [Location.JupiterFL]: 'Jupiter, FL',
-  [Location.LosAngeles]: 'Los Angeles',
-  [Location.NewYork]: 'New York',
-  [Location.Oakland]: 'Oakland',
-  [Location.SouthingtonCT]: 'Southington, CT',
-  [Location.Vermont]: 'Vermont',
-  [Location.Vienna]: 'Vienna',
-};
 
 export const HumanTopic: Record<Topic, string> = {
   [Topic.Airport]: 'Airport',
@@ -150,6 +119,8 @@ export const HumanTopic: Record<Topic, string> = {
   [Topic.Instrumental]: 'Instrumental',
   [Topic.InstrumentalSamples]: 'Inst. Samples',
   [Topic.InstrumentalSynths]: 'Inst. Synths',
+  [Topic.InstrumentalPiano]: 'Inst. Piano',
+  [Topic.InstrumentalElectricGuitar]: 'Inst. Elec. Guitar',
   [Topic.Internet]: 'Internet',
   [Topic.Kids]: 'Kids',
   [Topic.Life]: 'Life',
@@ -170,7 +141,39 @@ export const HumanTopic: Record<Topic, string> = {
   [Topic.ThemeSong]: 'Theme Song',
   [Topic.TV]: 'TV',
   [Topic.VideoGames]: 'Video Games',
+  [Topic.Family]: 'Family',
+  [Topic.WanderingFall]: 'Wandering Fall',
+  [Topic.Traditional]: 'Traditional',
+  [Topic.Improv]: 'Improv',
+  [Topic.ChatRoulette]: 'Chatroulette',
+  [Topic.NoticeMe]: 'Notice Me',
+  [Topic.Apple]: 'Apple',
+  [Topic.Music]: 'Music',
+  [Topic.Weather]: 'Weather',
+  [Topic.Remix]: 'Remix',
+  [Topic.HarryPotter]: 'Harry Potter',
+  [Topic.Hero]: 'Hero',
+  [Topic.Podcast]: 'Podcast',
+  [Topic.Sports]: 'Sports',
+  [Topic.Conference]: 'Conference',
 };
+
+export enum Mood {
+  Angry = 'Angry',
+  Anxious = 'Anxious',
+  Chill = 'Chill',
+  Confused = 'Confused',
+  Drunk = 'Drunk',
+  Excited = 'Excited',
+  Happy = 'Happy',
+  Intense = 'Intense',
+  Pensive = 'Pensive',
+  Sad = 'Sad',
+  Silly = 'Silly',
+  Tired = 'Tired',
+  Bored = 'Bored',
+  Hopeful = 'Hopeful',
+}
 
 export const HumanMood: Record<Mood, string> = {
   [Mood.Angry]: 'Angry',
@@ -185,13 +188,50 @@ export const HumanMood: Record<Mood, string> = {
   [Mood.Sad]: 'Sad',
   [Mood.Silly]: 'Silly',
   [Mood.Tired]: 'Tired',
+  [Mood.Bored]: 'Bored',
+  [Mood.Hopeful]: 'Hopeful',
 };
+
+export enum Beard {
+  Clean = 'Clean',
+  Beard = 'Beard',
+  Shadow = 'Shadow',
+  Goatee = 'Goatee',
+}
 
 export const HumanBeard: Record<Beard, string> = {
   [Beard.Clean]: 'Clean',
   [Beard.Beard]: 'Beard',
   [Beard.Shadow]: 'Shadow',
+  [Beard.Goatee]: 'Goatee',
 };
+
+export enum Instrument {
+  AcousticGuitar = 'AcousticGuitar',
+  Banjo = 'Banjo',
+  BaritoneUke = 'BaritoneUke',
+  Bass = 'Bass',
+  Congas = 'Congas',
+  DrumMachine = 'DrumMachine',
+  Drums = 'Drums',
+  ElectricGuitar = 'ElectricGuitar',
+  Harpsichord = 'Harpsichord',
+  Organ = 'Organ',
+  Piano = 'Piano',
+  Samples = 'Samples',
+  Synths = 'Synths',
+  Uke = 'Uke',
+  Vocals = 'Vocals',
+  Stylophone = 'Stylophone',
+  Glokenspiel = 'Glokenspiel',
+  Saxophone = 'Saxophone',
+  FakeHorns = 'FakeHorns',
+  Beatboxing = 'Beatboxing',
+  Horns = 'Horns',
+  Bells = 'Bells',
+  Tuba = 'Tuba',
+  Accordion = 'Accordion',
+}
 
 export const HumanInstrument: Record<Instrument, string> = {
   [Instrument.AcousticGuitar]: 'Acoustic Guitar',
@@ -209,7 +249,33 @@ export const HumanInstrument: Record<Instrument, string> = {
   [Instrument.Synths]: 'Synths',
   [Instrument.Uke]: 'Uke',
   [Instrument.Vocals]: 'Vocals',
+  [Instrument.Stylophone]: 'Stylophone',
+  [Instrument.Glokenspiel]: 'Glokenspiel',
+  [Instrument.Saxophone]: 'Saxophone',
+  [Instrument.FakeHorns]: 'Fake Horns',
+  [Instrument.Beatboxing]: 'Beatboxing',
+  [Instrument.Horns]: 'Horns',
+  [Instrument.Bells]: 'Bells',
+  [Instrument.Tuba]: 'Tuba',
+  [Instrument.Accordion]: 'Accordion',
 };
+
+export type MinimannProperty =
+  | typeof Location
+  | typeof Topic
+  | typeof Mood
+  | typeof Beard
+  | typeof Instrument;
+
+export type MinimannPropertyValue = Location | Topic | Mood | Beard | Instrument;
+
+export interface MinimannPropertyFilter {
+  location?: Location;
+  topic?: Topic;
+  mood?: Mood;
+  beard?: Beard;
+  instrument?: Instrument;
+}
 
 export const HumanMaps = {
   location: HumanLocation,
@@ -225,4 +291,44 @@ export const HumanKeys: Record<string, string> = {
   mood: 'Mood',
   beard: 'Beard',
   instrument: 'Instrument',
+};
+
+export const MISSING_MOODS_FOR_YEAR = {
+  [Year.One]: [],
+  [Year.Two]: [Mood.Excited, Mood.Tired, Mood.Bored],
+};
+
+export const MISSING_TOPICS_FOR_YEAR = {
+  [Year.One]: [Topic.InstrumentalSamples, Topic.InstrumentalSynths],
+  [Year.Two]: [
+    Topic.InstrumentalSynths,
+    Topic.Conference,
+    Topic.InstrumentalElectricGuitar,
+    Topic.InstrumentalPiano,
+    Topic.Motivational,
+    Topic.Food,
+  ],
+};
+
+export const MISSING_INSTRUMENTS_FOR_YEAR = {
+  [Year.One]: [Instrument.Vocals, Instrument.Congas, Instrument.DrumMachine, Instrument.Drums],
+  [Year.Two]: [
+    Instrument.Vocals,
+    Instrument.Congas,
+    Instrument.DrumMachine,
+    Instrument.Drums,
+    Instrument.Stylophone,
+    Instrument.Glokenspiel,
+    Instrument.Saxophone,
+    Instrument.Horns,
+    Instrument.Bells,
+    Instrument.Tuba,
+    Instrument.Accordion,
+    Instrument.Uke,
+  ],
+};
+
+export const NUM_POETIC = {
+  [Year.One]: 7,
+  [Year.Two]: 6,
 };
