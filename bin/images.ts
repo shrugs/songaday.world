@@ -3,7 +3,7 @@
 import { config } from 'dotenv';
 config();
 
-import { existsSync, mkdirSync, unlinkSync } from 'fs';
+import { existsSync, mkdirSync, renameSync } from 'fs';
 import gm from 'gm';
 import pMap from 'p-map';
 import { join } from 'path';
@@ -78,17 +78,20 @@ const main = async () => {
       const topicPath = pathFromKey(year, 'topic', resolveTopic(year, song.topic, song.releasedAt));
       const moodPath = pathFromKey(year, 'mood', song.mood);
       const beardPath = pathFromKey(year, 'beard', song.beard);
-      const instrumentPath = pathFromKey(year, 'instrument', song.instrument);
 
       await composite(background, locationPath, temp);
       await composite(temp, topicPath, temp);
       await composite(temp, moodPath, temp);
       await composite(temp, beardPath, temp);
-      await composite(temp, instrumentPath, final);
+
+      if (song.instrument) {
+        const instrumentPath = pathFromKey(year, 'instrument', song.instrument);
+        await composite(temp, instrumentPath, temp);
+      }
+
+      renameSync(temp, final);
 
       console.log(`Generated ${number}!`);
-
-      unlinkSync(temp);
     },
     { concurrency: 25 },
   );

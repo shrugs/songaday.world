@@ -16,7 +16,7 @@ export interface Song {
   topic: Topic;
   mood: Mood;
   beard: Beard;
-  instrument: Instrument;
+  instrument?: Instrument;
   background: string; // Holiday or hsl rgb
   tags: string[];
   releasedAt: string;

@@ -144,9 +144,8 @@ function songsFromCSV(year: Year) {
           .map((text) => ensureValidProperty<Instrument>(Instrument, text)),
       );
 
-      // the primary instrument is the first instrument that isn't vocals, or Vocals
-      const instrumentsWithoutVocals = without(instruments, Instrument.Vocals);
-      const primaryInstument = head(instrumentsWithoutVocals) || Instrument.Vocals;
+      // the instrument is the first instrument that isn't vocals
+      const instrument = head(without(instruments, Instrument.Vocals));
 
       const releasedAtStr = releasedAt.toISODate();
 
@@ -160,7 +159,7 @@ function songsFromCSV(year: Year) {
         mood,
         beard,
         location,
-        instrument: primaryInstument,
+        instrument,
         background: getBackground(year, releasedAtStr),
         tags,
         releasedAt: releasedAtStr,
