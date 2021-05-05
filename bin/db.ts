@@ -148,13 +148,6 @@ function songsFromCSV(year: Year) {
       const instrumentsWithoutVocals = without(instruments, Instrument.Vocals);
       const primaryInstument = head(instrumentsWithoutVocals) || Instrument.Vocals;
 
-      // for instruments, we have two cases
-      // when the track topic is instrumental, the topic becomes Instrumental{PrimaryInstrument}
-      const fullTopic = ensureValidProperty<Topic>(
-        Topic,
-        topic === Topic.Instrumental ? `${topic}${primaryInstument}` : topic,
-      );
-
       const releasedAtStr = releasedAt.toISODate();
 
       return {
@@ -163,7 +156,7 @@ function songsFromCSV(year: Year) {
         youtubeId,
         title: record.title,
         description,
-        topic: fullTopic,
+        topic,
         mood,
         beard,
         location,
@@ -192,8 +185,7 @@ async function getVideoInfos(songs: Song[]): Promise<Record<string, VideoInfo>> 
   }, {});
 }
 
-// expects year1.csv, exported from https://docs.google.com/spreadsheets/d/15wJgkbF40NRYjcBtZRgIu1BbLl8QFLl8_3nv9YcNILg/edit#gid=0
-// to be present locally
+// expects year#.csv to be present locally
 const main = async () => {
   const data = [Year.One, Year.Two].flatMap(songsFromCSV);
 
@@ -209,7 +201,7 @@ const main = async () => {
 
   writeFileSync(
     path.join(__dirname, '../generated/db.js'),
-    `export default ${JSON.stringify(songs)}`,
+    `export default ${JSON.stringify(songs, null, 2)}`,
     {
       flag: 'w',
     },

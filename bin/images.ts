@@ -12,11 +12,8 @@ import tempy from 'tempy';
 import db from '../generated/db';
 import { Song } from '../lib/types';
 import {
-  Instrument,
   MISSING_INSTRUMENTS_FOR_YEAR,
   MISSING_TOPICS_FOR_YEAR,
-  Mood,
-  Topic,
   Year,
 } from '../lib/utils/constants';
 import { nameFromKey, resolveTopic } from '../lib/utils/images';
@@ -55,6 +52,10 @@ function tempBackgroundColor(color: string): Promise<string> {
   );
 }
 
+function skip(song: Song, prop: string) {
+  console.log(`Skipping song ${song.number} because ${prop} ${song[prop]} isn't available!`);
+}
+
 const main = async () => {
   // ensure the generated directory is available
   ensureDir(join(__dirname, '../public/generated'));
@@ -63,24 +64,9 @@ const main = async () => {
     songs,
     async (song) => {
       const { number, year } = song;
-      if (MISSING_TOPICS_FOR_YEAR[year].includes(song.topic)) return;
-      if (MISSING_INSTRUMENTS_FOR_YEAR[year].includes(song.instrument)) return;
-
-      // TODO: need these layers
-      if (
-        year === Year.Two &&
-        (song.mood === Mood.Excited || song.mood === Mood.Tired || song.mood === Mood.Bored)
-      )
-        return;
-      if (year === Year.Two && song.instrument === Instrument.Uke) return;
-      if (
-        year === Year.Two &&
-        (song.topic === Topic.InstrumentalPiano ||
-          song.topic === Topic.Motivational ||
-          song.topic === Topic.InstrumentalElectricGuitar ||
-          song.topic === Topic.Food)
-      )
-        return;
+      if (MISSING_TOPICS_FOR_YEAR[year].includes(song.topic)) return skip(song, 'topic');
+      if (MISSING_INSTRUMENTS_FOR_YEAR[year].includes(song.instrument))
+        return skip(song, 'instrument');
 
       const temp = tempy.file({ extension: 'png' });
       const final = join(__dirname, `../public/generated/${number}.png`);
@@ -104,7 +90,7 @@ const main = async () => {
 
       unlinkSync(temp);
     },
-    { concurrency: 50 },
+    { concurrency: 25 },
   );
 };
 

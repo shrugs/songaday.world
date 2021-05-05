@@ -61,9 +61,6 @@ export enum Topic {
   Friend = 'Friend',
   Grandma = 'Grandma',
   Instrumental = 'Instrumental',
-  InstrumentalSamples = 'InstrumentalSamples',
-  InstrumentalSynths = 'InstrumentalSynths',
-  InstrumentalElectricGuitar = 'InstrumentalElectricGuitar',
   Internet = 'Internet',
   Kids = 'Kids',
   Life = 'Life',
@@ -88,7 +85,6 @@ export enum Topic {
   WanderingFall = 'WanderingFall',
   Traditional = 'Traditional',
   Improv = 'Improv',
-  InstrumentalPiano = 'InstrumentalPiano',
   ChatRoulette = 'ChatRoulette',
   NoticeMe = 'NoticeMe',
   Music = 'Music',
@@ -117,10 +113,6 @@ export const HumanTopic: Record<Topic, string> = {
   [Topic.Friend]: 'Friend',
   [Topic.Grandma]: 'Grandma',
   [Topic.Instrumental]: 'Instrumental',
-  [Topic.InstrumentalSamples]: 'Inst. Samples',
-  [Topic.InstrumentalSynths]: 'Inst. Synths',
-  [Topic.InstrumentalPiano]: 'Inst. Piano',
-  [Topic.InstrumentalElectricGuitar]: 'Inst. Elec. Guitar',
   [Topic.Internet]: 'Internet',
   [Topic.Kids]: 'Kids',
   [Topic.Life]: 'Life',
@@ -303,8 +295,8 @@ export const MISSING_MOODS_FOR_YEAR = {
 };
 
 export const MISSING_TOPICS_FOR_YEAR = {
-  [Year.One]: [Topic.InstrumentalSamples, Topic.InstrumentalSynths],
-  [Year.Two]: [Topic.InstrumentalSynths, Topic.InstrumentalElectricGuitar, Topic.InstrumentalPiano],
+  [Year.One]: [],
+  [Year.Two]: [],
 };
 
 export const MISSING_INSTRUMENTS_FOR_YEAR = {
