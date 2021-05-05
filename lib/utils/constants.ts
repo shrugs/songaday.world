@@ -301,7 +301,6 @@ export const MISSING_TOPICS_FOR_YEAR = {
 
 export const MISSING_INSTRUMENTS_FOR_YEAR = {
   [Year.One]: [
-    Instrument.Vocals,
     Instrument.Congas,
     Instrument.DrumMachine,
     Instrument.Drums,
@@ -309,7 +308,6 @@ export const MISSING_INSTRUMENTS_FOR_YEAR = {
     Instrument.Claps,
   ],
   [Year.Two]: [
-    Instrument.Vocals,
     Instrument.Congas,
     Instrument.DrumMachine,
     Instrument.Drums,

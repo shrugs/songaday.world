@@ -22,6 +22,11 @@ const uriFromKey = (year: Year, prefix: string, key: string) => {
   if (prefix === 'mood' && MISSING_MOODS_FOR_YEAR[year]?.includes(key as Mood))
     return `/assets/missing_thumbnail.png`;
 
+  // vocals branch
+  if (prefix === 'instrument' && key === Instrument.Vocals) {
+    return `/assets/missing_thumbnail.png`;
+  }
+
   return `/thumbnails/${year ?? 'all'}/${prefix}_${key.toLowerCase()}.png`;
 };
 

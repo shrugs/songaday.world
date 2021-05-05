@@ -12,6 +12,7 @@ import tempy from 'tempy';
 import db from '../generated/db';
 import { Song } from '../lib/types';
 import {
+  Instrument,
   MISSING_INSTRUMENTS_FOR_YEAR,
   MISSING_TOPICS_FOR_YEAR,
   Year,
@@ -84,7 +85,7 @@ const main = async () => {
       await composite(temp, moodPath, temp);
       await composite(temp, beardPath, temp);
 
-      if (song.instrument) {
+      if (song.instrument !== Instrument.Vocals) {
         const instrumentPath = pathFromKey(year, 'instrument', song.instrument);
         await composite(temp, instrumentPath, temp);
       }

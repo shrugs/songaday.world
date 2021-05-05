@@ -2733,6 +2733,7 @@ export default [
     "mood": "Silly",
     "beard": "Clean",
     "location": "Vienna",
+    "instrument": "Vocals",
     "background": "#daffcc",
     "tags": [
       "Acapella",
@@ -5171,6 +5172,7 @@ export default [
     "mood": "Silly",
     "beard": "Shadow",
     "location": "Berkeley",
+    "instrument": "Vocals",
     "background": "#ffccd9",
     "tags": [
       "Acapella",
@@ -7087,6 +7089,7 @@ export default [
     "mood": "Sad",
     "beard": "Clean",
     "location": "LosAngeles",
+    "instrument": "Vocals",
     "background": "#d4ccff",
     "tags": [
       "Acapella",
@@ -7762,6 +7765,7 @@ export default [
     "mood": "Silly",
     "beard": "Shadow",
     "location": "Berkeley",
+    "instrument": "Vocals",
     "background": "#cfe1fc",
     "tags": [
       "ACAPELLA",
@@ -8179,6 +8183,7 @@ export default [
     "mood": "Silly",
     "beard": "Shadow",
     "location": "Berkeley",
+    "instrument": "Vocals",
     "background": "#cff1fc",
     "tags": [
       "ACAPELLA",
@@ -10295,6 +10300,7 @@ export default [
     "mood": "Pensive",
     "beard": "Shadow",
     "location": "Berkeley",
+    "instrument": "Vocals",
     "background": "#e5fccf",
     "tags": [
       "ACAPELLA",
@@ -10412,6 +10418,7 @@ export default [
     "mood": "Silly",
     "beard": "Clean",
     "location": "Berkeley",
+    "instrument": "Vocals",
     "background": "#e9fccf",
     "tags": [
       "ACAPELLA"
@@ -13319,6 +13326,7 @@ export default [
     "mood": "Tired",
     "beard": "Shadow",
     "location": "Berkeley",
+    "instrument": "Vocals",
     "background": "#fccffc",
     "tags": [
       "ACAPELLA",
@@ -13858,6 +13866,7 @@ export default [
     "mood": "Tired",
     "beard": "Shadow",
     "location": "SanFrancisco",
+    "instrument": "Vocals",
     "background": "#e8cffc",
     "tags": [
       "ACAPELLA",
