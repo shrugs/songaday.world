@@ -299,19 +299,12 @@ export const HumanKeys: Record<string, string> = {
 
 export const MISSING_MOODS_FOR_YEAR = {
   [Year.One]: [],
-  [Year.Two]: [Mood.Excited, Mood.Tired, Mood.Bored],
+  [Year.Two]: [],
 };
 
 export const MISSING_TOPICS_FOR_YEAR = {
   [Year.One]: [Topic.InstrumentalSamples, Topic.InstrumentalSynths],
-  [Year.Two]: [
-    Topic.InstrumentalSynths,
-    Topic.Conference,
-    Topic.InstrumentalElectricGuitar,
-    Topic.InstrumentalPiano,
-    Topic.Motivational,
-    Topic.Food,
-  ],
+  [Year.Two]: [Topic.InstrumentalSynths, Topic.InstrumentalElectricGuitar, Topic.InstrumentalPiano],
 };
 
 export const MISSING_INSTRUMENTS_FOR_YEAR = {
@@ -335,7 +328,6 @@ export const MISSING_INSTRUMENTS_FOR_YEAR = {
     Instrument.Bells,
     Instrument.Tuba,
     Instrument.Accordion,
-    Instrument.Uke,
     Instrument.Claps,
   ],
 };
