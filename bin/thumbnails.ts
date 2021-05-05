@@ -129,9 +129,9 @@ async function generate(year: Year) {
   const moods = uniqForYear(year, 'mood').filter(
     (key: Mood) => !MISSING_MOODS_FOR_YEAR[year].includes(key),
   );
-  const instruments = uniqForYear(year, 'instrument').filter(
-    (key: Instrument) => !MISSING_INSTRUMENTS_FOR_YEAR[year].includes(key),
-  );
+  const instruments = uniqForYear(year, 'instrument')
+    .filter((key: Instrument) => !MISSING_INSTRUMENTS_FOR_YEAR[year].includes(key))
+    .filter((key: Instrument) => key !== Instrument.Vocals);
   const locations = uniqForYear(year, 'location');
 
   await pMap(beards, async (key) => {
