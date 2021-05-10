@@ -76,7 +76,7 @@ function SongCard({
         <VStack borderRadius="1" borderColor="black" justifyContent="center" alignItems="center">
           {song ? (
             <Text fontWeight="bold" fontSize="xl">
-              {song.number}
+              {song.id}
             </Text>
           ) : (
             <Skeleton h="6" w="6" />
@@ -97,7 +97,7 @@ function SongCard({
           embed ? (
             <YoutubeEmbed id={song.youtubeId} autoPlay={SHOULD_AUTOPLAY} />
           ) : (
-            <Img w="full" h="full" src={`/generated/${song.number}.png`} />
+            <Img w="full" h="full" src={`/generated/${song.id}.png`} />
           )
         ) : (
           <Skeleton h="full" w="full" />

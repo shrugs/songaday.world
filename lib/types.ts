@@ -7,6 +7,7 @@ export interface SongsResponse {
 }
 
 export interface Song {
+  id: string;
   number: number; // which ordinal number is this song?
   year: Year;
   youtubeId: string;

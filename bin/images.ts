@@ -54,7 +54,7 @@ function tempBackgroundColor(color: string): Promise<string> {
 }
 
 function skip(song: Song, prop: string) {
-  console.log(`Skipping song ${song.number} because ${prop} ${song[prop]} isn't available!`);
+  console.log(`Skipping song ${song.id} because ${prop} ${song[prop]} isn't available!`);
 }
 
 const main = async () => {
@@ -64,13 +64,13 @@ const main = async () => {
   await pMap(
     songs,
     async (song) => {
-      const { number, year } = song;
+      const { id, year } = song;
       if (MISSING_TOPICS_FOR_YEAR[year].includes(song.topic)) return skip(song, 'topic');
       if (MISSING_INSTRUMENTS_FOR_YEAR[year].includes(song.instrument))
         return skip(song, 'instrument');
 
       const temp = tempy.file({ extension: 'png' });
-      const final = join(__dirname, `../public/generated/${number}.png`);
+      const final = join(__dirname, `../public/generated/${id}.png`);
 
       const background = song.background.startsWith('#')
         ? await tempBackgroundColor(song.background)
@@ -92,7 +92,7 @@ const main = async () => {
 
       renameSync(temp, final);
 
-      console.log(`Generated ${number}!`);
+      console.log(`Generated ${id}!`);
     },
     { concurrency: 25 },
   );

@@ -10,9 +10,9 @@ export function GridOfSongs({ songs, children, ...delegated }: BoxProps & { song
   return (
     <SimpleGrid {...delegated} gap="4" columns={{ base: 1, lg: 2 }}>
       {songs?.map((song) => (
-        <Box key={song.number} position="relative">
+        <Box key={song.id} position="relative">
           <SongCard cursor="pointer" h="full" song={song} card />
-          <Link key={song.number} href={makeHref({ id: song.number.toString() })} shallow>
+          <Link key={song.id} href={makeHref({ id: song.id })} shallow>
             <ChakraLink
               position="absolute"
               top="0"

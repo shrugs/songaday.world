@@ -64,6 +64,6 @@ export function findSongs({
   };
 }
 
-export function getSong(number: number): Song {
-  return db.find((song) => song.number === number);
+export function getSong(id: string): Song {
+  return db.find((song) => song.id === id);
 }

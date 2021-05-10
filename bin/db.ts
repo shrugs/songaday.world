@@ -122,7 +122,6 @@ function songsFromCSV(year: Year) {
 
   return data.map<Song>((record) => {
     try {
-      // console.log(record);
       const number = parseInt(record.number);
       const description = trim(record.description).replace(/^N\/A$/, '');
       const isQueryParam = record.videoID.includes('?v=');
@@ -150,6 +149,7 @@ function songsFromCSV(year: Year) {
       const releasedAtStr = releasedAt.toISODate();
 
       return {
+        id: record.number,
         number,
         year,
         youtubeId,
