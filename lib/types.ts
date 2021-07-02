@@ -23,6 +23,25 @@ export interface Song {
   releasedAt: string;
 }
 
+// Types for a song that comes from the OpenSea API
+export interface OpenSeaSong {
+  id: number;
+  name?: string;
+  image_url?: string;
+  permalink?: string;
+  sell_orders?: OpenSeaSellOrder[];
+  traits?: OpenSeaSellTrait[];
+}
+
+interface OpenSeaSellOrder {
+  current_price: string;
+}
+
+interface OpenSeaSellTrait {
+  trait_type: string;
+  value: string;
+}
+
 export enum Holiday {
   Birthday = 'birthday',
   Thanksgiving = 'thanksgiving',

@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Divider,
+  Heading,
   HStack,
   SimpleGrid,
   Skeleton,
@@ -14,11 +15,11 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { BuySongs } from '../components/BuySongs';
+import { FeaturedSongs } from '../components/FeaturedSongs';
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
 import { useSongs } from '../lib/useSongs';
-import { HumanKeys, HumanMaps, Year } from '../lib/utils/constants';
+import { HumanKeys, HumanMaps } from '../lib/utils/constants';
 import { FilterTag } from './FilterTag';
 import { GridOfSongs } from './GridOfSongs';
 import SongCard from './SongCard';
@@ -92,7 +93,14 @@ export function Page() {
       <Divider />
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
-        <BuySongs />
+        <FeaturedSongs />
+
+        <Divider my="12" />
+
+        <Heading as="h2" fontSize="3xl" mb="10">
+          Filter All Songs
+        </Heading>
+
         <VStack align="stretch" spacing={8}>
           {error && <Alert status="error">{error.message}</Alert>}
 
