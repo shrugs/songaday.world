@@ -64,14 +64,10 @@ export function FeaturedSongs(): JSX.Element {
               _hover={{ color: 'blue.500', shadow: 'lg' }}
               isExternal
             >
-              <Box py="6" borderWidth="1px" borderColor="gray.200" borderRadius="sm">
-                <Flex justifyContent="space-between" px="4" mb="6">
-                  <Text fontSize="xs" fontWeight="semibold">
-                    {songNumber}
-                  </Text>
-                  <Text fontSize="xs" fontWeight="semibold">
-                    {date.value}
-                  </Text>
+              <Box pt="3" pb="6" borderWidth="1px" borderColor="gray.200" borderRadius="md">
+                <Flex justifyContent="space-between" px="4" mb="7" fontSize="xs">
+                  <Text>{songNumber}</Text>
+                  <Text>{date.value}</Text>
                 </Flex>
                 <Box textAlign="center">
                   <Image src={song.image_url} alt={song.name} width={512} height={220} />
@@ -80,7 +76,7 @@ export function FeaturedSongs(): JSX.Element {
                   <Text mt="4" lineHeight="6" fontWeight="semibold" isTruncated>
                     {name}
                   </Text>
-                  <Text mt="3" fontSize="sm" fontWeight="semibold">
+                  <Text mt="2" fontSize="sm">
                     Price: {price} Ξ
                   </Text>
                 </Box>
