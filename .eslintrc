@@ -21,13 +21,7 @@
     "prettier",
     "plugin:prettier/recommended"
   ],
-  "plugins": [
-    "@typescript-eslint",
-    "react",
-    "react-hooks",
-    "prettier",
-    "simple-import-sort"
-  ],
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "prettier"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",

@@ -2,7 +2,6 @@ import { Box, Button, Flex, Heading, Link, SimpleGrid, Text } from '@chakra-ui/r
 import Image from 'next/image';
 import React from 'react';
 import useSWR from 'swr';
-
 import fetcher from '../lib/fetcher';
 import { OpenSeaSong } from '../lib/types';
 
@@ -77,7 +76,7 @@ export function FeaturedSongs(): JSX.Element {
                     {name}
                   </Text>
                   <Text mt="2" fontSize="sm">
-                    Price: {price} Ξ
+                    Buy: {price} Ξ
                   </Text>
                 </Box>
               </Box>
