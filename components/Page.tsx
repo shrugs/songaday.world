@@ -26,7 +26,7 @@ import { GridOfSongs } from './GridOfSongs';
 import SongCard from './SongCard';
 import SongListDescription from './SongListDescription';
 
-export function Page() {
+export function Page({ isHomepage }: { isHomepage?: boolean }) {
   // filter state
   const {
     filters: { id, ...filters },
@@ -91,13 +91,11 @@ export function Page() {
     <>
       {id && <SongDetail id={id} />}
 
-      <Divider />
-
-      <HomeBanner />
+      {isHomepage && <HomeBanner />}
       {/* <HomeBannerTwo /> */}
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
-        <FeaturedSongs />
+        {isHomepage && <FeaturedSongs />}
 
         <Divider my="12" />
 
