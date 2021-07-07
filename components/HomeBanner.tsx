@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Heading, Progress, Text } from '@chakra-ui/react';
 import React from 'react';
 
 function getNumberOfDays() {
@@ -28,7 +28,7 @@ function getNumberOfDays() {
 export function HomeBanner(): JSX.Element {
   const { totalDays, totalYears, daysRemainder } = getNumberOfDays();
   return (
-    <Box mt="6" mb="16" textAlign="center">
+    <Box pt="12" pb="16" bg="gray.50" textAlign="center">
       <Heading as="h1">Hi! I'm Jonathan Mann.</Heading>
       <Text mt="4" fontSize="2xl" lineHeight="9">
         I've been writing a song a day for{' '}
@@ -74,9 +74,15 @@ export function HomeBanner(): JSX.Element {
           </Button>
         </Box>
       </Flex>
-      <Text mt="4" fontSize={['lg', null, '2xl']}>
+      <Text mt="4" mb="12" fontSize={['lg', null, '2xl']}>
         Currently, 730 of them are available as NFTs.
       </Text>
+      <Container>
+        <Progress hasStripe size="lg" value={60} />
+        <Text mt="4" color="gray.600">
+          400 Songs Sold / 730 Total Songs
+        </Text>
+      </Container>
     </Box>
   );
 }
