@@ -1,4 +1,13 @@
-import { Box, Button, Container, Heading, Progress, SimpleGrid, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Container,
+  Heading,
+  Link,
+  Progress,
+  SimpleGrid,
+  Text,
+} from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
 
@@ -73,7 +82,10 @@ export function HomeBanner(): JSX.Element {
               Year 1 Sold Out
             </Button>
             <Text mt="4" color="gray.600">
-              Illustration by Defaced
+              Illustration by{' '}
+              <Link textDecoration="underline" href="https://twitter.com/Defacedstudio" isExternal>
+                Defaced Studio
+              </Link>
             </Text>
           </Box>
         </Box>
@@ -84,7 +96,10 @@ export function HomeBanner(): JSX.Element {
               Buy Year 2 Songs
             </Button>
             <Text mt="4" color="gray.600">
-              Illustration by EclecticMeth
+              Illustration by{' '}
+              <Link textDecoration="underline" href="https://twitter.com/EclecticMethod" isExternal>
+                Eclectic Method
+              </Link>
             </Text>
           </Box>
         </Box>
