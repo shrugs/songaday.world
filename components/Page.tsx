@@ -15,8 +15,8 @@ import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { FeaturedSongs } from '../components/FeaturedSongs';
-// import { HomeBannerTwo } from '../components/HomeBannerTwo';
-import { HomeBanner } from '../components/HomeBanner';
+import { HomeBannerTwo } from '../components/HomeBannerTwo';
+// import { HomeBanner } from '../components/HomeBanner';
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
 import { useSongs } from '../lib/useSongs';
@@ -93,8 +93,8 @@ export function Page() {
 
       <Divider />
 
-      <HomeBanner />
-      {/* <HomeBannerTwo /> */}
+      {/* <HomeBanner /> */}
+      <HomeBannerTwo />
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
         <FeaturedSongs />
