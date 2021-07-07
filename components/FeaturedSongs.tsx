@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Link, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Flex, Heading, Link, SimpleGrid, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
 import useSWR from 'swr';
@@ -40,12 +40,9 @@ export function FeaturedSongs(): JSX.Element {
 
   return (
     <Box>
-      <Flex alignItems="center" justifyContent="space-between" mb="6">
-        <Heading as="h2" fontSize="3xl">
-          Featured Songs
-        </Heading>
-        <Button colorScheme="blue">View Unclaimed Songs</Button>
-      </Flex>
+      <Heading as="h2" mb="6" fontSize="3xl">
+        Featured Songs
+      </Heading>
       <SimpleGrid gap="4" columns={{ base: 1, md: 2, lg: 6 }}>
         {data?.assets.map((song: OpenSeaSong) => {
           if (!song.name) {
