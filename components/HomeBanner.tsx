@@ -28,7 +28,7 @@ function getNumberOfDays() {
 export function HomeBanner(): JSX.Element {
   const { totalDays, totalYears, daysRemainder } = getNumberOfDays();
   return (
-    <Box pt="12" pb="16" bg="gray.50" textAlign="center">
+    <Box py={[12, null, 16]} px="6" bg="gray.50" textAlign="center">
       <Heading as="h1">Hi! I'm Jonathan Mann.</Heading>
       <Text mt="4" fontSize="2xl" lineHeight="9">
         I've been writing a song a day for{' '}

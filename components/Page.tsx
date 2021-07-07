@@ -94,10 +94,9 @@ export function Page() {
       <Divider />
 
       <HomeBanner />
+      {/* <HomeBannerTwo /> */}
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
-        {/* <HomeBannerTwo /> */}
-
         <FeaturedSongs />
 
         <Divider my="12" />
