@@ -12,11 +12,14 @@ import {
 } from '@chakra-ui/react';
 import { times } from 'lodash-es';
 import Link from 'next/link';
+import { Network, OpenSeaPort } from 'opensea-js';
+import { OpenSeaAsset } from 'opensea-js/lib/types';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import * as Web3 from 'web3';
 import { FeaturedSongs } from '../components/FeaturedSongs';
-import { HomeBannerTwo } from '../components/HomeBannerTwo';
-// import { HomeBanner } from '../components/HomeBanner';
+// import { HomeBannerTwo } from '../components/HomeBannerTwo';
+import { HomeBanner } from '../components/HomeBanner';
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
 import { useSongs } from '../lib/useSongs';
@@ -26,7 +29,33 @@ import { GridOfSongs } from './GridOfSongs';
 import SongCard from './SongCard';
 import SongListDescription from './SongListDescription';
 
-export function Page() {
+// This example provider won't let you make transactions, only read-only calls:
+const provider = new Web3.providers.HttpProvider('https://mainnet.infura.io');
+
+const seaport = new OpenSeaPort(provider, {
+  networkName: Network.Main,
+});
+
+export function Page({ isHomepage }: { isHomepage?: boolean }) {
+  const [assets, setAssets] = useState<OpenSeaAsset[]>([]);
+
+  useEffect(() => {
+    async function getAsset() {
+      try {
+        const response = await seaport.api.getAssets({
+          owner: '0x3d9456ad6463a77bd77123cb4836e463030bfab4', // Jonathan's Address
+        });
+        console.log('RESPONSE', response);
+        setAssets(response.assets);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getAsset();
+  }, []);
+
+  // console.log(assets);
+
   // filter state
   const {
     filters: { id, ...filters },
@@ -91,13 +120,16 @@ export function Page() {
     <>
       {id && <SongDetail id={id} />}
 
-      <Divider />
+      <nft-card
+        contractAddress="0x495f947276749ce646f68ac8c248420045cb7b5e"
+        tokenId="27853175353995272517766450193869818424107874020190547876689048755989811036161"
+      ></nft-card>
 
-      {/* <HomeBanner /> */}
-      <HomeBannerTwo />
+      {isHomepage && <HomeBanner />}
+      {/* <HomeBannerTwo /> */}
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
-        <FeaturedSongs />
+        {isHomepage && <FeaturedSongs />}
 
         <Divider my="12" />
 
