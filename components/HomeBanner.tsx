@@ -10,7 +10,12 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
+import useSWR from 'swr';
+import fetcher from '../lib/fetcher';
+import { OpenSeaCollection, SongsProgress } from '../lib/types';
 
+// Song a day started on `1/1/2009` so we calculate the number of
+// days since then, to give us the total number of songs written.
 function getNumberOfDays() {
   const date1 = new Date('1/1/2009');
   const date2 = new Date();
@@ -27,9 +32,7 @@ function getNumberOfDays() {
 
   // Calculating the no. of days between two dates
   const totalDays = Math.round(diffInTime / oneDay) + 1;
-
   const totalYears = Math.floor(totalDays / 365);
-
   const daysRemainder = totalDays - totalYears * 365;
 
   return {
@@ -39,8 +42,39 @@ function getNumberOfDays() {
   };
 }
 
+// Loops through all the collections that Jonathan owns and find `song-a-day`.
+// Get the stats off of it and return for the Progress bar.
+function getSongsProgress(data: OpenSeaCollection[]): SongsProgress {
+  if (!data) {
+    return {
+      totalSupply: 0,
+      totalSales: 0,
+      progressPercent: 0,
+    };
+  }
+  const songADayCollection = data.find((datum) => datum.slug === 'song-a-day');
+  if (songADayCollection) {
+    const totalSupply = songADayCollection.stats.total_supply;
+    const totalSales = songADayCollection.stats.total_sales;
+    return {
+      totalSupply,
+      totalSales,
+      progressPercent: (totalSales / totalSupply) * 100,
+    };
+  }
+}
+
 export function HomeBanner(): JSX.Element {
   const { totalDays, totalYears, daysRemainder } = getNumberOfDays();
+
+  const url = `https://api.opensea.io/api/v1/collections?${new URLSearchParams({
+    limit: '300',
+    asset_owner: '0x3d9456ad6463a77bd77123cb4836e463030bfab4', // Jonathan's address
+  })}`;
+
+  const { data, error } = useSWR<OpenSeaCollection[]>(url, fetcher);
+  const { totalSupply, totalSales, progressPercent } = getSongsProgress(data);
+
   return (
     <Box py="12" px="6" bg="gray.50" borderBottom="1px" borderColor="gray.200" textAlign="center">
       <Heading as="h1">Hi! I'm Jonathan Mann.</Heading>
@@ -104,28 +138,33 @@ export function HomeBanner(): JSX.Element {
           </Box>
         </Box>
       </SimpleGrid>
-      <Text mt="4" mb="12" fontSize={['lg', null, '2xl']}>
-        Currently,{' '}
-        <Text as="strong" fontWeight="semibold">
-          730
-        </Text>{' '}
-        of them are available as NFTs.
-      </Text>
-      <Container>
-        <Progress
-          height="24px"
-          borderRadius="2xl"
-          value={60}
-          sx={{
-            '& > div': {
-              background: 'linear-gradient(90deg, rgba(43,108,176,1) 10%, rgba(66,153,225,1) 90%)',
-            },
-          }}
-        />
-        <Text mt="4" color="gray.600">
-          400 Songs Sold / 730 Total Songs
-        </Text>
-      </Container>
+      {!error && (
+        <>
+          <Text mt="4" mb="12" fontSize={['lg', null, '2xl']}>
+            Currently,{' '}
+            <Text as="strong" fontWeight="semibold">
+              {totalSupply}
+            </Text>{' '}
+            of them are available as NFTs.
+          </Text>
+          <Container>
+            <Progress
+              height="24px"
+              borderRadius="2xl"
+              value={progressPercent}
+              sx={{
+                '& > div': {
+                  background:
+                    'linear-gradient(90deg, rgba(43,108,176,1) 10%, rgba(66,153,225,1) 90%)',
+                },
+              }}
+            />
+            <Text mt="4" color="gray.600">
+              {totalSales} Songs Sold / {totalSupply} Total Songs
+            </Text>
+          </Container>
+        </>
+      )}
     </Box>
   );
 }

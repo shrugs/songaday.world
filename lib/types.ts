@@ -42,6 +42,22 @@ interface OpenSeaSellTrait {
   value: string;
 }
 
+export interface OpenSeaCollection {
+  slug: string;
+  stats: OpenSeaCollectionStats;
+}
+
+interface OpenSeaCollectionStats {
+  total_sales: number;
+  total_supply: number;
+}
+
+export interface SongsProgress {
+  totalSupply: number;
+  totalSales: number;
+  progressPercent: number;
+}
+
 export enum Holiday {
   Birthday = 'birthday',
   Thanksgiving = 'thanksgiving',
