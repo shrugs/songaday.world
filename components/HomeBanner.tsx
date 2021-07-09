@@ -105,7 +105,6 @@ export function HomeBanner(): JSX.Element {
 
   return (
     <Box py="12" px="6" bg="gray.50" borderBottom="1px" borderColor="gray.200" textAlign="center">
-      <Button onClick={buy}>buy</Button>
       <Heading as="h1">Hi! I'm Jonathan Mann.</Heading>
       <Text mt="4" fontSize="2xl" lineHeight="9">
         I've been writing a song a day for{' '}
