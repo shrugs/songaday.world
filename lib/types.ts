@@ -31,6 +31,8 @@ export interface OpenSeaSong {
   permalink?: string;
   sell_orders?: OpenSeaSellOrder[];
   traits?: OpenSeaSellTrait[];
+  token_id: string;
+  asset_contract: OpenSeaAssetContract;
 }
 
 interface OpenSeaSellOrder {
@@ -40,6 +42,26 @@ interface OpenSeaSellOrder {
 interface OpenSeaSellTrait {
   trait_type: string;
   value: string;
+}
+
+interface OpenSeaAssetContract {
+  address: string;
+}
+
+export interface OpenSeaCollection {
+  slug: string;
+  stats: OpenSeaCollectionStats;
+}
+
+interface OpenSeaCollectionStats {
+  total_sales: number;
+  total_supply: number;
+}
+
+export interface SongsProgress {
+  totalSupply: number;
+  totalSales: number;
+  progressPercent: number;
 }
 
 export enum Holiday {

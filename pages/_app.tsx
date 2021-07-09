@@ -1,9 +1,9 @@
 import { ChakraProvider } from '@chakra-ui/react';
+import { NextSeo } from 'next-seo';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { NextSeo } from 'next-seo';
 import React from 'react';
-
+import { SWRConfig } from 'swr';
 import Navbar from '../components/Navbar';
 import { Account } from '../containers/Account';
 import { Filters } from '../containers/Filters';
@@ -33,7 +33,16 @@ function App({ Component, pageProps }: AppProps) {
         <Account.Provider>
           <Filters.Provider>
             <Navbar />
-            <Component {...pageProps} />
+            <SWRConfig
+              value={{
+                /** do not auto revalidate when window gets focus */
+                revalidateOnFocus: false,
+                /** allow 2 retries max when the fetcher throws an error */
+                errorRetryCount: 2,
+              }}
+            >
+              <Component {...pageProps} />
+            </SWRConfig>
           </Filters.Provider>
         </Account.Provider>
       </ChakraProvider>
