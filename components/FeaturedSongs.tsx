@@ -66,7 +66,13 @@ export function FeaturedSongs(): JSX.Element {
                   <Text>{date.value}</Text>
                 </Flex>
                 <Box textAlign="center">
-                  <Image src={song.image_url} alt={song.name} width={512} height={220} />
+                  <Image
+                    src={song.image_url}
+                    alt={song.name}
+                    width={512}
+                    height={220}
+                    unoptimized={process.env.NODE_ENV === 'development'}
+                  />
                 </Box>
                 <Box px="4">
                   <Text mt="4" lineHeight="6" fontWeight="semibold" isTruncated>

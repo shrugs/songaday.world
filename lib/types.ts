@@ -35,16 +35,16 @@ export interface OpenSeaSong {
   asset_contract: OpenSeaAssetContract;
 }
 
-interface OpenSeaSellOrder {
+export interface OpenSeaSellOrder {
   current_price: string;
 }
 
-interface OpenSeaSellTrait {
+export interface OpenSeaSellTrait {
   trait_type: string;
   value: string;
 }
 
-interface OpenSeaAssetContract {
+export interface OpenSeaAssetContract {
   address: string;
 }
 
@@ -53,7 +53,7 @@ export interface OpenSeaCollection {
   stats: OpenSeaCollectionStats;
 }
 
-interface OpenSeaCollectionStats {
+export interface OpenSeaCollectionStats {
   total_sales: number;
   total_supply: number;
 }

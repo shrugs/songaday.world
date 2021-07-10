@@ -26,7 +26,6 @@
     "@walletconnect/web3-provider": "^1.4.1",
     "d3-color": "^2.0.0",
     "dotenv": "^8.2.0",
-    "ethers": "^5.4.1",
     "framer-motion": "^4",
     "lodash-es": "^4.17.21",
     "luxon": "^1.26.0",
@@ -41,7 +40,6 @@
     "react-intersection-observer": "^8.31.0",
     "swr": "^0.4.2",
     "unstated-next": "^1.1.0",
-    "web3": "^1.4.0",
     "web3modal": "^1.9.3"
   },
   "devDependencies": {

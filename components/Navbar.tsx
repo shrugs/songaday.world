@@ -2,7 +2,6 @@ import { Button, HStack, Img, Link, VStack } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
-
 import { Account } from '../containers/Account';
 import { useDidHydrate } from '../lib/useDidHydrate';
 
@@ -42,7 +41,7 @@ function Navbar() {
               </Button>
             ) : (
               <Button as="a" href={`/a/${account}`}>
-                My Songs
+                My Songs {account}
               </Button>
             )
           ) : (

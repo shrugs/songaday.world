@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { Account } from '../containers/Account';
 import fetcher from '../lib/fetcher';
-import { OpenSeaSong } from '../lib/types';
+import { OpenSeaSellOrder, OpenSeaSong } from '../lib/types';
 
 interface SplitSongName {
   name: string;
@@ -22,6 +22,14 @@ function parseSongName(name: string): SplitSongName {
     name: splitName[0],
     songNumber: splitName[1],
   };
+}
+
+function getPrice(sellOrders: OpenSeaSellOrder[]): number {
+  if (!sellOrders) {
+    return 0;
+  }
+  const sellOrder = sellOrders[0];
+  return formatBigNumber(parseInt(sellOrder?.current_price || '0'));
 }
 
 export function FeaturedSongsTest(): JSX.Element {
@@ -44,7 +52,7 @@ export function FeaturedSongsTest(): JSX.Element {
   // so that we only fetch songs that have not been sold.
   const url = `https://rinkeby-api.opensea.io/api/v1/assets?${new URLSearchParams({
     collection: 'song-a-day-test',
-    owner: '0x3d9456ad6463a77bd77123cb4836e463030bfab4', // Jonathan's address
+    owner: '0x7271C5398456Dae6b6AB6Ac94C41A6522a3c4cBf', // Jonathan's address
   })}`;
 
   const { data, error, mutate } = useSWR(url, fetcher);
@@ -100,8 +108,7 @@ export function FeaturedSongsTest(): JSX.Element {
             return null;
           }
           const { name, songNumber } = parseSongName(song.name);
-          const sellOrder = song.sell_orders[0];
-          const price = formatBigNumber(parseInt(sellOrder.current_price));
+          const price = getPrice(song.sell_orders);
           return (
             <Box
               key={song.id}
@@ -116,7 +123,13 @@ export function FeaturedSongsTest(): JSX.Element {
                 <Text>{songNumber}</Text>
               </Flex>
               <Box textAlign="center">
-                <Image src={song.image_url} alt={song.name} width={512} height={220} />
+                <Image
+                  src={song.image_url}
+                  alt={song.name}
+                  width={512}
+                  height={220}
+                  unoptimized={process.env.NODE_ENV === 'development'}
+                />
               </Box>
               <Box px="4">
                 <Text mt="4" lineHeight="6" fontWeight="semibold" isTruncated>

@@ -123,7 +123,13 @@ export function HomeBanner(): JSX.Element {
       </Text>
       <SimpleGrid my="12" mx="auto" maxWidth="container.lg" gap="12" columns={[1, 1, 2]}>
         <Box>
-          <Image src="/assets/songaday-video-1.gif" width={480} height={270} priority />
+          <Image
+            src="/assets/songaday-video-1.gif"
+            width={480}
+            height={270}
+            priority
+            unoptimized={process.env.NODE_ENV === 'development'}
+          />
           <Box mt="3">
             <Button
               mx="2"
@@ -152,7 +158,13 @@ export function HomeBanner(): JSX.Element {
           </Box>
         </Box>
         <Box>
-          <Image src="/assets/songaday-video-2.gif" width={480} height={270} priority />
+          <Image
+            src="/assets/songaday-video-2.gif"
+            width={480}
+            height={270}
+            priority
+            unoptimized={process.env.NODE_ENV === 'development'}
+          />
           <Box mt="3">
             <Button as="a" mx="2" colorScheme="blue" size="lg">
               Buy Year 2 Songs
