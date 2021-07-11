@@ -51,7 +51,7 @@ export function FeaturedSongsTest(): JSX.Element {
   // Get the assets from OpenSea. We set the `owner` to Jonathan's address
   // so that we only fetch songs that have not been sold.
   const url = `https://rinkeby-api.opensea.io/api/v1/assets?${new URLSearchParams({
-    collection: 'song-a-day-test',
+    // collection: 'song-a-day-test',
     owner: '0x7271C5398456Dae6b6AB6Ac94C41A6522a3c4cBf', // Jonathan's address
   })}`;
 
@@ -80,7 +80,12 @@ export function FeaturedSongsTest(): JSX.Element {
           position: 'bottom-right',
         });
         setIsLoading(false);
-        mutate();
+        mutate((cache) => {
+          const newAssets = cache.assets.filter((asset) => asset.token_id !== token_id);
+          return {
+            assets: newAssets,
+          };
+        }, false);
       } catch (error) {
         setIsLoading(false);
         toast({
@@ -104,11 +109,11 @@ export function FeaturedSongsTest(): JSX.Element {
       </Heading>
       <SimpleGrid gap="4" columns={{ base: 1, md: 2, lg: 6 }}>
         {data?.assets.map((song: OpenSeaSong) => {
-          if (!song.name) {
+          const price = getPrice(song.sell_orders);
+          if (!song.name || price === 0) {
             return null;
           }
           const { name, songNumber } = parseSongName(song.name);
-          const price = getPrice(song.sell_orders);
           return (
             <Box
               key={song.id}
