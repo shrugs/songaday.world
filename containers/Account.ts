@@ -26,13 +26,13 @@ function useAccount() {
       const account = provider.selectedAddress ?? provider.accounts?.[0] ?? null;
       if (!account) throw new Error(`Unable to find selected account.`);
       set(account);
-      router.push(`/a/${account}`);
+      // router.push(`/a/${account}`);
     } catch (error) {
       setError(error);
     } finally {
       setLoading(false);
     }
-  }, [router, set]);
+  }, [set]);
 
   const disconnect = useCallback(async () => {
     remove();

@@ -31,15 +31,21 @@ export interface OpenSeaSong {
   permalink?: string;
   sell_orders?: OpenSeaSellOrder[];
   traits?: OpenSeaSellTrait[];
+  token_id: string;
+  asset_contract: OpenSeaAssetContract;
 }
 
-interface OpenSeaSellOrder {
+export interface OpenSeaSellOrder {
   current_price: string;
 }
 
-interface OpenSeaSellTrait {
+export interface OpenSeaSellTrait {
   trait_type: string;
   value: string;
+}
+
+export interface OpenSeaAssetContract {
+  address: string;
 }
 
 export interface OpenSeaCollection {
@@ -47,7 +53,7 @@ export interface OpenSeaCollection {
   stats: OpenSeaCollectionStats;
 }
 
-interface OpenSeaCollectionStats {
+export interface OpenSeaCollectionStats {
   total_sales: number;
   total_supply: number;
 }

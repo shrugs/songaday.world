@@ -14,8 +14,8 @@ import { times } from 'lodash-es';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { FeaturedSongs } from '../components/FeaturedSongs';
-// import { HomeBannerTwo } from '../components/HomeBannerTwo';
+// import { FeaturedSongs } from '../components/FeaturedSongs';
+import { FeaturedSongsTest } from '../components/FeaturedSongsTest';
 import { HomeBanner } from '../components/HomeBanner';
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
@@ -92,10 +92,10 @@ export function Page({ isHomepage }: { isHomepage?: boolean }) {
       {id && <SongDetail id={id} />}
 
       {isHomepage && <HomeBanner />}
-      {/* <HomeBannerTwo /> */}
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
-        {isHomepage && <FeaturedSongs />}
+        {isHomepage && <FeaturedSongsTest />}
+        {/* {isHomepage && <FeaturedSongs />} */}
 
         <Divider my="12" />
 
