@@ -74,20 +74,21 @@ export function SongBuyCard({
         <Text>{songNumber}</Text>
       </Flex>
       <Box textAlign="center">
-        <Image
-          src={song.image_url}
-          alt={song.name}
-          width={512}
-          height={220}
-          unoptimized={process.env.NODE_ENV === 'development'}
-        />
+        <Image src={song.image_url} alt={song.name} width={512} height={220} />
       </Box>
       <Box px="4">
         <Text mt="4" lineHeight="6" fontWeight="semibold" isTruncated>
           {name}
         </Text>
-        <Button mt="4" size="sm" colorScheme="blue" isLoading={isLoading} onClick={buyAsset}>
-          Buy: {price} Ξ
+        <Button
+          mt="4"
+          size="sm"
+          colorScheme="blue"
+          isLoading={isLoading}
+          isDisabled={!account}
+          onClick={buyAsset}
+        >
+          {account ? `Buy: ${price} Ξ` : 'Connect Wallet'}
         </Button>
       </Box>
     </Box>

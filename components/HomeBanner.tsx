@@ -10,9 +10,7 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import React from 'react';
-import useSWR from 'swr';
-import fetcher from '../lib/fetcher';
-import { OpenSeaCollection, SongsProgress } from '../lib/types';
+import { SongsProgress } from '../lib/types';
 
 // Song a day started on `1/1/2009` so we calculate the number of
 // days since then, to give us the total number of songs written.
@@ -42,38 +40,13 @@ function getNumberOfDays() {
   };
 }
 
-// Loops through all the collections that Jonathan owns and find `song-a-day`.
-// Get the stats off of it and return for the Progress bar.
-function getSongsProgress(data: OpenSeaCollection[]): SongsProgress {
-  if (!data) {
-    return {
-      totalSupply: 0,
-      totalSales: 0,
-      progressPercent: 0,
-    };
-  }
-  const songADayCollection = data.find((datum) => datum.slug === 'song-a-day');
-  if (songADayCollection) {
-    const totalSupply = songADayCollection.stats.total_supply;
-    const totalSales = songADayCollection.stats.total_sales;
-    return {
-      totalSupply,
-      totalSales,
-      progressPercent: (totalSales / totalSupply) * 100,
-    };
-  }
+interface HomeBannerProps {
+  progressBarData?: SongsProgress;
 }
 
-export function HomeBanner(): JSX.Element {
+export function HomeBanner({ progressBarData }: HomeBannerProps): JSX.Element {
   const { totalDays, totalYears, daysRemainder } = getNumberOfDays();
-
-  const url = `https://api.opensea.io/api/v1/collections?${new URLSearchParams({
-    limit: '300',
-    asset_owner: '0x3d9456ad6463a77bd77123cb4836e463030bfab4', // Jonathan's address
-  })}`;
-
-  const { data, error } = useSWR<OpenSeaCollection[]>(url, fetcher);
-  const { totalSupply, totalSales, progressPercent } = getSongsProgress(data);
+  const { totalSupply, totalSales, progressPercent } = progressBarData;
 
   return (
     <Box py="12" px="6" bg="gray.50" borderBottom="1px" borderColor="gray.200" textAlign="center">
@@ -138,7 +111,7 @@ export function HomeBanner(): JSX.Element {
           </Box>
         </Box>
       </SimpleGrid>
-      {!error && (
+      {
         <>
           <Text mt="4" mb="12" fontSize={['lg', null, '2xl']}>
             Currently,{' '}
@@ -164,7 +137,7 @@ export function HomeBanner(): JSX.Element {
             </Text>
           </Container>
         </>
-      )}
+      }
     </Box>
   );
 }

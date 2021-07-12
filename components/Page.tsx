@@ -19,6 +19,7 @@ import { FeaturedSongsTest } from '../components/FeaturedSongsTest';
 import { HomeBanner } from '../components/HomeBanner';
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
+import { SongsProgress } from '../lib/types';
 import { useSongs } from '../lib/useSongs';
 import { HumanKeys, HumanMaps } from '../lib/utils/constants';
 import { FilterTag } from './FilterTag';
@@ -26,7 +27,12 @@ import { GridOfSongs } from './GridOfSongs';
 import SongCard from './SongCard';
 import SongListDescription from './SongListDescription';
 
-export function Page({ isHomepage }: { isHomepage?: boolean }) {
+interface PageProps {
+  isHomepage?: boolean;
+  progressBarData?: SongsProgress;
+}
+
+export function Page({ isHomepage, progressBarData }: PageProps) {
   // filter state
   const {
     filters: { id, ...filters },
@@ -91,7 +97,7 @@ export function Page({ isHomepage }: { isHomepage?: boolean }) {
     <>
       {id && <SongDetail id={id} />}
 
-      {isHomepage && <HomeBanner />}
+      {isHomepage && <HomeBanner progressBarData={progressBarData} />}
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
         {isHomepage && <FeaturedSongsTest />}
