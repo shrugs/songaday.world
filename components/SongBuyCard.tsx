@@ -12,6 +12,7 @@ interface SongBuyCardProps {
   price: number;
   openSeaPort: OpenSeaPort;
   mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
+  setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function SongBuyCard({
@@ -21,6 +22,7 @@ export function SongBuyCard({
   price,
   openSeaPort,
   mutate,
+  setIsAlertOpen,
 }: SongBuyCardProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,12 +32,7 @@ export function SongBuyCard({
   const buyAsset = async () => {
     if (openSeaPort) {
       setIsLoading(true);
-      toast({
-        title: 'Transaction Started',
-        description: 'Please confirm the transaction from your Wallet',
-        status: 'success',
-        position: 'bottom-right',
-      });
+      setIsAlertOpen(true);
       try {
         const order = await openSeaPort?.api.getOrder({
           side: 1,
@@ -47,9 +44,10 @@ export function SongBuyCard({
           title: 'Transaction Successful!',
           description: 'Thank you for your purchase',
           status: 'success',
-          position: 'bottom-right',
+          position: 'top',
         });
         setIsLoading(false);
+        setIsAlertOpen(false);
         mutate((cache) => {
           const newAssets = cache.assets.filter((asset) => asset.token_id !== song.token_id);
           return {
@@ -58,11 +56,12 @@ export function SongBuyCard({
         }, false);
       } catch (error) {
         setIsLoading(false);
+        setIsAlertOpen(false);
         toast({
           title: 'An error has occurred',
           description: error.message,
           status: 'error',
-          position: 'bottom-right',
+          position: 'top',
         });
       }
     }
@@ -73,8 +72,8 @@ export function SongBuyCard({
       <Flex justifyContent="space-between" px="4" mb="7" fontSize="xs">
         <Text>{songNumber}</Text>
       </Flex>
-      <Box textAlign="center">
-        <Image src={song.image_url} alt={song.name} width={512} height={220} />
+      <Box textAlign="center" position="relative" width="100%" minHeight="280px">
+        <Image src={song.image_url} alt={song.name} layout="fill" objectFit="contain" />
       </Box>
       <Box px="4">
         <Text mt="4" lineHeight="6" fontWeight="semibold" isTruncated>

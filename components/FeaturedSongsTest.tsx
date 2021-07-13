@@ -1,6 +1,17 @@
-import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
-import { Network, OpenSeaPort } from 'opensea-js';
-import React, { useEffect, useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  Box,
+  Heading,
+  SimpleGrid,
+  Spinner,
+  Text,
+} from '@chakra-ui/react';
+import { EventType, Network, OpenSeaPort } from 'opensea-js';
+import React, { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
 import { Account } from '../containers/Account';
 import fetcher from '../lib/fetcher';
@@ -36,6 +47,12 @@ export function FeaturedSongsTest(): JSX.Element {
   const { account } = Account.useContainer();
   const [openSeaPort, setOpenSeaPort] = useState<OpenSeaPort>();
 
+  const [transactionStarted, setTransactionStarted] = useState(false);
+
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const onAlertClose = () => setIsAlertOpen(false);
+  const cancelRef = useRef();
+
   useEffect(() => {
     if (window.ethereum) {
       const seaport = new OpenSeaPort(window.ethereum, {
@@ -45,11 +62,25 @@ export function FeaturedSongsTest(): JSX.Element {
     }
   }, [account]);
 
+  useEffect(() => {
+    if (openSeaPort && openSeaPort.addListener) {
+      openSeaPort.addListener(EventType.TransactionCreated, ({ transactionHash, event }) => {
+        setTransactionStarted(true);
+      });
+      openSeaPort.addListener(EventType.TransactionConfirmed, ({ transactionHash, event }) => {
+        // Only reset your exchange UI if we're finishing an order fulfillment or cancellation
+        if (event == EventType.MatchOrders || event == EventType.CancelOrder) {
+          setTransactionStarted(false);
+        }
+      });
+    }
+  }, [openSeaPort]);
+
   // Get the assets from OpenSea. We set the `owner` to Jonathan's address
   // so that we only fetch songs that have not been sold.
   const url = `https://rinkeby-api.opensea.io/api/v1/assets?${new URLSearchParams({
     // collection: 'song-a-day-test',
-    owner: '0x7271C5398456Dae6b6AB6Ac94C41A6522a3c4cBf', // TODO: Jonathan's address
+    owner: '0x3F13914f0Db9484123cec813328d7D1556DD913C', // TODO: Jonathan's address
   })}`;
 
   const { data, error, mutate } = useSWR(url, fetcher);
@@ -79,10 +110,39 @@ export function FeaturedSongsTest(): JSX.Element {
               price={price}
               openSeaPort={openSeaPort}
               mutate={mutate}
+              setIsAlertOpen={setIsAlertOpen}
             />
           );
         })}
       </SimpleGrid>
+      <AlertDialog
+        isOpen={isAlertOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onAlertClose}
+        closeOnEsc={false}
+        closeOnOverlayClick={false}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent textAlign="center">
+            <AlertDialogHeader mt="3" fontSize="lg" fontWeight="bold">
+              {transactionStarted ? 'Your transaction has started' : 'Completing the trade...'}
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              {transactionStarted ? (
+                <>
+                  <Spinner color="blue.500" size="lg" />{' '}
+                  <Text my="6" lineHeight="7">
+                    The Ethereum network is processing your transaction, which can take a little
+                    while.
+                  </Text>
+                </>
+              ) : (
+                <Text mb="4">Please confirm the transaction from your Wallet.</Text>
+              )}
+            </AlertDialogBody>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   );
 }

@@ -10,7 +10,6 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { Account } from '../containers/Account';
 import { useDidHydrate } from '../lib/useDidHydrate';
@@ -21,7 +20,6 @@ function truncateHash(hash: string, length = 38): string {
 }
 
 function Navbar() {
-  const router = useRouter();
   const { connect, disconnect, account, loading } = Account.useContainer();
   const didHydrate = useDidHydrate();
 
@@ -35,6 +33,8 @@ function Navbar() {
       </Link>
     </>
   );
+
+  console.log('account', account);
 
   return (
     <VStack align="stretch" as="header" px="4" py="4" borderBottom="1px" borderColor="gray.200">

@@ -1,8 +1,7 @@
-import { Box } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, Button, Heading } from '@chakra-ui/react';
 import { times } from 'lodash-es';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { ComponentPropsWithoutRef } from 'react';
-
 import { GridOfSongs } from '../../components/GridOfSongs';
 import SongCard from '../../components/SongCard';
 import { getSong } from '../../lib/db';
@@ -10,11 +9,25 @@ import { Song } from '../../lib/types';
 import { parseSongId } from '../../lib/utils/parseSongId';
 
 function AccountPage({ songs }: { songs: Song[] }) {
+  const noSongs = songs?.length === 0;
   return (
-    <Box py={4} px={2}>
-      <GridOfSongs songs={songs}>
-        {!songs && times(4, (i) => <SongCard key={i} song={undefined} card />)}
-      </GridOfSongs>
+    <Box py={10} px={6}>
+      <Heading as="h1" mb="8">
+        My Songs
+      </Heading>
+      {noSongs ? (
+        <Alert status="warning">
+          <AlertIcon />
+          There are no songs in your account.
+          <Button as="a" colorScheme="blue" ml="4">
+            Buy Year 2 Songs
+          </Button>
+        </Alert>
+      ) : (
+        <GridOfSongs songs={songs}>
+          {!songs && times(4, (i) => <SongCard key={i} song={undefined} card />)}
+        </GridOfSongs>
+      )}
     </Box>
   );
 }
