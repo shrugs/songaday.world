@@ -34,8 +34,6 @@ function Navbar() {
     </>
   );
 
-  console.log('account', account);
-
   return (
     <VStack align="stretch" as="header" px="4" py="4" borderBottom="1px" borderColor="gray.200">
       <HStack justifyContent="space-between">

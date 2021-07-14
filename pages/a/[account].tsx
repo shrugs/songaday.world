@@ -1,6 +1,7 @@
-import { Alert, AlertIcon, Box, Button, Heading } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, Button, Heading, Text } from '@chakra-ui/react';
 import { times } from 'lodash-es';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import NextLink from 'next/link';
 import { ComponentPropsWithoutRef } from 'react';
 import { GridOfSongs } from '../../components/GridOfSongs';
 import SongCard from '../../components/SongCard';
@@ -16,12 +17,18 @@ function AccountPage({ songs }: { songs: Song[] }) {
         My Songs
       </Heading>
       {noSongs ? (
-        <Alert status="warning">
-          <AlertIcon />
-          There are no songs in your account.
-          <Button as="a" colorScheme="blue" ml="4">
-            Buy Year 2 Songs
-          </Button>
+        <Alert status="warning" p="6" maxWidth="container.sm" alignItems="flex-start">
+          <AlertIcon boxSize="24px" />
+          <Box>
+            <Text fontSize="lg" mb="4">
+              There are no songs in your account.
+            </Text>
+            <NextLink href="/available-songs" passHref>
+              <Button as="a" colorScheme="blue">
+                Buy Year 2 Songs
+              </Button>
+            </NextLink>
+          </Box>
         </Alert>
       ) : (
         <GridOfSongs songs={songs}>

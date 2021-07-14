@@ -100,8 +100,22 @@ export function Page({ isHomepage, progressBarData }: PageProps) {
       {isHomepage && <HomeBanner progressBarData={progressBarData} />}
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
-        {isHomepage && <FeaturedSongsTest />}
-        {/* {isHomepage && <FeaturedSongs />} */}
+        {isHomepage && (
+          <>
+            <Heading as="h2" mb="6" mt="8" fontSize="3xl">
+              TESTNET Featured Songs
+            </Heading>
+            <FeaturedSongsTest />
+          </>
+        )}
+        {/* {isHomepage && (
+          <>
+            <Heading as="h2" mb="6" mt="8" fontSize="3xl">
+              Featured Songs
+            </Heading>
+            <FeaturedSongs gridSize={6} />
+          </>
+        )} */}
 
         <Divider my="12" />
 

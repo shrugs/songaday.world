@@ -9,6 +9,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import React from 'react';
 import { SongsProgress } from '../lib/types';
 
@@ -99,9 +100,11 @@ export function HomeBanner({ progressBarData }: HomeBannerProps): JSX.Element {
         <Box>
           <Image src="/assets/songaday-video-2.gif" width={480} height={270} priority />
           <Box mt="3">
-            <Button as="a" mx="2" colorScheme="blue" size="lg">
-              Buy Year 2 Songs
-            </Button>
+            <NextLink href="/available-songs" passHref>
+              <Button as="a" mx="2" colorScheme="blue" size="lg">
+                Buy Year 2 Songs
+              </Button>
+            </NextLink>
             <Text mt="4" color="gray.600">
               Illustration by{' '}
               <Link textDecoration="underline" href="https://twitter.com/EclecticMethod" isExternal>

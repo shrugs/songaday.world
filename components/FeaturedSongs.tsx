@@ -1,9 +1,25 @@
-import { Box, Flex, Heading, Link, SimpleGrid, Text } from '@chakra-ui/react';
-import Image from 'next/image';
-import React from 'react';
+import {
+  Alert,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertIcon,
+  Box,
+  SimpleGrid,
+  Spinner,
+  Text,
+} from '@chakra-ui/react';
+import { times } from 'lodash-es';
+import { EventType, Network, OpenSeaPort } from 'opensea-js';
+import React, { useEffect, useRef, useState } from 'react';
 import useSWR from 'swr';
+import { Account } from '../containers/Account';
 import fetcher from '../lib/fetcher';
-import { OpenSeaSong } from '../lib/types';
+import { OpenSeaSellOrder, OpenSeaSong } from '../lib/types';
+import { SongBuyCard } from './SongBuyCard';
+import SongCard from './SongCard';
 
 interface SplitSongName {
   name: string;
@@ -22,65 +38,121 @@ function parseSongName(name: string): SplitSongName {
   };
 }
 
-export function FeaturedSongs(): JSX.Element {
+function getPrice(sellOrders: OpenSeaSellOrder[]): number {
+  if (!sellOrders) {
+    return 0;
+  }
+  const sellOrder = sellOrders[0];
+  return formatBigNumber(parseInt(sellOrder?.current_price || '0'));
+}
+
+export function FeaturedSongs({ gridSize = 4 }: { gridSize?: number }): JSX.Element {
+  const { provider } = Account.useContainer();
+  const [openSeaPort, setOpenSeaPort] = useState<OpenSeaPort>();
+
+  const [transactionStarted, setTransactionStarted] = useState(false);
+
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const onAlertClose = () => setIsAlertOpen(false);
+  const cancelRef = useRef();
+
+  useEffect(() => {
+    if (provider) {
+      const seaport = new OpenSeaPort(provider, {
+        networkName: Network.Main,
+      });
+      setOpenSeaPort(seaport);
+    }
+  }, [provider]);
+
+  useEffect(() => {
+    if (openSeaPort && openSeaPort.addListener) {
+      openSeaPort.addListener(EventType.TransactionCreated, () => {
+        setTransactionStarted(true);
+      });
+      openSeaPort.addListener(EventType.TransactionConfirmed, ({ event }) => {
+        // Only reset your exchange UI if we're finishing an order fulfillment or cancellation
+        if (event == EventType.MatchOrders || event == EventType.CancelOrder) {
+          setTransactionStarted(false);
+        }
+      });
+    }
+  }, [openSeaPort]);
+
   // Get the assets from OpenSea. We set the `owner` to Jonathan's address
   // so that we only fetch songs that have not been sold.
   const url = `https://api.opensea.io/api/v1/assets?${new URLSearchParams({
     collection: 'song-a-day',
-    limit: '12',
+    limit: '50', // API is capped to 50
     order_by: 'visitor_count',
     owner: '0x3d9456ad6463a77bd77123cb4836e463030bfab4', // Jonathan's address
   })}`;
 
-  const { data, error } = useSWR(url, fetcher);
+  const { data, error, mutate } = useSWR(url, fetcher);
 
   if (error) {
-    return <Box>{error}</Box>;
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        {error.message}
+      </Alert>
+    );
   }
 
   return (
     <Box>
-      <Heading as="h2" mb="6" fontSize="3xl">
-        Featured Songs
-      </Heading>
-      <SimpleGrid gap="4" columns={{ base: 1, md: 2, lg: 6 }}>
+      <SimpleGrid gap="4" columns={{ base: 1, md: 2, lg: gridSize }}>
+        {!data && !error && times(gridSize, (i) => <SongCard key={i} song={undefined} card />)}
         {data?.assets.map((song: OpenSeaSong) => {
-          if (!song.name) {
+          const price = getPrice(song.sell_orders);
+          if (!song.name || price === 0) {
             return null;
           }
           const { name, songNumber } = parseSongName(song.name);
-          const sellOrder = song.sell_orders[0];
           const date = song.traits.find((trait) => trait.trait_type === 'DATE');
-          const price = formatBigNumber(parseInt(sellOrder.current_price));
           return (
-            <Link
+            <SongBuyCard
               key={song.id}
-              href={song.permalink}
-              mt="4"
-              _hover={{ color: 'blue.500', shadow: 'lg' }}
-              isExternal
-            >
-              <Box pt="3" pb="6" borderWidth="1px" borderColor="gray.200" borderRadius="md">
-                <Flex justifyContent="space-between" px="4" mb="7" fontSize="xs">
-                  <Text>{songNumber}</Text>
-                  <Text>{date.value}</Text>
-                </Flex>
-                <Box textAlign="center">
-                  <Image src={song.image_url} alt={song.name} width={512} height={220} />
-                </Box>
-                <Box px="4">
-                  <Text mt="4" lineHeight="6" fontWeight="semibold" isTruncated>
-                    {name}
-                  </Text>
-                  <Text mt="2" fontSize="sm">
-                    Buy: {price} Ξ
-                  </Text>
-                </Box>
-              </Box>
-            </Link>
+              song={song}
+              songNumber={songNumber}
+              name={name}
+              price={price}
+              date={date}
+              openSeaPort={openSeaPort}
+              mutate={mutate}
+              setIsAlertOpen={setIsAlertOpen}
+            />
           );
         })}
       </SimpleGrid>
+      <AlertDialog
+        isOpen={isAlertOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onAlertClose}
+        closeOnEsc={false}
+        closeOnOverlayClick={false}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent textAlign="center">
+            <AlertDialogHeader mt="3" fontSize="lg" fontWeight="bold">
+              {transactionStarted ? 'Your transaction has started' : 'Completing the trade...'}
+            </AlertDialogHeader>
+            <AlertDialogBody>
+              {transactionStarted ? (
+                <>
+                  <Spinner color="blue.500" size="lg" />{' '}
+                  <Text my="6" lineHeight="7">
+                    The Ethereum network is processing your transaction, which can take a little
+                    while.
+                  </Text>
+                </>
+              ) : (
+                <Text mb="4">Please confirm the transaction from your Wallet.</Text>
+              )}
+            </AlertDialogBody>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   );
 }

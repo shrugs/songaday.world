@@ -5,7 +5,6 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Box,
-  Heading,
   SimpleGrid,
   Spinner,
   Text,
@@ -44,7 +43,7 @@ function getPrice(sellOrders: OpenSeaSellOrder[]): number {
 }
 
 export function FeaturedSongsTest(): JSX.Element {
-  const { account } = Account.useContainer();
+  const { provider } = Account.useContainer();
   const [openSeaPort, setOpenSeaPort] = useState<OpenSeaPort>();
 
   const [transactionStarted, setTransactionStarted] = useState(false);
@@ -54,13 +53,13 @@ export function FeaturedSongsTest(): JSX.Element {
   const cancelRef = useRef();
 
   useEffect(() => {
-    if (window.ethereum) {
-      const seaport = new OpenSeaPort(window.ethereum, {
+    if (provider) {
+      const seaport = new OpenSeaPort(provider, {
         networkName: Network.Rinkeby,
       });
       setOpenSeaPort(seaport);
     }
-  }, [account]);
+  }, [provider]);
 
   useEffect(() => {
     if (openSeaPort && openSeaPort.addListener) {
@@ -91,9 +90,6 @@ export function FeaturedSongsTest(): JSX.Element {
 
   return (
     <Box>
-      <Heading as="h2" mb="6" mt="8" fontSize="3xl">
-        TESTNET Featured Songs
-      </Heading>
       <SimpleGrid gap="4" columns={{ base: 1, md: 2, lg: 6 }}>
         {data?.assets.map((song: OpenSeaSong) => {
           const price = getPrice(song.sell_orders);
