@@ -1,6 +1,8 @@
-import { Box, Button, Flex, Text, useToast } from '@chakra-ui/react';
+import { Box, Button, Flex, Link, Text, useToast } from '@chakra-ui/react';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import { OpenSeaPort } from 'opensea-js';
+// import { OpenSeaAsset } from 'opensea-js/lib/types';
 import React, { useState } from 'react';
 import { Account } from '../containers/Account';
 import { OpenSeaSellTrait, OpenSeaSong } from '../lib/types';
@@ -13,7 +15,7 @@ interface SongBuyCardProps {
   date?: OpenSeaSellTrait;
   openSeaPort: OpenSeaPort;
   mutate: (data?: any, shouldRevalidate?: boolean) => Promise<any>;
-  setIsAlertOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function SongBuyCard({
@@ -24,7 +26,7 @@ export function SongBuyCard({
   date,
   openSeaPort,
   mutate,
-  setIsAlertOpen,
+  setIsModalOpen,
 }: SongBuyCardProps): JSX.Element {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -34,7 +36,7 @@ export function SongBuyCard({
   const buyAsset = async () => {
     if (openSeaPort) {
       setIsLoading(true);
-      setIsAlertOpen(true);
+      setIsModalOpen(true);
       try {
         const order = await openSeaPort?.api.getOrder({
           side: 1,
@@ -49,7 +51,7 @@ export function SongBuyCard({
           position: 'top',
         });
         setIsLoading(false);
-        setIsAlertOpen(false);
+        setIsModalOpen(false);
         mutate((cache) => {
           const newAssets = cache.assets.filter((asset) => asset.token_id !== song.token_id);
           return {
@@ -58,7 +60,7 @@ export function SongBuyCard({
         }, false);
       } catch (error) {
         setIsLoading(false);
-        setIsAlertOpen(false);
+        setIsModalOpen(false);
         toast({
           title: 'An error has occurred',
           description: error.message,
@@ -70,18 +72,38 @@ export function SongBuyCard({
   };
 
   return (
-    <Box mt="4" pt="3" pb="6" borderWidth="1px" borderColor="gray.200" borderRadius="md">
-      <Flex justifyContent="space-between" px="4" mb="7" fontSize="xs">
-        {songNumber && <Text>{songNumber}</Text>}
-        {date && <Text>{date.value}</Text>}
-      </Flex>
-      <Box textAlign="center" position="relative" width="100%" minHeight="220px">
-        <Image src={song.image_url} alt={song.name} layout="fill" objectFit="contain" />
-      </Box>
+    <Box
+      mt="4"
+      pt="3"
+      pb="6"
+      borderWidth="1px"
+      borderColor="gray.200"
+      borderRadius="md"
+      transition="box-shadow 100ms linear"
+      _hover={{
+        boxShadow: 'lg',
+      }}
+    >
+      <NextLink href={`/song/${songNumber}?tokenId=${song.token_id}`} passHref>
+        <Link _hover={{ color: 'blue.600' }}>
+          <Box>
+            <Flex justifyContent="space-between" px="4" mb="5" fontSize="xs">
+              {songNumber && <Text>Song A Day #{songNumber}</Text>}
+              {date && <Text>{date.value}</Text>}
+            </Flex>
+            {/* <Box textAlign="center" position="relative" width="100%" minHeight="220px"> */}
+            {/* <Image src={song.image_url} alt={song.name} layout="fill" objectFit="contain" /> */}
+            <Image src={song.image_url} alt={song.name} width={512} height={220} />
+            {/* </Box> */}
+            <Box px="4">
+              <Text mt="4" lineHeight="6" fontWeight="semibold" isTruncated>
+                {name}
+              </Text>
+            </Box>
+          </Box>
+        </Link>
+      </NextLink>
       <Box px="4">
-        <Text mt="4" lineHeight="6" fontWeight="semibold" isTruncated>
-          {name}
-        </Text>
         <Button
           mt="4"
           size="sm"
