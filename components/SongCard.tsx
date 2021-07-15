@@ -10,6 +10,7 @@ import {
   Link as ChakraLink,
   SimpleGrid,
   Skeleton,
+  SkeletonText,
   Text,
   useToast,
   VStack,
@@ -33,13 +34,15 @@ const SHOULD_AUTOPLAY = process.env.NODE_ENV === 'production';
 // The contract address for all the songs on OpenSea.
 const ASSET_CONTRACT_ADDRESS = '0x495f947276749ce646f68ac8c248420045cb7b5e';
 
+const JONATHAN_ID = '0x3d9456ad6463a77bd77123cb4836e463030bfab4@eip155:1';
+
 interface SongCardProps {
   song: Song;
   embed?: boolean;
   card?: boolean;
   tokenId?: string;
   openSeaPort?: OpenSeaPort;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function SongCard({
@@ -60,10 +63,13 @@ function SongCard({
     tokenIds[song?.number] || tokenId,
   );
 
+  const ownedByJonathan = data?.ownerships[0]?.owner?.id === JONATHAN_ID;
+
   const { account, provider } = Account.useContainer();
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const showBuyButton = tokenId && openSeaPort;
+
+  const showBuyButton = tokenId && openSeaPort && ownedByJonathan;
 
   const buyAsset = async () => {
     if (openSeaPort && showBuyButton) {
@@ -161,7 +167,7 @@ function SongCard({
 
       <VStack flex="1" p={card && '2'} spacing={4} align="stretch">
         <Box flex="1" overflowY="auto">
-          {showBuyButton && (
+          {showBuyButton ? (
             <Box mt="4" p="4" bg="gray.50" border="1px" borderColor="gray.300" borderRadius="md">
               <Text color="gray.600">Current Price:</Text>
               <Text display="flex" alignItems="center" mt="2" fontSize="3xl" fontWeight="semibold">
@@ -182,9 +188,11 @@ function SongCard({
                 isDisabled={!provider}
                 onClick={buyAsset}
               >
-                {provider ? `Buy Song` : 'Connect Wallet'}
+                {provider ? 'Buy Song' : 'Connect Wallet'}
               </Button>
             </Box>
+          ) : (
+            <>{song ? <Text>{song.description}</Text> : <SkeletonText skeletonHeight="4" />}</>
           )}
         </Box>
 

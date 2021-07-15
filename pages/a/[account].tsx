@@ -5,7 +5,6 @@ import {
   AlertTitle,
   Box,
   Button,
-  Center,
   Heading,
 } from '@chakra-ui/react';
 import { times } from 'lodash-es';
@@ -26,42 +25,28 @@ function AccountPage({ songs }: { songs: Song[] }) {
         My Songs
       </Heading>
       {noSongs ? (
-        <Center h="48">
-          <Alert
-            status="warning"
-            variant="subtle"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            py="6"
-            maxWidth="container.md"
-            textAlign="center"
-          >
-            <AlertIcon boxSize="30px" mr={0} />
-            <AlertTitle mt={4} mb={1} fontSize="lg">
-              There are no songs in your account.
-            </AlertTitle>
-            <AlertDescription mt="4" maxWidth="sm">
-              <NextLink href="/available-songs" passHref>
-                <Button as="a" colorScheme="blue">
-                  Buy Year 2 Songs
-                </Button>
-              </NextLink>
-            </AlertDescription>
-
-            {/* <AlertIcon boxSize="24px" />
-            <Box>
-              <Text fontSize="lg" mb="4">
-                There are no songs in your account.
-              </Text>
-              <NextLink href="/available-songs" passHref>
-                <Button as="a" colorScheme="blue">
-                  Buy Year 2 Songs
-                </Button>
-              </NextLink>
-            </Box> */}
-          </Alert>
-        </Center>
+        <Alert
+          status="warning"
+          variant="subtle"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          py="6"
+          maxWidth="container.md"
+          textAlign="center"
+        >
+          <AlertIcon boxSize="30px" mr={0} />
+          <AlertTitle mt={4} mb={1} fontSize="lg">
+            There are no songs in your account.
+          </AlertTitle>
+          <AlertDescription mt="4" maxWidth="sm">
+            <NextLink href="/available-songs" passHref>
+              <Button as="a" colorScheme="blue">
+                Buy Year 2 Songs
+              </Button>
+            </NextLink>
+          </AlertDescription>
+        </Alert>
       ) : (
         <GridOfSongs songs={songs}>
           {!songs && times(4, (i) => <SongCard key={i} song={undefined} card />)}
