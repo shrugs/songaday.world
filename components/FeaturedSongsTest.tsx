@@ -106,7 +106,7 @@ export function FeaturedSongsTest(): JSX.Element {
               price={price}
               openSeaPort={openSeaPort}
               mutate={mutate}
-              setIsAlertOpen={setIsAlertOpen}
+              setIsModalOpen={setIsAlertOpen}
             />
           );
         })}
