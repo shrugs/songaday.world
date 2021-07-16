@@ -181,7 +181,7 @@ function SongCard({
               {niftyLoading && <Skeleton h="140px" />}
               {!niftyLoading && !showBuyButton && (
                 <Button px={[12, 12, 16]} size="lg" colorScheme="blue" isDisabled={true}>
-                  Sold Out
+                  {provider ? 'Sold Out' : 'Connect Wallet'}
                 </Button>
               )}
               {!niftyLoading && showBuyButton && (
