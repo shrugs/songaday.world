@@ -82,7 +82,7 @@ export function FeaturedSongs({
 
   const { data, error, mutate } = useSWR(getApiKey(showAllSongs, page), fetcher);
 
-  function loadMoreSongs() {
+  function loadNextSongs() {
     setPage((prevPage) => {
       if (prevPage <= 5) {
         return prevPage + 1;
@@ -142,6 +142,7 @@ export function FeaturedSongs({
           borderColor="gray.200"
           position="sticky"
           bottom="0px"
+          zIndex="sticky"
         >
           {page > 0 && (
             <Button
@@ -164,9 +165,9 @@ export function FeaturedSongs({
               size="sm"
               isDisabled={!data}
               rightIcon={<ArrowForwardIcon />}
-              onClick={loadMoreSongs}
+              onClick={loadNextSongs}
             >
-              More Songs
+              Next Songs
             </Button>
           )}
         </Center>
