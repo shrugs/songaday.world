@@ -85,9 +85,16 @@ export function SongBuyCard({
       }}
     >
       <NextLink href={`/song/${songNumber}?tokenId=${song.token_id}`} passHref>
-        <Link _hover={{ color: 'blue.600' }}>
+        <Link display="block" _hover={{ color: 'blue.600' }}>
           <Box>
-            <Flex justifyContent="space-between" px="4" mb="5" fontSize="xs">
+            <Flex
+              justifyContent="space-between"
+              px="4"
+              mb="5"
+              color="gray.600"
+              fontWeight="medium"
+              fontSize="xs"
+            >
               {songNumber && <Text>Song A Day #{songNumber}</Text>}
               {date && <Text>{date.value}</Text>}
             </Flex>

@@ -7,7 +7,7 @@ function AvailableSongsIndex() {
       <Heading as="h1" mb="8">
         Available Songs
       </Heading>
-      <FeaturedSongs />
+      <FeaturedSongs showAllSongs />
     </Box>
   );
 }

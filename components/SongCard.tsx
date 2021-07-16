@@ -18,7 +18,7 @@ import {
 import { DateTime } from 'luxon';
 import Link from 'next/link';
 import { OpenSeaPort } from 'opensea-js';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Account } from '../containers/Account';
 import { Filters } from '../containers/Filters';
 import tokenIds from '../generated/tokenIds';
@@ -59,26 +59,31 @@ function SongCard({
   const subtitleDateString = useMemo(() => date.toLocaleString(DateTime.DATE_FULL), [date]);
   const calendarDateString = useMemo(() => date.toFormat('LLL dd'), [date]);
 
-  const { data, loading, isHydrating, error, openSeaUri } = useNifty(
-    tokenIds[song?.number] || tokenId,
-  );
+  // Get the `tokenId` from the url param if it exists, otherwise try and
+  // get it from the generated list of ids.
+  const finalTokenId = tokenId || tokenIds[song?.number];
+
+  const { data, loading: niftyLoading, isHydrating, error, openSeaUri } = useNifty(finalTokenId);
 
   const ownedByJonathan = data?.ownerships[0]?.owner?.id === JONATHAN_ID;
 
   const { account, provider } = Account.useContainer();
   const toast = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isBuyLoading, setIsBuyLoading] = useState(false);
+  const [showBuyButton, setShowBuyButton] = useState(false);
 
-  const showBuyButton = tokenId && openSeaPort && ownedByJonathan;
+  useEffect(() => {
+    setShowBuyButton(tokenId && openSeaPort && ownedByJonathan);
+  }, [openSeaPort, ownedByJonathan, tokenId]);
 
   const buyAsset = async () => {
     if (openSeaPort && showBuyButton) {
-      setIsLoading(true);
+      setIsBuyLoading(true);
       setIsModalOpen(true);
       try {
         const order = await openSeaPort?.api.getOrder({
           side: 1,
-          token_id: tokenId,
+          token_id: finalTokenId,
           asset_contract_address: ASSET_CONTRACT_ADDRESS,
         });
         await openSeaPort?.fulfillOrder({ order, accountAddress: account });
@@ -88,10 +93,11 @@ function SongCard({
           status: 'success',
           position: 'top',
         });
-        setIsLoading(false);
+        setIsBuyLoading(false);
         setIsModalOpen(false);
+        setShowBuyButton(false);
       } catch (error) {
-        setIsLoading(false);
+        setIsBuyLoading(false);
         setIsModalOpen(false);
         toast({
           title: 'An error has occurred',
@@ -167,35 +173,46 @@ function SongCard({
 
       <VStack flex="1" p={card && '2'} spacing={4} align="stretch">
         <Box flex="1" overflowY="auto">
-          {showBuyButton ? (
-            <Box mt="4" p="4" bg="gray.50" border="1px" borderColor="gray.300" borderRadius="md">
-              <Text color="gray.600">Current Price:</Text>
-              <Text display="flex" alignItems="center" mt="2" fontSize="3xl" fontWeight="semibold">
-                <Image
-                  src="https://storage.opensea.io/files/6f8e2979d428180222796ff4a33ab929.svg"
-                  display="inline"
-                  width="20px"
-                  mr="2"
-                />
-                0.12
-              </Text>
-              <Button
-                mt="6"
-                px={[12, 12, 16]}
-                size="lg"
-                colorScheme="blue"
-                isLoading={isLoading}
-                isDisabled={!provider}
-                onClick={buyAsset}
-              >
-                {provider ? 'Buy Song' : 'Connect Wallet'}
-              </Button>
-            </Box>
-          ) : (
+          {card && (
             <>{song ? <Text>{song.description}</Text> : <SkeletonText skeletonHeight="4" />}</>
           )}
+          {!card && (
+            <Box mt="4" p="4" bg="gray.50" border="1px" borderColor="gray.300" borderRadius="md">
+              {niftyLoading && <Skeleton h="140px" />}
+              {!niftyLoading && !showBuyButton && (
+                <Button px={[12, 12, 16]} size="lg" colorScheme="blue" isDisabled={true}>
+                  Sold Out
+                </Button>
+              )}
+              {!niftyLoading && showBuyButton && (
+                <>
+                  <Text color="gray.600">Current Price:</Text>
+                  <Text
+                    display="flex"
+                    alignItems="center"
+                    mt="2"
+                    fontSize="3xl"
+                    fontWeight="semibold"
+                  >
+                    <Image src="/assets/icon-eth.svg" display="inline" width="20px" mr="2" />
+                    0.12
+                  </Text>
+                  <Button
+                    mt="6"
+                    px={[12, 12, 16]}
+                    size="lg"
+                    colorScheme="blue"
+                    isLoading={isBuyLoading}
+                    isDisabled={!provider}
+                    onClick={buyAsset}
+                  >
+                    {provider ? 'Buy Song' : 'Connect Wallet'}
+                  </Button>
+                </>
+              )}
+            </Box>
+          )}
         </Box>
-
         <Grid gap={4} gridTemplateColumns="repeat(auto-fit, 3rem)">
           {song ? (
             <>
@@ -259,7 +276,7 @@ function SongCard({
           <HStack justifyContent="space-between">
             <Box flex="1" overflowX="auto" display="flex">
               <HStack>
-                {loading || isHydrating ? (
+                {niftyLoading || isHydrating ? (
                   <OwnershipButton ownership={undefined} />
                 ) : (
                   data?.ownerships?.map((ownership) => (
