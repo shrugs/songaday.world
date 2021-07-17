@@ -1,14 +1,25 @@
-import { Button, HStack, Img, Link, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  HStack,
+  Img,
+  Link,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  VStack,
+} from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
-
 import { Account } from '../containers/Account';
 import { useDidHydrate } from '../lib/useDidHydrate';
 
+// Takes a long hash string and truncates it.
+function truncateHash(hash: string, length = 38): string {
+  return hash.replace(hash.substring(6, length), '...');
+}
+
 function Navbar() {
-  const router = useRouter();
-  const isOnAddressPage = router.route === '/a/[account]';
   const { connect, disconnect, account, loading } = Account.useContainer();
   const didHydrate = useDidHydrate();
 
@@ -17,6 +28,9 @@ function Navbar() {
       <Link href="https://www.jonathanmann.net/" fontSize={['sm', 'sm', 'md']} isExternal>
         About
       </Link>
+      <NextLink href="/roadmap" passHref>
+        <Link fontSize={['sm', 'sm', 'md']}>Roadmap</Link>
+      </NextLink>
       <Link href="https://twitter.com/songadaymann" fontSize={['sm', 'sm', 'md']} isExternal>
         @songadaymann
       </Link>
@@ -36,15 +50,27 @@ function Navbar() {
             {links}
           </HStack>
           {didHydrate && account ? (
-            isOnAddressPage ? (
-              <Button onClick={disconnect} variant="outline">
-                Disconnect
-              </Button>
-            ) : (
-              <Button as="a" href={`/a/${account}`}>
-                My Songs
-              </Button>
-            )
+            <Menu>
+              <MenuButton as={Button}>{truncateHash(account)}</MenuButton>
+              <MenuList>
+                <MenuItem as="div" p="0">
+                  <NextLink href={`/a/${account}`} passHref>
+                    <Link
+                      px="3"
+                      py="2"
+                      display="block"
+                      width="100%"
+                      _hover={{ textDecoration: 'none' }}
+                    >
+                      My Songs
+                    </Link>
+                  </NextLink>
+                </MenuItem>
+                <MenuItem px="3" py="2" onClick={disconnect}>
+                  Disconnect
+                </MenuItem>
+              </MenuList>
+            </Menu>
           ) : (
             <Button onClick={connect} isLoading={loading}>
               Connect Wallet

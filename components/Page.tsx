@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Divider,
+  Heading,
   HStack,
   SimpleGrid,
   Skeleton,
@@ -13,17 +14,25 @@ import { times } from 'lodash-es';
 import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-
+import { FeaturedSongs } from '../components/FeaturedSongs';
+// import { FeaturedSongsTest } from '../components/FeaturedSongsTest';
+import { HomeBanner } from '../components/HomeBanner';
 import { SongDetail } from '../components/SongDetail';
 import { Filters } from '../containers/Filters';
+import { SongsProgress } from '../lib/types';
 import { useSongs } from '../lib/useSongs';
-import { HumanKeys, HumanMaps, Year } from '../lib/utils/constants';
+import { HumanKeys, HumanMaps } from '../lib/utils/constants';
 import { FilterTag } from './FilterTag';
 import { GridOfSongs } from './GridOfSongs';
 import SongCard from './SongCard';
 import SongListDescription from './SongListDescription';
 
-export function Page() {
+interface PageProps {
+  isHomepage?: boolean;
+  progressBarData?: SongsProgress;
+}
+
+export function Page({ isHomepage, progressBarData }: PageProps) {
   // filter state
   const {
     filters: { id, ...filters },
@@ -88,9 +97,32 @@ export function Page() {
     <>
       {id && <SongDetail id={id} />}
 
-      <Divider />
+      {isHomepage && <HomeBanner progressBarData={progressBarData} />}
 
       <Box py="8" px={{ base: '2', xl: '8' }}>
+        {/* {isHomepage && (
+          <>
+            <Heading as="h2" mb="6" mt="8" fontSize="3xl">
+              TESTNET Featured Songs
+            </Heading>
+            <FeaturedSongsTest />
+          </>
+        )} */}
+        {isHomepage && (
+          <>
+            <Heading as="h2" mb="6" mt="8" fontSize="3xl">
+              Featured Songs
+            </Heading>
+            <FeaturedSongs gridSize={6} />
+          </>
+        )}
+
+        <Divider my="12" />
+
+        <Heading as="h2" fontSize="3xl" mb="10">
+          Filter All Songs
+        </Heading>
+
         <VStack align="stretch" spacing={8}>
           {error && <Alert status="error">{error.message}</Alert>}
 

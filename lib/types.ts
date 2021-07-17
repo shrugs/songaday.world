@@ -23,6 +23,47 @@ export interface Song {
   releasedAt: string;
 }
 
+// Types for a song that comes from the OpenSea API
+export interface OpenSeaSong {
+  id: number;
+  name?: string;
+  image_url?: string;
+  permalink?: string;
+  sell_orders?: OpenSeaSellOrder[];
+  traits?: OpenSeaSellTrait[];
+  token_id: string;
+  asset_contract: OpenSeaAssetContract;
+}
+
+export interface OpenSeaSellOrder {
+  current_price: string;
+}
+
+export interface OpenSeaSellTrait {
+  trait_type: string;
+  value: string;
+}
+
+export interface OpenSeaAssetContract {
+  address: string;
+}
+
+export interface OpenSeaCollection {
+  slug: string;
+  stats: OpenSeaCollectionStats;
+}
+
+export interface OpenSeaCollectionStats {
+  total_sales: number;
+  total_supply: number;
+}
+
+export interface SongsProgress {
+  totalSupply: number;
+  totalSales: number;
+  progressPercent: number;
+}
+
 export enum Holiday {
   Birthday = 'birthday',
   Thanksgiving = 'thanksgiving',
