@@ -4,6 +4,8 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogOverlay,
+  CloseButton,
+  Flex,
   Spinner,
   Text,
 } from '@chakra-ui/react';
@@ -31,9 +33,14 @@ export function BuySongModal({
       closeOnOverlayClick={false}
     >
       <AlertDialogOverlay>
-        <AlertDialogContent textAlign="center">
+        <AlertDialogContent>
           <AlertDialogHeader mt="3" fontSize="lg" fontWeight="bold">
-            {transactionStarted ? 'Your transaction has started' : 'Completing the trade...'}
+            <Flex alignItems="center" justifyContent="space-between">
+              <Text>
+                {transactionStarted ? 'Your transaction has started' : 'Completing the trade...'}
+              </Text>
+              <CloseButton ref={cancelRef} onClick={onClose} />
+            </Flex>
           </AlertDialogHeader>
           <AlertDialogBody>
             {transactionStarted ? (

@@ -8,7 +8,6 @@ import {
   SimpleGrid,
   Text,
 } from '@chakra-ui/react';
-import Image from 'next/image';
 import NextLink from 'next/link';
 import React from 'react';
 import { SongsProgress } from '../lib/types';
@@ -69,7 +68,10 @@ export function HomeBanner({ progressBarData }: HomeBannerProps): JSX.Element {
       </Text>
       <SimpleGrid my="12" mx="auto" maxWidth="container.lg" gap="12" columns={[1, 1, 2]}>
         <Box>
-          <Image src="/assets/songaday-video-1.gif" width={480} height={270} priority />
+          <video style={{ margin: '0 auto' }} autoPlay muted loop playsInline>
+            <source src="/assets/songaday-video-1.mp4" type="video/mp4" />
+          </video>
+          {/* <Image src="/assets/songaday-video-1.gif" width={480} height={270} priority /> */}
           <Box mt="3">
             <Button
               mx="2"
@@ -98,7 +100,10 @@ export function HomeBanner({ progressBarData }: HomeBannerProps): JSX.Element {
           </Box>
         </Box>
         <Box>
-          <Image src="/assets/songaday-video-2.gif" width={480} height={270} priority />
+          <video style={{ margin: '0 auto' }} autoPlay muted loop playsInline>
+            <source src="/assets/songaday-video-2.mp4" type="video/mp4" />
+          </video>
+          {/* <Image src="/assets/songaday-video-2.gif" width={480} height={270} priority /> */}
           <Box mt="3">
             <NextLink href="/available-songs" passHref>
               <Button as="a" mx="2" colorScheme="blue" size="lg">
