@@ -28,6 +28,9 @@ function Navbar() {
       <Link href="https://www.jonathanmann.net/" fontSize={['sm', 'sm', 'md']} isExternal>
         About
       </Link>
+      <NextLink href="/roadmap" passHref>
+        <Link fontSize={['sm', 'sm', 'md']}>Roadmap</Link>
+      </NextLink>
       <Link href="https://twitter.com/songadaymann" fontSize={['sm', 'sm', 'md']} isExternal>
         @songadaymann
       </Link>
